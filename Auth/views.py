@@ -22,6 +22,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
 import string
+from datetime import datetime
 #from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 
@@ -116,9 +117,12 @@ def login(request):
             return JsonResponse({'message': 'Invalid login'})
 
 
+class UpdateProfile(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
 
-def update_profile(request):
-    if request.method == 'POST':
+    def post(self, request):
         try:
             user = User.objects.get(email=request.POST.get('email', ''))
             user.first_name = request.POST.get('first_name', '')
@@ -127,19 +131,19 @@ def update_profile(request):
             user.about = request.POST.get('about', '')
             user.avatar = request.POST.get('avatar', '')
             user.cover_picture = request.POST.get('cover_picture', '')
-            user.posts_count = request.POST.get('posts_count', '')
-            user.followers_count = request.POST.get('followers_count', '')
-            user.following_count = request.POST.get('following_count', '')
+            user.posts_count = int(request.POST.get('posts_count', ''))
+            user.followers_count = int(request.POST.get('followers_count', ''))
+            user.following_count = int(request.POST.get('following_count', ''))
             user.skills = request.POST.get('skills', '')
             user.address = request.POST.get('address', '')
             user.enlarge_url = request.POST.get('enlarge_url', '')
-            user.date_of_birth = request.POST.get('date_of_birth', '')
+            user.date_of_birth = datetime.strptime(request.POST.get('date_of_birth', ''), "%Y-%m-%d").date()
             user.birth_place = request.POST.get('birth_place', '')
             user.gender = request.POST.get('gender', '')
             user.save()
         except:
-            return JsonResponse({'failed': "Profile not updated"})
-        return JsonResponse({'success': "Profile updated successfully!"})
+            return Response({'failed': "Profile not updated"})
+        return Response({'success': "Profile updated successfully!"})
 
 
 @api_view(["GET"])
@@ -151,18 +155,72 @@ def verifyMail(self, code):
         return Response("Link has been expired", status=HTTP_200_OK)
     return Response("Mail verified successfully!", status=HTTP_200_OK)
 
-@permission_classes((IsAuthenticated,))
-def education(self):
-    if self.method == 'POST':
-        try:
-            education = Education.objects.create(user=self.POST.get('email', ''))
-            education.school_college_name = self.POST.get('school_college_name', '')
-            education.description = self.POST.get('session_from', '')
-            education.session_to = self.POST.get('session_to', '')
-            education.attended_for = self.POST.get('attended_for', '')
+
+class Education(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def post(self, request):
+        education = EducationSerializer(data=request.data)
+        if education.is_valid():
             education.save()
-        except:
-            return Response("Education data not updated", status=HTTP_200_OK)
-    else:
-        education = Education.objects.get(user=self.POST.get('email', ''))
-        return Response({'education': education}, status=HTTP_200_OK)
+            return Response("Your Education details inserted!", status=HTTP_200_OK)
+        else:
+            return Response("Data not stored, Please try again!", status=HTTP_200_OK)
+
+
+class Places(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def post(self, request):
+        education = PlaceSerializer(data=request.data)
+        if education.is_valid():
+            education.save()
+        else:
+            return Response("Data not stored, Please try again!", status=HTTP_200_OK)
+        return Response("Your Place details inserted!", status=HTTP_200_OK)
+
+
+class MyLanguage(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def post(self, request):
+        language = LanguageSerializer(data=request.data)
+        if language.is_valid():
+            language.save()
+        else:
+            return Response("Data not stored, Please try again!", status=HTTP_200_OK)
+        return Response("Your Language details inserted!", status=HTTP_200_OK)
+
+
+class Workplace(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def post(self, request):
+        work = WorkplaceSerializer(data=request.data)
+        if work.is_valid():
+            work.save()
+        else:
+            return Response("Data not stored, Please try again!", status=HTTP_200_OK)
+        return Response("Your Work Place details inserted!", status=HTTP_200_OK)
+
+
+class MyProjects(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+    def post(self, request):
+        project = ProjectSerializer(data=request.data)
+        if project.is_valid():
+            project.save()
+        else:
+            return Response("Data not stored, Please try again!", status=HTTP_200_OK)
+        return Response("Your Project details inserted!", status=HTTP_200_OK)

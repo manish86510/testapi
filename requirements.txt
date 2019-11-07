@@ -1,5 +1,7 @@
-pip install djangorestframework-jwt
-pip install djangorestframework
-pip install djangorestframework-simplejwt
-pip install psycopg2
-pip install Pillow
+djangorestframework-jwt
+djangorestframework
+djangorestframework-simplejwt
+psycopg2
+Pillow
+django-rest-swagger
+easy-django-logger

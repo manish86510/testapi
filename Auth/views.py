@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from pip import logger
+#from pip import logger
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
@@ -119,26 +119,26 @@ def login(request):
 
 def update_profile(request):
     if request.method == 'POST':
-        #try:
-        user = User.objects.get(id=2)
-        user.fname = request.POST.get('first_name', '')
-        user.lname = request.POST.get('last_name', '')
-        user.salutation = request.POST.get('salutation', '')
-        user.about = request.POST.get('about', '')
-        user.avatar = request.POST.get('avatar', '')
-        user.cover_picture = request.POST.get('cover_picture', '')
-        user.posts_count = request.POST.get('posts_count', '')
-        user.followers_count = request.POST.get('followers_count', '')
-        user.following_count = request.POST.get('following_count', '')
-        user.skills = request.POST.get('skills', '')
-        user.address = request.POST.get('address', '')
-        user.enlarge_url = request.POST.get('enlarge_url', '')
-        user.date_of_birth = request.POST.get('date_of_birth', '')
-        user.birth_place = request.POST.get('birth_place', '')
-        user.gender = request.POST.get('gender', '')
-        user.save()
-        #except:
-        #    return JsonResponse({'failed': "Profile not updated"})
+        try:
+            user = User.objects.get(email=request.POST.get('email', ''))
+            user.first_name = request.POST.get('first_name', '')
+            user.last_name = request.POST.get('last_name', '')
+            user.salutation = request.POST.get('salutation', '')
+            user.about = request.POST.get('about', '')
+            user.avatar = request.POST.get('avatar', '')
+            user.cover_picture = request.POST.get('cover_picture', '')
+            user.posts_count = request.POST.get('posts_count', '')
+            user.followers_count = request.POST.get('followers_count', '')
+            user.following_count = request.POST.get('following_count', '')
+            user.skills = request.POST.get('skills', '')
+            user.address = request.POST.get('address', '')
+            user.enlarge_url = request.POST.get('enlarge_url', '')
+            user.date_of_birth = request.POST.get('date_of_birth', '')
+            user.birth_place = request.POST.get('birth_place', '')
+            user.gender = request.POST.get('gender', '')
+            user.save()
+        except:
+            return JsonResponse({'failed': "Profile not updated"})
         return JsonResponse({'success': "Profile updated successfully!"})
 
 

@@ -12,27 +12,29 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from django.views.decorators.csrf import csrf_exempt
-#from rest_framework_swagger.views import get_swagger_view
 
-#schema_view1 = get_swagger_view(title='Auth API')
+from rest_framework_swagger.views import get_swagger_view
 
+schema_view1 = get_swagger_view(title='Auth API')
+schema_view2 = get_swagger_view(title='Post API')
+
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('auth-urls/', include('Auth.urls')),
+    path('api/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/login', csrf_exempt(login), name='api_login'),
+    path('api/accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
+    path('swaggertest/', schema_view1),
+    path('', include('Posts.urls')),
+]
 admin.site.site_header = 'Admin Dashboard'
 admin.site.site_title = 'Admin'
 admin.site.site_url = 'http://Energe.com/'
 admin.site.index_title = 'Administration'
 admin.empty_value_display = '**Empty**'
 
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('Auth.urls')),
-    path('auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/login',csrf_exempt(login) , name='api_login'),
-    path('api/accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
-    #path('swagertest/', schema_view1)
-
-]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -64,8 +64,8 @@ class WorkPlace(models.Model):
 class Education(models.Model):
     school_college_name = models.CharField(max_length=200, null=True)
     description = models.TextField(null=True)
-    session_from = models.DateTimeField(auto_now_add=False)
-    session_to = models.DateTimeField(auto_now_add=False)
+    session_from = models.DateTimeField(auto_now_add=False, null=True)
+    session_to = models.DateTimeField(auto_now_add=False, null=True)
     attended_for = models.CharField(max_length=200, null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
@@ -74,7 +74,7 @@ class Education(models.Model):
 
     class Meta:
         verbose_name_plural = 'Education'
-        db_table = 'education'
+        #db_table = 'education'
 
 
 class MyPlaces(models.Model):
@@ -135,7 +135,7 @@ class MyProjects(models.Model):
 
     class Meta:
         verbose_name_plural = 'My Projects'
-        db_table = 'projects'
+        #db_table = 'projects'
 
 
 class MyInterest(models.Model):
@@ -143,7 +143,7 @@ class MyInterest(models.Model):
     interact_code = models.IntegerField(null=False)
 
     def __str__(self):
-        return self.user
+        return self.interact_code
 
     class Meta:
         verbose_name_plural = 'My Interest'

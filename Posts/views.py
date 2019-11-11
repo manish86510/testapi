@@ -6,9 +6,19 @@ from Posts.models import *
 from .serializers import *
 from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from Auth.models import *
+
+
+class Posts(APIView):
+    permission_classes = [
+        AllowAny
+    ]
+
+    def get(self, request):
+        content = {'message': 'Hello, World!'}
+        return Response(content)
 
 
 # Added CreatePostView to create post from serializer data

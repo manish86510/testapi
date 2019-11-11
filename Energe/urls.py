@@ -20,15 +20,28 @@ schema_view2 = get_swagger_view(title='Post API')
 
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth-urls/', include('Auth.urls')),
-    path('api/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/login', csrf_exempt(login), name='api_login'),
-    path('api/accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
+    path('api/', include([
+        path('token/', include([
+            path('', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+            path('refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+        ])),
+        # path('token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+        # path('token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+        path('login', csrf_exempt(login), name='api_login'),
+        path('accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
+    ])),
+    # path('api/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    # path('api/login', csrf_exempt(login), name='api_login'),
+    # path('api/accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
     path('swaggertest/', schema_view1),
-    path('', include('Posts.urls')),
+    path('posts/', include('Posts.urls')),
+    path('api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
 ]
 admin.site.site_header = 'Admin Dashboard'
 admin.site.site_title = 'Admin'

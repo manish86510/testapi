@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'Auth',
     'Posts',
     'rest_framework',
-    'rest_framework_swagger'
+    'drf_yasg'
 ]
 
 REST_FRAMEWORK = {
@@ -42,12 +42,13 @@ REST_FRAMEWORK = {
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'basic': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization'
+            'type': 'basic'
         }
     },
-    'JSON_EDITOR': True,
+}
+
+REDOC_SETTINGS = {
+   'LAZY_RENDERING': False,
 }
 
 TEMPLATE_CONTEXT_PROCESSORS = (

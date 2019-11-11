@@ -1,21 +1,40 @@
-"""Energe URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from Auth.views import *
+from rest_framework_simplejwt import views as jwt_views
+from django.contrib.auth.decorators import login_required
+from django.urls import include, path
+from django.conf.urls.static import static
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from django.views.decorators.csrf import csrf_exempt
+
+from rest_framework_swagger.views import get_swagger_view
+
+schema_view1 = get_swagger_view(title='Auth API')
+schema_view2 = get_swagger_view(title='Post API')
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth-urls/', include('Auth.urls')),
+    path('api/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/login', csrf_exempt(login), name='api_login'),
+    path('api/accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
+    path('swagger/', schema_view1),
+    path('', include('Posts.urls')),
 ]
+admin.site.site_header = 'Admin Dashboard'
+admin.site.site_title = 'Admin'
+admin.site.site_url = 'http://Energe.com/'
+admin.site.index_title = 'Administration'
+admin.empty_value_display = '**Empty**'
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,6213 @@
+{
+	"info": {
+		"_postman_id": "7f741275-355d-471a-bdf3-da691243414d",
+		"name": "Energe",
+		"description": "API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Generate Access Token and refresh key",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "MAnish86510",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Generate Access Token and refresh key",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "MAnish86510",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/token",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 11:16:13 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "438"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"refresh\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTU3MzI5ODE3MywianRpIjoiMmU0NGUyMGZkZTM4NGIxNTkzMTM1MDE2Mzg1NmJjNjMiLCJ1c2VyX2lkIjoyfQ.YlL7SYmsayjS8Zhm9H_0iuIDiEqeefJam9abGWSPij0\",\n    \"access\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjEyMDczLCJqdGkiOiIxN2ViZWE0ZDA4M2I0YmNlOGYxYmNlZmYwNGI2ZGMwOCIsInVzZXJfaWQiOjJ9.ZfRKxvM8YjONzgFzN9qOg3N36cNzd7CRs_eg6492hWA\"\n}"
+				}
+			]
+		},
+		{
+			"name": "refresh api",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjEyMDczLCJqdGkiOiIxN2ViZWE0ZDA4M2I0YmNlOGYxYmNlZmYwNGI2ZGMwOCIsInVzZXJfaWQiOjJ9.ZfRKxvM8YjONzgFzN9qOg3N36cNzd7CRs_eg6492hWA",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "refresh",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTU3MzI5MjY5OSwianRpIjoiY2YwNTdlNjQ2NmJiNGQzYjhmZTYzM2JkYmMzYWI3NGUiLCJ1c2VyX2lkIjoyfQ.I27ZsHgqGB6EatrsFmoyH1BtD6Dl58cAQLhP8tnCLOk",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/token/refresh",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"token",
+						"refresh"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "refresh api",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjEyMDczLCJqdGkiOiIxN2ViZWE0ZDA4M2I0YmNlOGYxYmNlZmYwNGI2ZGMwOCIsInVzZXJfaWQiOjJ9.ZfRKxvM8YjONzgFzN9qOg3N36cNzd7CRs_eg6492hWA",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "refresh",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTU3MzI5MjY5OSwianRpIjoiY2YwNTdlNjQ2NmJiNGQzYjhmZTYzM2JkYmMzYWI3NGUiLCJ1c2VyX2lkIjoyfQ.I27ZsHgqGB6EatrsFmoyH1BtD6Dl58cAQLhP8tnCLOk",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/token/refresh",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"token",
+								"refresh"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:09:51 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "218"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE1MjkxLCJqdGkiOiJlMjIzMmRmNjUxNWI0Y2IzOWI0OGZmNGRhMWVhZWIzNCIsInVzZXJfaWQiOjJ9.2GNWY_cpuLzxEGWP71TNABBUGVYZ7tI75sKD1Hyw0P4\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get education details",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjEzOTg2LCJqdGkiOiJiN2FlZWQxZjAwOGI0YmUyYTRkNzg1OThhNjJjOGQ2OCIsInVzZXJfaWQiOjJ9.vcUYyuLTAtxles-kZCcTfmhy8AW1X2qG00qIFK2Ggi8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/education",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"education"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get education details",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjEzOTg2LCJqdGkiOiJiN2FlZWQxZjAwOGI0YmUyYTRkNzg1OThhNjJjOGQ2OCIsInVzZXJfaWQiOjJ9.vcUYyuLTAtxles-kZCcTfmhy8AW1X2qG00qIFK2Ggi8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/update_profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"update_profile"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 11:50:52 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2759"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"education\": [\n        {\n            \"id\": 1,\n            \"school_college_name\": \"Test College\",\n            \"description\": \"Top College\",\n            \"session_from\": \"2010-10-09T18:30:00Z\",\n            \"session_to\": \"2012-10-09T18:30:00Z\",\n            \"attended_for\": \"New Student\",\n            \"user\": 2\n        },\n        {\n            \"id\": 4,\n            \"school_college_name\": \"Test188\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"student88\",\n            \"user\": null\n        },\n        {\n            \"id\": 2,\n            \"school_college_name\": \"Test174\",\n            \"description\": \"save test new\",\n            \"session_from\": \"2019-11-20T06:00:00Z\",\n            \"session_to\": \"2019-11-27T06:00:00Z\",\n            \"attended_for\": \"studen98\",\n            \"user\": 2\n        },\n        {\n            \"id\": 5,\n            \"school_college_name\": \"Test60\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 6,\n            \"school_college_name\": \"Test60\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 7,\n            \"school_college_name\": \"Test60\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 8,\n            \"school_college_name\": \"Test61\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 9,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 10,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 11,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 12,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 13,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 14,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 15,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 16,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 17,\n            \"school_college_name\": \"Test62\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": 2\n        },\n        {\n            \"id\": 3,\n            \"school_college_name\": \"Test96\",\n            \"description\": \"save test new\",\n            \"session_from\": null,\n            \"session_to\": null,\n            \"attended_for\": \"studen60\",\n            \"user\": null\n        },\n        {\n            \"id\": 18,\n            \"school_college_name\": \"Test100\",\n            \"description\": \"save test new\",\n            \"session_from\": \"2018-11-09T08:08:00Z\",\n            \"session_to\": \"2018-10-10T08:08:00Z\",\n            \"attended_for\": \"studen60\",\n            \"user\": 3\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "add education details",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE0MjY2LCJqdGkiOiI0Mzk1Yzc5NjI3Nzk0MzZmYjM0MWVhNzgzMjE4NDc3NiIsInVzZXJfaWQiOjJ9.GXBX9O7W2Itl_SMWqqFiK14BOqt-zAYjjp6tMUu4HhE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "school_college_name",
+							"value": "Test100",
+							"type": "text"
+						},
+						{
+							"key": "session_from",
+							"value": "2018-11-09 08:08",
+							"type": "text"
+						},
+						{
+							"key": "session_to",
+							"value": "2018-10-10 08:08",
+							"type": "text"
+						},
+						{
+							"key": "attended_for",
+							"value": "studen60",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "save test new",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/education",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"education"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "add education details",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE1MjkxLCJqdGkiOiJlMjIzMmRmNjUxNWI0Y2IzOWI0OGZmNGRhMWVhZWIzNCIsInVzZXJfaWQiOjJ9.2GNWY_cpuLzxEGWP71TNABBUGVYZ7tI75sKD1Hyw0P4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "school_college_name",
+									"value": "Test101",
+									"type": "text"
+								},
+								{
+									"key": "session_from",
+									"value": "2018-11-09 08:08",
+									"type": "text"
+								},
+								{
+									"key": "session_to",
+									"value": "2018-10-10 08:08",
+									"type": "text"
+								},
+								{
+									"key": "attended_for",
+									"value": "studen60",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "save test new",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/education",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"education"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:10:21 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						}
+					],
+					"cookie": [],
+					"body": "\"Your Education details inserted!\""
+				}
+			]
+		},
+		{
+			"name": "Delete education details",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE0MjY2LCJqdGkiOiI0Mzk1Yzc5NjI3Nzk0MzZmYjM0MWVhNzgzMjE4NDc3NiIsInVzZXJfaWQiOjJ9.GXBX9O7W2Itl_SMWqqFiK14BOqt-zAYjjp6tMUu4HhE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "17",
+							"type": "text"
+						},
+						{
+							"key": "school_college_name",
+							"value": "Test101",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "session_from",
+							"value": "2018-11-09 08:08",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "session_to",
+							"value": "2018-10-10 08:08",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "attended_for",
+							"value": "studen60",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "save test new",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/education",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"education"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete education details",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE0MjY2LCJqdGkiOiI0Mzk1Yzc5NjI3Nzk0MzZmYjM0MWVhNzgzMjE4NDc3NiIsInVzZXJfaWQiOjJ9.GXBX9O7W2Itl_SMWqqFiK14BOqt-zAYjjp6tMUu4HhE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "17",
+									"type": "text"
+								},
+								{
+									"key": "school_college_name",
+									"value": "Test101",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "session_from",
+									"value": "2018-11-09 08:08",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "session_to",
+									"value": "2018-10-10 08:08",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "attended_for",
+									"value": "studen60",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "save test new",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/education",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"education"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 11:55:49 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Education with id `17` has been deleted.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE0NzU2LCJqdGkiOiI1NzE1NmRmNTMzNzc0MzUxOTdlMjI5YWJlOWNhYzBmYiIsInVzZXJfaWQiOjJ9.jGCK2Q_ev_ErolCO_NMxjGFo6HNnuFRG25GX_v-iuUE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "first_name",
+							"value": "Rohit",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Test100",
+							"type": "text"
+						},
+						{
+							"key": "salutation",
+							"value": "2018-10-10 08:0",
+							"type": "text"
+						},
+						{
+							"key": "about",
+							"value": "studen60",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "save test new",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "Noida",
+							"type": "text"
+						},
+						{
+							"key": "date_of_birth",
+							"value": "1996-01-01",
+							"type": "text"
+						},
+						{
+							"key": "birth_place",
+							"value": "Noida",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "Male",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "manish86510@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "posts_count",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "followers_count",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "following_count",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "enlarge_url",
+							"value": "gjhghj",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/update_profile",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"update_profile"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update Profile",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE1NTEyLCJqdGkiOiI4ZGNmY2Q0ZjYxNGI0Njk5OTEzYjY4ZmI2NzQ2YmIyNyIsInVzZXJfaWQiOjJ9.4e8MV6u8npVdsL2TUGgbxMqewP-U8tRLooCxk7noBrQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "first_name",
+									"value": "Rohit",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Test100",
+									"type": "text"
+								},
+								{
+									"key": "salutation",
+									"value": "2018-10-10 08:0",
+									"type": "text"
+								},
+								{
+									"key": "about",
+									"value": "studen60",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "save test new",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "Noida",
+									"type": "text"
+								},
+								{
+									"key": "date_of_birth",
+									"value": "1996-01-01",
+									"type": "text"
+								},
+								{
+									"key": "birth_place",
+									"value": "Noida",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "Male",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "manish86510@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "posts_count",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "followers_count",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "following_count",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "enlarge_url",
+									"value": "gjhghj",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/update_profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"update_profile"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:15:50 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "43"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Profile updated successfully!\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE1MTM3LCJqdGkiOiJjNzk4MTFiYmRkMDM0NTQwYTU3M2M3OTk4ZmYwODJhZCIsInVzZXJfaWQiOjJ9.Bn5IfyiY2DaIzOj_vP_cUz2Pz9GeBh7dzTUYJFfXa5Q",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "mani007",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "manish.k@skysoft.net.in",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/register",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"register"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Registration",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE1MTM3LCJqdGkiOiJjNzk4MTFiYmRkMDM0NTQwYTU3M2M3OTk4ZmYwODJhZCIsInVzZXJfaWQiOjJ9.Bn5IfyiY2DaIzOj_vP_cUz2Pz9GeBh7dzTUYJFfXa5Q",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "mani007",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "manish.k@skysoft.net.in",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"register"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:07:46 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "25"
+						}
+					],
+					"cookie": [],
+					"body": "\"Please verify your mail\""
+				}
+			]
+		},
+		{
+			"name": "Update education details",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE1NDI4LCJqdGkiOiI1YTk4YzY1YWNiM2Y0Mjk0YjBlNzc2NWQ0ZWM4OTBlZiIsInVzZXJfaWQiOjJ9.nDi2of7Nd-bOUnDbR-ja6hfXknfj9fHlx-RplH5wTGI",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "16",
+							"type": "text"
+						},
+						{
+							"key": "school_college_name",
+							"value": "Test101",
+							"type": "text"
+						},
+						{
+							"key": "session_from",
+							"value": "2018-11-09 08:08",
+							"type": "text"
+						},
+						{
+							"key": "session_to",
+							"value": "2018-10-10 08:08",
+							"type": "text"
+						},
+						{
+							"key": "attended_for",
+							"value": "studen60",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "save test new",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/education",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"education"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login API",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "MAnish86510",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "login API",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "MAnish86510",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:13:32 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "652"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user_data\": {\n        \"id\": 2,\n        \"username\": \"MAnish86510\",\n        \"first_name\": \"Rohit\",\n        \"last_name\": \"Test100\",\n        \"about\": \"studen60\",\n        \"email\": \"manish86510@gmail.com\",\n        \"avatar\": \"\",\n        \"address\": \"Noida\",\n        \"skill\": \"\"\n    },\n    \"token\": {\n        \"refresh\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTU3MzMwMTYxMiwianRpIjoiNzFhMDlkMDRiNWYyNDM4NmE5NDc4MWMwYmQwYTQ1MjMiLCJ1c2VyX2lkIjoyfQ.QLDVneszk1IXLtLeUB2iDjrEJZ80I-SqpPN6pReTFok\",\n        \"access\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE1NTEyLCJqdGkiOiI4ZGNmY2Q0ZjYxNGI0Njk5OTEzYjY4ZmI2NzQ2YmIyNyIsInVzZXJfaWQiOjJ9.4e8MV6u8npVdsL2TUGgbxMqewP-U8tRLooCxk7noBrQ\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "mail verification",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/verify_mail/kczbzwkkopvskvzioxxftrxwg",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"verify_mail",
+						"kczbzwkkopvskvzioxxftrxwg"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "mail verification",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/verify_mail/kczbzwkkopvskvzioxxftrxwg",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"verify_mail",
+								"kczbzwkkopvskvzioxxftrxwg"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:19:12 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "OPTIONS, GET"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "29"
+						}
+					],
+					"cookie": [],
+					"body": "\"Mail verified successfully!\""
+				}
+			]
+		},
+		{
+			"name": "get my_places",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE2OTA3LCJqdGkiOiJkOGQ4MDczZmQyY2Y0ZDZmODljOTk1YjI1MzJkYzUwNSIsInVzZXJfaWQiOjJ9.rjYX9irvV6yFEDw2aKdUDZhb4-15GLS_-zLLcY2ma_c",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_places",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_places"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get my_places",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE3MzEzLCJqdGkiOiIxYTkyMTc1ZDgxYjU0ZTAwOWEwYmNhMzFhMGIwOWNkZSIsInVzZXJfaWQiOjJ9.B1vNzwKzs34ZEdK0_q4n5dqg3Tq6W5L6I51tbkMvcHg",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_places",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_places"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:43:56 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "146"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"MyPlace\": [\n        {\n            \"id\": 2,\n            \"place_name\": \"Noida\",\n            \"lat_long\": \"125420651545\",\n            \"from_date\": \"2018-01-01T06:01:00Z\",\n            \"to_date\": \"2019-05-02T05:02:00Z\",\n            \"user\": 1\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "update my_places",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE2OTA3LCJqdGkiOiJkOGQ4MDczZmQyY2Y0ZDZmODljOTk1YjI1MzJkYzUwNSIsInVzZXJfaWQiOjJ9.rjYX9irvV6yFEDw2aKdUDZhb4-15GLS_-zLLcY2ma_c",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "place_name",
+							"value": "Noida",
+							"type": "text"
+						},
+						{
+							"key": "lat_long",
+							"value": "125420651545",
+							"type": "text"
+						},
+						{
+							"key": "from_date",
+							"value": "2018-01-01 06:01",
+							"type": "text"
+						},
+						{
+							"key": "to_date",
+							"value": "2019-05-02 05:02",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_places",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_places"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get my_places",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE2OTA3LCJqdGkiOiJkOGQ4MDczZmQyY2Y0ZDZmODljOTk1YjI1MzJkYzUwNSIsInVzZXJfaWQiOjJ9.rjYX9irvV6yFEDw2aKdUDZhb4-15GLS_-zLLcY2ma_c",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "place_name",
+									"value": "Noida",
+									"type": "text"
+								},
+								{
+									"key": "lat_long",
+									"value": "125420651545",
+									"type": "text"
+								},
+								{
+									"key": "from_date",
+									"value": "2018-01-01 06:01",
+									"type": "text"
+								},
+								{
+									"key": "to_date",
+									"value": "2019-05-02 05:02",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_places",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_places"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:39:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "50"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"MyPlace 'Noida' updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Add my_places",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE2OTA3LCJqdGkiOiJkOGQ4MDczZmQyY2Y0ZDZmODljOTk1YjI1MzJkYzUwNSIsInVzZXJfaWQiOjJ9.rjYX9irvV6yFEDw2aKdUDZhb4-15GLS_-zLLcY2ma_c",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "place_name",
+							"value": "Noida",
+							"type": "text"
+						},
+						{
+							"key": "lat_long",
+							"value": "125420651545",
+							"type": "text"
+						},
+						{
+							"key": "from_date",
+							"value": "2018-01-01 06:01",
+							"type": "text"
+						},
+						{
+							"key": "to_date",
+							"value": "2019-05-02 05:02",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_places",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_places"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get my_places",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE2OTA3LCJqdGkiOiJkOGQ4MDczZmQyY2Y0ZDZmODljOTk1YjI1MzJkYzUwNSIsInVzZXJfaWQiOjJ9.rjYX9irvV6yFEDw2aKdUDZhb4-15GLS_-zLLcY2ma_c",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "place_name",
+									"value": "Noida",
+									"type": "text"
+								},
+								{
+									"key": "lat_long",
+									"value": "125420651545",
+									"type": "text"
+								},
+								{
+									"key": "from_date",
+									"value": "2018-01-01 06:01",
+									"type": "text"
+								},
+								{
+									"key": "to_date",
+									"value": "2019-05-02 05:02",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_places",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_places"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:39:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "50"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"MyPlace 'Noida' updated successfully\"\n}"
+				},
+				{
+					"name": "Add my_places",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE2OTA3LCJqdGkiOiJkOGQ4MDczZmQyY2Y0ZDZmODljOTk1YjI1MzJkYzUwNSIsInVzZXJfaWQiOjJ9.rjYX9irvV6yFEDw2aKdUDZhb4-15GLS_-zLLcY2ma_c",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "place_name",
+									"value": "Noida",
+									"type": "text"
+								},
+								{
+									"key": "lat_long",
+									"value": "125420651545",
+									"type": "text"
+								},
+								{
+									"key": "from_date",
+									"value": "2018-01-01 06:01",
+									"type": "text"
+								},
+								{
+									"key": "to_date",
+									"value": "2019-05-02 05:02",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_places",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_places"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:40:06 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "30"
+						}
+					],
+					"cookie": [],
+					"body": "\"Your Place details inserted!\""
+				}
+			]
+		},
+		{
+			"name": "Delete my_places",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE3MjE5LCJqdGkiOiJjMWNiZWYyYWNiMDc0ODQyOGIzMDQxM2EzZjEzNGVhZCIsInVzZXJfaWQiOjJ9.iiTf2kMMtKDucmsOpc40w-o74GPHChe_-HU_Kg1LIDM",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "place_name",
+							"value": "Noida",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "lat_long",
+							"value": "125420651545",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "from_date",
+							"value": "2018-01-01 06:01",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "to_date",
+							"value": "2019-05-02 05:02",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_places",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_places"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete my_places",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE3MjE5LCJqdGkiOiJjMWNiZWYyYWNiMDc0ODQyOGIzMDQxM2EzZjEzNGVhZCIsInVzZXJfaWQiOjJ9.iiTf2kMMtKDucmsOpc40w-o74GPHChe_-HU_Kg1LIDM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "place_name",
+									"value": "Noida",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "lat_long",
+									"value": "125420651545",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "from_date",
+									"value": "2018-01-01 06:01",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "to_date",
+									"value": "2019-05-02 05:02",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_places",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_places"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:42:17 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "51"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"MyPlace with id `1` has been deleted.\"\n}"
+				},
+				{
+					"name": "get my_places",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE2OTA3LCJqdGkiOiJkOGQ4MDczZmQyY2Y0ZDZmODljOTk1YjI1MzJkYzUwNSIsInVzZXJfaWQiOjJ9.rjYX9irvV6yFEDw2aKdUDZhb4-15GLS_-zLLcY2ma_c",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "place_name",
+									"value": "Noida",
+									"type": "text"
+								},
+								{
+									"key": "lat_long",
+									"value": "125420651545",
+									"type": "text"
+								},
+								{
+									"key": "from_date",
+									"value": "2018-01-01 06:01",
+									"type": "text"
+								},
+								{
+									"key": "to_date",
+									"value": "2019-05-02 05:02",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_places",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_places"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 12:39:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "50"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"MyPlace 'Noida' updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get my_projects info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5MTU4LCJqdGkiOiI4NjZkZTMyMTU1MjQ0ZGNiODA2OTU2MDE4YmIyNDY1OSIsInVzZXJfaWQiOjJ9.3FbcqOYtHCTL9OYF7WECc4XpReMFze7WMn9mca83lm0",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_projects",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_projects"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get my_projects info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5MTU4LCJqdGkiOiI4NjZkZTMyMTU1MjQ0ZGNiODA2OTU2MDE4YmIyNDY1OSIsInVzZXJfaWQiOjJ9.3FbcqOYtHCTL9OYF7WECc4XpReMFze7WMn9mca83lm0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_projects",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_projects"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:14:53 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "202"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"My Projects\": [\n        {\n            \"id\": 1,\n            \"project_title\": \"Demo\",\n            \"description\": \"dmeo\",\n            \"skills\": \"demo\",\n            \"start_date\": \"2019-11-12T06:00:00Z\",\n            \"end_date\": \"2019-11-12T06:00:00Z\",\n            \"team_size\": 1,\n            \"client_name\": \"manish\",\n            \"user\": 2\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Update my_projects info",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5NTAyLCJqdGkiOiJmNDc0NjI1NmZkYzI0NWY1YjQ5OGI5YWZkYWRmNmE1NCIsInVzZXJfaWQiOjJ9.bbUTZzv-RET9ok-OawSJVfjipfNVBmy2UhycdoB4MkE",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "project_title",
+							"value": "Dmo12",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "New",
+							"type": "text"
+						},
+						{
+							"key": "skills",
+							"value": "new",
+							"type": "text"
+						},
+						{
+							"key": "start_date",
+							"value": "2019-01-01 01:01",
+							"type": "text"
+						},
+						{
+							"key": "end_date",
+							"value": "2019-01-11 01:01",
+							"type": "text"
+						},
+						{
+							"key": "team_size",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "client_name",
+							"value": "Manish",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_projects",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_projects"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get my_projects info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5MTU4LCJqdGkiOiI4NjZkZTMyMTU1MjQ0ZGNiODA2OTU2MDE4YmIyNDY1OSIsInVzZXJfaWQiOjJ9.3FbcqOYtHCTL9OYF7WECc4XpReMFze7WMn9mca83lm0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_projects",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_projects"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:14:53 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "202"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"My Projects\": [\n        {\n            \"id\": 1,\n            \"project_title\": \"Demo\",\n            \"description\": \"dmeo\",\n            \"skills\": \"demo\",\n            \"start_date\": \"2019-11-12T06:00:00Z\",\n            \"end_date\": \"2019-11-12T06:00:00Z\",\n            \"team_size\": 1,\n            \"client_name\": \"manish\",\n            \"user\": 2\n        }\n    ]\n}"
+				},
+				{
+					"name": "Update my_projects info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5NTAyLCJqdGkiOiJmNDc0NjI1NmZkYzI0NWY1YjQ5OGI5YWZkYWRmNmE1NCIsInVzZXJfaWQiOjJ9.bbUTZzv-RET9ok-OawSJVfjipfNVBmy2UhycdoB4MkE",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "project_title",
+									"value": "Dmo12",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "New",
+									"type": "text"
+								},
+								{
+									"key": "skills",
+									"value": "new",
+									"type": "text"
+								},
+								{
+									"key": "start_date",
+									"value": "2019-01-01 01:01",
+									"type": "text"
+								},
+								{
+									"key": "end_date",
+									"value": "2019-01-11 01:01",
+									"type": "text"
+								},
+								{
+									"key": "team_size",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "client_name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_projects",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_projects"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:20:19 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "53"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Work Place 'Dmo12' updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete my_projects info",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5ODcwLCJqdGkiOiJjODk5MWRjM2RhOGE0ZWU4OTc1OGM1NjI4MjQxMzdkZSIsInVzZXJfaWQiOjJ9.LJV4hycrvkRLBLilJDyK7vIIZf3qMA889W3C9Lrq4-o",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "project_title",
+							"value": "Dmo85",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "New1",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "skills",
+							"value": "new1",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "start_date",
+							"value": "2019-01-01 01:01",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "end_date",
+							"value": "2019-01-11 01:01",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "team_size",
+							"value": "5",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "client_name",
+							"value": "Manish",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_projects",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_projects"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get my_projects info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5MTU4LCJqdGkiOiI4NjZkZTMyMTU1MjQ0ZGNiODA2OTU2MDE4YmIyNDY1OSIsInVzZXJfaWQiOjJ9.3FbcqOYtHCTL9OYF7WECc4XpReMFze7WMn9mca83lm0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_projects",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_projects"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:14:53 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "202"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"My Projects\": [\n        {\n            \"id\": 1,\n            \"project_title\": \"Demo\",\n            \"description\": \"dmeo\",\n            \"skills\": \"demo\",\n            \"start_date\": \"2019-11-12T06:00:00Z\",\n            \"end_date\": \"2019-11-12T06:00:00Z\",\n            \"team_size\": 1,\n            \"client_name\": \"manish\",\n            \"user\": 2\n        }\n    ]\n}"
+				},
+				{
+					"name": "Delete my_projects info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5ODcwLCJqdGkiOiJjODk5MWRjM2RhOGE0ZWU4OTc1OGM1NjI4MjQxMzdkZSIsInVzZXJfaWQiOjJ9.LJV4hycrvkRLBLilJDyK7vIIZf3qMA889W3C9Lrq4-o",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "project_title",
+									"value": "Dmo85",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "New1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "skills",
+									"value": "new1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "start_date",
+									"value": "2019-01-01 01:01",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": "2019-01-11 01:01",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "team_size",
+									"value": "5",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "client_name",
+									"value": "Manish",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_projects",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_projects"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:29:52 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Work Place with id `1` has been deleted.\"\n}"
+				},
+				{
+					"name": "Update my_projects info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjE5NTAyLCJqdGkiOiJmNDc0NjI1NmZkYzI0NWY1YjQ5OGI5YWZkYWRmNmE1NCIsInVzZXJfaWQiOjJ9.bbUTZzv-RET9ok-OawSJVfjipfNVBmy2UhycdoB4MkE",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "project_title",
+									"value": "Dmo12",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "New",
+									"type": "text"
+								},
+								{
+									"key": "skills",
+									"value": "new",
+									"type": "text"
+								},
+								{
+									"key": "start_date",
+									"value": "2019-01-01 01:01",
+									"type": "text"
+								},
+								{
+									"key": "end_date",
+									"value": "2019-01-11 01:01",
+									"type": "text"
+								},
+								{
+									"key": "team_size",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "client_name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_projects",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_projects"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:20:19 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "53"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Work Place 'Dmo12' updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get work_place info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwMzAwLCJqdGkiOiIyYzU0MDViOTBmOWU0MDIwYjVhMDExOWU1OTBiZDdiNCIsInVzZXJfaWQiOjJ9.9VijpTeKBNJQI5QYdnDyrcs94l2bzHWRFkyGQIalp3k",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/work_place",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"work_place"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get work_place info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwMzAwLCJqdGkiOiIyYzU0MDViOTBmOWU0MDIwYjVhMDExOWU1OTBiZDdiNCIsInVzZXJfaWQiOjJ9.9VijpTeKBNJQI5QYdnDyrcs94l2bzHWRFkyGQIalp3k",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:33:34 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "176"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"WorkPlace\": [\n        {\n            \"id\": 1,\n            \"name\": \"Noida\",\n            \"position\": \"Developer\",\n            \"description\": \"New\",\n            \"working_from\": \"2019-11-12T06:00:00Z\",\n            \"working_till\": \"2019-11-16T06:00:00Z\",\n            \"city\": 1,\n            \"user\": 2\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Update wprkplace info",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwNjIzLCJqdGkiOiI5MTZiNDQ4YzVkNTk0NTYwYWY2Zjk1NTJiMzQ5NGIzNSIsInVzZXJfaWQiOjJ9.Nvj1bo4leQixgQlqnGl3nTvIuqgItZqlxFFSeGdt-iM",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Manish",
+							"type": "text"
+						},
+						{
+							"key": "position",
+							"value": "Temp",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Demo tets",
+							"type": "text"
+						},
+						{
+							"key": "working_from",
+							"value": "1996-01-01 16:01",
+							"type": "text"
+						},
+						{
+							"key": "working_till",
+							"value": "1690-01-01 16:01",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/work_place",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"work_place"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get work_place info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwMzAwLCJqdGkiOiIyYzU0MDViOTBmOWU0MDIwYjVhMDExOWU1OTBiZDdiNCIsInVzZXJfaWQiOjJ9.9VijpTeKBNJQI5QYdnDyrcs94l2bzHWRFkyGQIalp3k",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:33:34 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "176"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"WorkPlace\": [\n        {\n            \"id\": 1,\n            \"name\": \"Noida\",\n            \"position\": \"Developer\",\n            \"description\": \"New\",\n            \"working_from\": \"2019-11-12T06:00:00Z\",\n            \"working_till\": \"2019-11-16T06:00:00Z\",\n            \"city\": 1,\n            \"user\": 2\n        }\n    ]\n}"
+				},
+				{
+					"name": "Update wprkplace info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwNjIzLCJqdGkiOiI5MTZiNDQ4YzVkNTk0NTYwYWY2Zjk1NTJiMzQ5NGIzNSIsInVzZXJfaWQiOjJ9.Nvj1bo4leQixgQlqnGl3nTvIuqgItZqlxFFSeGdt-iM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "position",
+									"value": "Temp",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Demo tets",
+									"type": "text"
+								},
+								{
+									"key": "working_from",
+									"value": "1996-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "working_till",
+									"value": "1690-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:40:54 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Work Place 'Manish' updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Add wprkplace info",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwNjIzLCJqdGkiOiI5MTZiNDQ4YzVkNTk0NTYwYWY2Zjk1NTJiMzQ5NGIzNSIsInVzZXJfaWQiOjJ9.Nvj1bo4leQixgQlqnGl3nTvIuqgItZqlxFFSeGdt-iM",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Manish",
+							"type": "text"
+						},
+						{
+							"key": "position",
+							"value": "Temp",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Demo tets",
+							"type": "text"
+						},
+						{
+							"key": "working_from",
+							"value": "1996-01-01 16:01",
+							"type": "text"
+						},
+						{
+							"key": "working_till",
+							"value": "1690-01-01 16:01",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/work_place",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"work_place"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update wprkplace info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwNjIzLCJqdGkiOiI5MTZiNDQ4YzVkNTk0NTYwYWY2Zjk1NTJiMzQ5NGIzNSIsInVzZXJfaWQiOjJ9.Nvj1bo4leQixgQlqnGl3nTvIuqgItZqlxFFSeGdt-iM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "position",
+									"value": "Temp",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Demo tets",
+									"type": "text"
+								},
+								{
+									"key": "working_from",
+									"value": "1996-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "working_till",
+									"value": "1690-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:40:54 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Work Place 'Manish' updated successfully\"\n}"
+				},
+				{
+					"name": "Add wprkplace info",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwNjIzLCJqdGkiOiI5MTZiNDQ4YzVkNTk0NTYwYWY2Zjk1NTJiMzQ5NGIzNSIsInVzZXJfaWQiOjJ9.Nvj1bo4leQixgQlqnGl3nTvIuqgItZqlxFFSeGdt-iM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "position",
+									"value": "Temp",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Demo tets",
+									"type": "text"
+								},
+								{
+									"key": "working_from",
+									"value": "1996-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "working_till",
+									"value": "1690-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:42:29 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "35"
+						}
+					],
+					"cookie": [],
+					"body": "\"Your Work Place details inserted!\""
+				},
+				{
+					"name": "get work_place info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwMzAwLCJqdGkiOiIyYzU0MDViOTBmOWU0MDIwYjVhMDExOWU1OTBiZDdiNCIsInVzZXJfaWQiOjJ9.9VijpTeKBNJQI5QYdnDyrcs94l2bzHWRFkyGQIalp3k",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:33:34 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "176"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"WorkPlace\": [\n        {\n            \"id\": 1,\n            \"name\": \"Noida\",\n            \"position\": \"Developer\",\n            \"description\": \"New\",\n            \"working_from\": \"2019-11-12T06:00:00Z\",\n            \"working_till\": \"2019-11-16T06:00:00Z\",\n            \"city\": 1,\n            \"user\": 2\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete wprkplace info",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwOTM0LCJqdGkiOiI2NDFkMzA5YjlmMzY0MmVlYTFiYTFlMWNiMjdkZjY0YiIsInVzZXJfaWQiOjJ9.h1qstQ_uVTeM46bfSDDiiJ0-dkivQaXnyMDmGMUN9f0",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Manish",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "position",
+							"value": "Temp",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "city",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "description",
+							"value": "Demo tets",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "working_from",
+							"value": "1996-01-01 16:01",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "working_till",
+							"value": "1690-01-01 16:01",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/work_place",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"work_place"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update wprkplace info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwNjIzLCJqdGkiOiI5MTZiNDQ4YzVkNTk0NTYwYWY2Zjk1NTJiMzQ5NGIzNSIsInVzZXJfaWQiOjJ9.Nvj1bo4leQixgQlqnGl3nTvIuqgItZqlxFFSeGdt-iM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "position",
+									"value": "Temp",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Demo tets",
+									"type": "text"
+								},
+								{
+									"key": "working_from",
+									"value": "1996-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "working_till",
+									"value": "1690-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:40:54 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Work Place 'Manish' updated successfully\"\n}"
+				},
+				{
+					"name": "Add wprkplace info",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwNjIzLCJqdGkiOiI5MTZiNDQ4YzVkNTk0NTYwYWY2Zjk1NTJiMzQ5NGIzNSIsInVzZXJfaWQiOjJ9.Nvj1bo4leQixgQlqnGl3nTvIuqgItZqlxFFSeGdt-iM",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "position",
+									"value": "Temp",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Demo tets",
+									"type": "text"
+								},
+								{
+									"key": "working_from",
+									"value": "1996-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "working_till",
+									"value": "1690-01-01 16:01",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:42:29 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "35"
+						}
+					],
+					"cookie": [],
+					"body": "\"Your Work Place details inserted!\""
+				},
+				{
+					"name": "get work_place info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwMzAwLCJqdGkiOiIyYzU0MDViOTBmOWU0MDIwYjVhMDExOWU1OTBiZDdiNCIsInVzZXJfaWQiOjJ9.9VijpTeKBNJQI5QYdnDyrcs94l2bzHWRFkyGQIalp3k",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:33:34 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "176"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"WorkPlace\": [\n        {\n            \"id\": 1,\n            \"name\": \"Noida\",\n            \"position\": \"Developer\",\n            \"description\": \"New\",\n            \"working_from\": \"2019-11-12T06:00:00Z\",\n            \"working_till\": \"2019-11-16T06:00:00Z\",\n            \"city\": 1,\n            \"user\": 2\n        }\n    ]\n}"
+				},
+				{
+					"name": "Delete wprkplace info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIwOTM0LCJqdGkiOiI2NDFkMzA5YjlmMzY0MmVlYTFiYTFlMWNiMjdkZjY0YiIsInVzZXJfaWQiOjJ9.h1qstQ_uVTeM46bfSDDiiJ0-dkivQaXnyMDmGMUN9f0",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "position",
+									"value": "Temp",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "city",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "Demo tets",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "working_from",
+									"value": "1996-01-01 16:01",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "working_till",
+									"value": "1690-01-01 16:01",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/work_place",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"work_place"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:44:19 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Work Place with id `2` has been deleted.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get my_language info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_language",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_language"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update my_language info",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Manish",
+							"type": "text"
+						},
+						{
+							"key": "read",
+							"value": "no",
+							"type": "text"
+						},
+						{
+							"key": "write",
+							"value": "no",
+							"type": "text"
+						},
+						{
+							"key": "speak",
+							"value": "no",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_language",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_language"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update my_language info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:50:13 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Language 'Manish' updated successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete my_language info",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Manish",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "read",
+							"value": "no",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "write",
+							"value": "no",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "speak",
+							"value": "no",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_language",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_language"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update my_language info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:50:13 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Language 'Manish' updated successfully\"\n}"
+				},
+				{
+					"name": "Delete my_language info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:51:05 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Language with id `1` has been deleted.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get social links info",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyMjA3LCJqdGkiOiI0MWQwZGY4MDJlYmI0ZTViOGY1YjIxM2Q0MWE3YzUyMyIsInVzZXJfaWQiOjJ9.oRebZexKrvov4alkkb6eMBbwISPRZexfytV2BOHPIwE",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_social",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_social"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete my_language info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:51:05 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Language with id `1` has been deleted.\"\n}"
+				},
+				{
+					"name": "Update my_language info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:50:13 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Language 'Manish' updated successfully\"\n}"
+				},
+				{
+					"name": "get social links info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyMjA3LCJqdGkiOiI0MWQwZGY4MDJlYmI0ZTViOGY1YjIxM2Q0MWE3YzUyMyIsInVzZXJfaWQiOjJ9.oRebZexKrvov4alkkb6eMBbwISPRZexfytV2BOHPIwE",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_social",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_social"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 14:08:08 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "69"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"SocialLinks\": [\n        {\n            \"id\": 1,\n            \"name\": \"Facebook\",\n            \"unique_id\": \"1\",\n            \"user\": 2\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "update social links info",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyNDc0LCJqdGkiOiJlMDE4OTk2YzYzNjk0MzQ3OTEyZmFhMjkyMjlkZjQxOSIsInVzZXJfaWQiOjJ9.AzEK_qqJhHcuLHnQiv8ymQuMjGYSCEmx8V03rdvgMCY",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Twitter",
+							"type": "text"
+						},
+						{
+							"key": "unique_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "write",
+							"value": "no",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "speak",
+							"value": "no",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_social",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_social"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update my_language info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:50:13 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Language 'Manish' updated successfully\"\n}"
+				},
+				{
+					"name": "Delete my_language info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:51:05 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Language with id `1` has been deleted.\"\n}"
+				},
+				{
+					"name": "update social links info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyNDc0LCJqdGkiOiJlMDE4OTk2YzYzNjk0MzQ3OTEyZmFhMjkyMjlkZjQxOSIsInVzZXJfaWQiOjJ9.AzEK_qqJhHcuLHnQiv8ymQuMjGYSCEmx8V03rdvgMCY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Twitter",
+									"type": "text"
+								},
+								{
+									"key": "unique_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_social",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_social"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 14:11:53 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Work Place 'Facebook' updated successfully\"\n}"
+				},
+				{
+					"name": "delete social links info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyNDc0LCJqdGkiOiJlMDE4OTk2YzYzNjk0MzQ3OTEyZmFhMjkyMjlkZjQxOSIsInVzZXJfaWQiOjJ9.AzEK_qqJhHcuLHnQiv8ymQuMjGYSCEmx8V03rdvgMCY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Twitter",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unique_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_social",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_social"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 14:13:08 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Social Links with id `1` has been deleted.\"\n}"
+				},
+				{
+					"name": "get social links info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyMjA3LCJqdGkiOiI0MWQwZGY4MDJlYmI0ZTViOGY1YjIxM2Q0MWE3YzUyMyIsInVzZXJfaWQiOjJ9.oRebZexKrvov4alkkb6eMBbwISPRZexfytV2BOHPIwE",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_social",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_social"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 14:08:08 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "69"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"SocialLinks\": [\n        {\n            \"id\": 1,\n            \"name\": \"Facebook\",\n            \"unique_id\": \"1\",\n            \"user\": 2\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "delete social links info",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyNDc0LCJqdGkiOiJlMDE4OTk2YzYzNjk0MzQ3OTEyZmFhMjkyMjlkZjQxOSIsInVzZXJfaWQiOjJ9.AzEK_qqJhHcuLHnQiv8ymQuMjGYSCEmx8V03rdvgMCY",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Twitter",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "unique_id",
+							"value": "1",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "write",
+							"value": "no",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "speak",
+							"value": "no",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/my_social",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"my_social"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get social links info",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyMjA3LCJqdGkiOiI0MWQwZGY4MDJlYmI0ZTViOGY1YjIxM2Q0MWE3YzUyMyIsInVzZXJfaWQiOjJ9.oRebZexKrvov4alkkb6eMBbwISPRZexfytV2BOHPIwE",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_social",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_social"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 14:08:08 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "69"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"SocialLinks\": [\n        {\n            \"id\": 1,\n            \"name\": \"Facebook\",\n            \"unique_id\": \"1\",\n            \"user\": 2\n        }\n    ]\n}"
+				},
+				{
+					"name": "delete social links info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyNDc0LCJqdGkiOiJlMDE4OTk2YzYzNjk0MzQ3OTEyZmFhMjkyMjlkZjQxOSIsInVzZXJfaWQiOjJ9.AzEK_qqJhHcuLHnQiv8ymQuMjGYSCEmx8V03rdvgMCY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Twitter",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unique_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_social",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_social"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 14:13:08 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Social Links with id `1` has been deleted.\"\n}"
+				},
+				{
+					"name": "delete social links info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyNDc0LCJqdGkiOiJlMDE4OTk2YzYzNjk0MzQ3OTEyZmFhMjkyMjlkZjQxOSIsInVzZXJfaWQiOjJ9.AzEK_qqJhHcuLHnQiv8ymQuMjGYSCEmx8V03rdvgMCY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Twitter",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "unique_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_social",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_social"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 14:13:08 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Social Links with id `1` has been deleted.\"\n}"
+				},
+				{
+					"name": "update social links info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIyNDc0LCJqdGkiOiJlMDE4OTk2YzYzNjk0MzQ3OTEyZmFhMjkyMjlkZjQxOSIsInVzZXJfaWQiOjJ9.AzEK_qqJhHcuLHnQiv8ymQuMjGYSCEmx8V03rdvgMCY",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Twitter",
+									"type": "text"
+								},
+								{
+									"key": "unique_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_social",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_social"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 14:11:53 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Work Place 'Facebook' updated successfully\"\n}"
+				},
+				{
+					"name": "Delete my_language info",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:51:05 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Language with id `1` has been deleted.\"\n}"
+				},
+				{
+					"name": "Update my_language info",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTczMjIxMTAwLCJqdGkiOiI4MWE5MDQyMmZjOWQ0N2JmODA4ZDlhZmJjMTI3NzRiNiIsInVzZXJfaWQiOjJ9.knqrz-F1wJXCTiXqsE4geT6nFRy6XWKGds6C8a2tBPQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Manish",
+									"type": "text"
+								},
+								{
+									"key": "read",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "write",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "speak",
+									"value": "no",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/my_language",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"my_language"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 08 Nov 2019 13:50:13 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.6.8"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST, PUT, DELETE, HEAD, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"Language 'Manish' updated successfully\"\n}"
+				}
+			]
+		}
+	],
+	"protocolProfileBehavior": {}
+}

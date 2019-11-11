@@ -45,7 +45,7 @@ class GetById(APIView):
         return Response(content)
 
 
-class CreateUserView(generics.ListAPIView):
+class CreateUserView(APIView):
     model = get_user_model()
     permission_classes = [
         permissions.AllowAny

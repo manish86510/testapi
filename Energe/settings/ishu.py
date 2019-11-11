@@ -4,7 +4,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(BASE_DIR)
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -15,7 +14,6 @@ SECRET_KEY = '-%llzlat%(u#ylmsu@vo(xqx9**u5ofkk^l^hl$q$m&g0zc%iz'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -29,7 +27,7 @@ INSTALLED_APPS = [
     'Auth',
     'Posts',
     'rest_framework',
-    'rest_framework_swagger'
+    'rest_framework_swagger',
 ]
 
 REST_FRAMEWORK = {
@@ -42,13 +40,13 @@ REST_FRAMEWORK = {
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'basic': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization'
+            'type': 'basic'
         }
     },
-    'JSON_EDITOR': True,
 }
+
+LOGIN_URL = 'rest_framework:login'
+LOGOUT_URL = 'rest_framework:logout'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request'
@@ -89,20 +87,30 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'manish86510@gmail.com'
-EMAIL_HOST_PASSWORD = 'Manishkumar#19933'
+EMAIL_HOST_USER = 'ishu.k@skysoft.net.in'
+EMAIL_HOST_PASSWORD = 'Ashuishu1@'
 
 WSGI_APPLICATION = 'Energe.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'energe',
+#         'USER': 'ishu',
+#         'PASSWORD': 'mypassword',
+#         'HOST': 'localhost',
+#         'PORT': '5433',
+#     }
+# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'energe',
-        'USER': 'postgres',
-        'PASSWORD': 'winslate',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'NAME': "energe",
+        'USER': "ishu",
+        'PASSWORD': "mypassword",
+        'HOST': "localhost",
+        'PORT': "5432",
     }
 }
 
@@ -118,7 +126,7 @@ SWAGGER_SETTINGS = {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
-          },
+        },
     },
 }
 
@@ -140,7 +148,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -153,7 +160,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

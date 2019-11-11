@@ -56,4 +56,3 @@ admin.site.register(MyInterest, MyInterestOptionsAdmin)
 admin.site.register(MyLanguage, MyLanguageOptionsAdmin)
 admin.site.register(MyProjects, MyProjectsOptionsAdmin)
 admin.site.register(SocialLinks, SocialLinksOptionsAdmin)
-

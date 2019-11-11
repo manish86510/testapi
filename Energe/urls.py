@@ -15,11 +15,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework_swagger.views import get_swagger_view
 
-schema_view1 = get_swagger_view(title='Auth API')
-schema_view2 = get_swagger_view(title='Post API')
-
-
-
+schema_view1 = get_swagger_view(title='APIs')
+# schema_view2 = get_swagger_view(title='Post API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,19 +26,12 @@ urlpatterns = [
             path('', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
             path('refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
         ])),
-        # path('token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-        # path('token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
         path('login', csrf_exempt(login), name='api_login'),
         path('accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
     ])),
-    # path('api/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    # path('api/login', csrf_exempt(login), name='api_login'),
-    # path('api/accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
     path('swaggertest/', schema_view1),
     path('posts/', include('Posts.urls')),
-    path('api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 admin.site.site_header = 'Admin Dashboard'
 admin.site.site_title = 'Admin'

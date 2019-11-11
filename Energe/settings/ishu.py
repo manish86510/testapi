@@ -31,9 +31,9 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
@@ -91,17 +91,6 @@ EMAIL_HOST_USER = 'ishu.k@skysoft.net.in'
 EMAIL_HOST_PASSWORD = 'Ashuishu1@'
 
 WSGI_APPLICATION = 'Energe.wsgi.application'
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'energe',
-#         'USER': 'ishu',
-#         'PASSWORD': 'mypassword',
-#         'HOST': 'localhost',
-#         'PORT': '5433',
-#     }
-# }
 
 DATABASES = {
     'default': {

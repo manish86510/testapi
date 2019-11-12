@@ -85,7 +85,6 @@ def password_reset(request):
             else:
                 return JsonResponse({'message': 'Invalid E-mail'})
 
-
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def login(request):
@@ -95,11 +94,11 @@ def login(request):
         "username": str(username),
         "password": password
     }
-    # curl = request._current_scheme_host
+    #curl = request._current_scheme_host
     curl = "http://127.0.0.1:8000/api/token"
     token_content = requests.post(curl, json=jdata)
     token_content_json = token_content.json()
-    # logger.info(type(token_content))
+    #logger.info(type(token_content))
     if token_content.status_code == 200:
         try:
             user = User.objects.get(username=username, is_mail_verified=True)

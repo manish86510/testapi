@@ -38,16 +38,11 @@ urlpatterns = [
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
     path('', include('Auth.urls')),
-    path('api/', include([
-        path('token/', include([
-            path('', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-            path('refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-        ])),
-        path('login', csrf_exempt(login), name='api_login'),
-        path('accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
-    ])),
-    path('posts/', include('Posts.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/login', csrf_exempt(login), name='api_login'),
+    path('api/accounts/password_reset/', csrf_exempt(password_reset), name='api_password_reset'),
+    path('post/', include('Posts.urls')),
 ]
 admin.site.site_header = 'Admin Dashboard'
 admin.site.site_title = 'Admin'

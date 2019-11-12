@@ -103,7 +103,7 @@ class PostCommentsView(APIView):
             return Response("Cannot add comment", status=HTTP_200_OK)
 
     def put(self, request):
-        pk = int(request.POST.get('id', ''))
+        pk = request.POST.get('id')
         instance_obj = get_object_or_404(Post.objects.all(), pk=pk)
         serializer = PostCommentsSerializer(instance=instance_obj, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
@@ -146,7 +146,7 @@ class PostShareView(APIView):
             return Response("Something is wrong", status=HTTP_200_OK)
 
     def put(self, request):
-        pk = int(request.POST.get('id', ''))
+        pk = request.POST.get('id')
         saved_shares = get_object_or_404(PostShare.objects.all(), pk=pk)
         serializer = PostShareSerializer(instance=saved_shares, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):

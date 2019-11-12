@@ -1,5 +1,5 @@
 from django.shortcuts import render
-#from pip import logger
+# from pip import logger
 from rest_framework.generics import get_object_or_404
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -24,7 +24,8 @@ from django.conf import settings
 from .models import *
 import string
 from datetime import datetime
-#from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
+
+# from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 
 '''@api_view()
@@ -61,7 +62,7 @@ class CreateUserView(APIView):
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'
-            message = "Click here http://127.0.0.1:8000/verify_mail/"+ code +" to verify your email id."
+            message = "Click here http://127.0.0.1:8000/verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):
@@ -75,7 +76,7 @@ class CreateUserView(APIView):
 def password_reset(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
-        a=request.get_host()
+        a = request.get_host()
         if form.is_valid():
             email = form.cleaned_data["email"]
             if User.objects.get(email=email):
@@ -85,38 +86,39 @@ def password_reset(request):
                 return JsonResponse({'message': 'Invalid E-mail'})
 
 
+@api_view(["POST"])
+@permission_classes((AllowAny,))
 def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-        jdata = {
-            "username": str(username),
-            "password": password
-        }
-        #curl = request._current_scheme_host
-        curl = "http://127.0.0.1:8000/api/token"
-        token_content = requests.post(curl, json=jdata)
-        token_content_json = token_content.json()
-        #logger.info(type(token_content))
-        if token_content.status_code == 200:
-            try:
-                user = User.objects.get(username=username, is_mail_verified=True)
-            except:
-                return JsonResponse({'message': 'Invalid login'})
-            user_data = {
-                'id': user.id,
-                'username': user.username,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'about': user.about if user.about else '',
-                'email': user.email,
-                'avatar': str(user.avatar) if str(user.avatar) else '',
-                'address': user.address if user.address else '',
-                'skill': user.skills if user.skills else '',
-            }
-            return JsonResponse({'user_data': user_data, 'token': token_content_json})
-        else:
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    jdata = {
+        "username": str(username),
+        "password": password
+    }
+    # curl = request._current_scheme_host
+    curl = "http://127.0.0.1:8000/api/token"
+    token_content = requests.post(curl, json=jdata)
+    token_content_json = token_content.json()
+    # logger.info(type(token_content))
+    if token_content.status_code == 200:
+        try:
+            user = User.objects.get(username=username, is_mail_verified=True)
+        except:
             return JsonResponse({'message': 'Invalid login'})
+        user_data = {
+            'id': user.id,
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'about': user.about if user.about else '',
+            'email': user.email,
+            'avatar': str(user.avatar) if str(user.avatar) else '',
+            'address': user.address if user.address else '',
+            'skill': user.skills if user.skills else '',
+        }
+        return JsonResponse({'user_data': user_data, 'token': token_content_json})
+    else:
+        return JsonResponse({'message': 'Invalid login'})
 
 
 class UpdateProfile(APIView):
@@ -180,7 +182,6 @@ class MyEducation(APIView):
             education_saved = serializer.save()
         return Response({"success": "Education '{}' updated successfully".format(education_saved.school_college_name)})
 
-
     def delete(self, request):
         pk = int(request.POST.get('id'))
         education = get_object_or_404(Education.objects.all(), pk=pk)
@@ -225,6 +226,7 @@ class Places(APIView):
         place = MyPlaces.objects.all()
         serializer = PlaceSerializer(place, many=True)
         return Response({"MyPlace": serializer.data})
+
 
 class Language(APIView):
     permission_classes = [

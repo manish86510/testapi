@@ -27,7 +27,7 @@ class Post(models.Model):
 
 class PostMedia(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    file = models.CharField(max_length=200)
+    file = models.ImageField(upload_to='images/', null=True)
     file_types = (
         ("Image", "image"),
         ("PDF", "pdf"),
@@ -37,7 +37,6 @@ class PostMedia(models.Model):
         ("xlsx", "xlsx"),
     )
     file_type = models.CharField(max_length=5, choices=file_types, default="Image")
-    post_media = models.ImageField(upload_to='images/', null=True)
 
     def __str__(self):
         return self.post

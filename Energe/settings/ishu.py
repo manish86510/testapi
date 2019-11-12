@@ -27,22 +27,24 @@ INSTALLED_APPS = [
     'Auth',
     'Posts',
     'rest_framework',
-    'rest_framework_swagger',
+    # 'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
-#
+
 # SWAGGER_SETTINGS = {
-#     'SECURITY_DEFINITIONS': {
-#         'basic': {
-#             'type': 'basic'
-#         }
-#     },
+#     'VALIDATOR_URL': 'http://localhost:8189',
+#     # 'SECURITY_DEFINITIONS': {
+#     #     'basic': {
+#     #         'type': 'basic'
+#     #     }
+#     # },
 # }
 #
 # LOGIN_URL = 'rest_framework:login'

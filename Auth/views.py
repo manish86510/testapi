@@ -84,39 +84,39 @@ def password_reset(request):
             else:
                 return JsonResponse({'message': 'Invalid E-mail'})
 
-
+@api_view(["POST"])
+@permission_classes((AllowAny,))
 def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-        jdata = {
-            "username": str(username),
-            "password": password
-        }
-        #curl = request._current_scheme_host
-        curl = "http://127.0.0.1:8000/api/token"
-        token_content = requests.post(curl, json=jdata)
-        token_content_json = token_content.json()
-        #logger.info(type(token_content))
-        if token_content.status_code == 200:
-            try:
-                user = User.objects.get(username=username, is_mail_verified=True)
-            except:
-                return JsonResponse({'message': 'Invalid login'})
-            user_data = {
-                'id': user.id,
-                'username': user.username,
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'about': user.about if user.about else '',
-                'email': user.email,
-                'avatar': str(user.avatar) if str(user.avatar) else '',
-                'address': user.address if user.address else '',
-                'skill': user.skills if user.skills else '',
-            }
-            return JsonResponse({'user_data': user_data, 'token': token_content_json})
-        else:
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    jdata = {
+        "username": str(username),
+        "password": password
+    }
+    #curl = request._current_scheme_host
+    curl = "http://127.0.0.1:8000/api/token"
+    token_content = requests.post(curl, json=jdata)
+    token_content_json = token_content.json()
+    #logger.info(type(token_content))
+    if token_content.status_code == 200:
+        try:
+            user = User.objects.get(username=username, is_mail_verified=True)
+        except:
             return JsonResponse({'message': 'Invalid login'})
+        user_data = {
+            'id': user.id,
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'about': user.about if user.about else '',
+            'email': user.email,
+            'avatar': str(user.avatar) if str(user.avatar) else '',
+            'address': user.address if user.address else '',
+            'skill': user.skills if user.skills else '',
+        }
+        return JsonResponse({'user_data': user_data, 'token': token_content_json})
+    else:
+        return JsonResponse({'message': 'Invalid login'})
 
 
 class UpdateProfile(APIView):

@@ -24,27 +24,25 @@ class CreatePostView(APIView):
         serializer_class = PostSerializer(data=request.data)
         if serializer_class.is_valid():
             serializer_class.save(user_id=pk)
-            return Response("Saved Successfully", status=HTTP_200_OK)
+            return Response("Post Created Successfully", status=HTTP_200_OK)
         else:
-            return Response("Something is wrong", status=HTTP_200_OK)
+            return Response("Something is wrong, Unable to create a post", status=HTTP_200_OK)
 
     def put(self, request):
         pk = request.POST.get('id')
-        saved_places = get_object_or_404(Post.objects.all(), pk=pk)
-        serializer = PostSerializer(instance=saved_places, data=request.data, partial=True)
+        instance_obj = get_object_or_404(Post.objects.all(), pk=pk)
+        serializer = PostSerializer(instance=instance_obj, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            places_saved = serializer.save()
-        return Response({"success": "Post '{}' updated successfully".format(places_saved.about_post)})
+            post_obj = serializer.save()
+        return Response({"success": "Post '{}' updated successfully".format(post_obj.about_post)})
 
     def delete(self, request):
         pk = request.POST.get('id')
-        place = get_object_or_404(Post.objects.all(), pk=pk)
-        place.delete()
+        del_query = get_object_or_404(Post.objects.all(), pk=pk)
+        del_query.delete()
         return Response({"message": "Post with id {} has been deleted.".format(pk)}, status=204)
 
     def get(self, instance):
-        x = instance.data
-        print(x)
         myposts = Post.objects.all()
         serializer = PostSerializer(myposts, many=True)
         return Response({"Posts": serializer.data})
@@ -61,9 +59,9 @@ class PostMediaView(APIView):
         serializer_class = PostMediaSerializer(data=request.data)
         if serializer_class.is_valid():
             serializer_class.save(post_id=pk)
-            return Response("Saved Successfully", status=HTTP_200_OK)
+            return Response("Media Uploaded Successfully", status=HTTP_200_OK)
         else:
-            return Response("Something is wrong", status=HTTP_200_OK)
+            return Response("Cannot Upload Media", status=HTTP_200_OK)
 
     def put(self, request):
         pk = request.POST.get('post')
@@ -71,12 +69,12 @@ class PostMediaView(APIView):
         serializer = PostMediaSerializer(instance=posts, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             media_saved = serializer.save()
-        return Response({"success": "Post '{}' updated successfully".format(media_saved.post)})
+        return Response({"success": "Post '{}' with media is updated successfully".format(media_saved.post)})
 
     def delete(self, request):
         pk = request.POST.get('id')
-        place = get_object_or_404(PostMedia.objects.all(), pk=pk)
-        place.delete()
+        del_query = get_object_or_404(PostMedia.objects.all(), pk=pk)
+        del_query.delete()
         return Response({"message": "Media with id {} has been deleted.".format(pk)}, status=204)
 
     def get(self, instance):
@@ -96,28 +94,36 @@ class PostCommentsView(APIView):
         serializer_class = PostCommentsSerializer(data=request.data)
         if serializer_class.is_valid():
             serializer_class.save(post_id=pk)
-            return Response("Saved Successfully", status=HTTP_200_OK)
+            post_name = serializer_class.instance.post
+            post_obj = Post.objects.get(about_post=post_name)
+            post_obj.share_count += 1
+            post_obj.save()
+            return Response("Comment Saved Successfully", status=HTTP_200_OK)
         else:
-            return Response("Something is wrong", status=HTTP_200_OK)
+            return Response("Cannot add comment", status=HTTP_200_OK)
 
     def put(self, request):
         pk = int(request.POST.get('id', ''))
-        saved_places = get_object_or_404(Post.objects.all(), pk=pk)
-        serializer = PostCommentsSerializer(instance=saved_places, data=request.data, partial=True)
+        instance_obj = get_object_or_404(Post.objects.all(), pk=pk)
+        serializer = PostCommentsSerializer(instance=instance_obj, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            places_saved = serializer.save()
-        return Response({"success": "Post '{}' updated successfully".format(places_saved.post)})
+            comments_saved = serializer.save()
+        return Response({"success": "Comment '{}' updated successfully".format(comments_saved.post)})
 
     def delete(self, request):
         pk = request.POST.get('id')
-        place = get_object_or_404(Post.objects.all(), pk=pk)
-        place.delete()
-        return Response({"message": "Post with id {} has been deleted.".format(pk)}, status=204)
+        saved_comments = get_object_or_404(PostComments.objects.all(), id=pk)
+        post_name = saved_comments.post
+        post_obj = Post.objects.get(about_post=post_name)
+        post_obj.share_count -= 1
+        post_obj.save()
+        saved_comments.delete()
+        return Response({"message": "Comment with id {} has been deleted.".format(pk)}, status=204)
 
     def get(self, instance):
-        place = Post.objects.all()
-        serializer = PostCommentsSerializer(place, many=True)
-        return Response({"MyPlace": serializer.data})
+        comments = PostComments.objects.all()
+        serializer = PostCommentsSerializer(comments, many=True)
+        return Response({"Comments": serializer.data})
 
 
 class PostShareView(APIView):
@@ -127,33 +133,40 @@ class PostShareView(APIView):
     ]
 
     def post(self, request, format=None):
-        pk = request.POST.get('id')
-
+        pk = request.POST.get('post')
         serializer_class = PostShareSerializer(data=request.data)
         if serializer_class.is_valid():
             serializer_class.save(post_id=pk)
+            post_name = serializer_class.instance.post
+            post_obj = Post.objects.get(about_post=post_name)
+            post_obj.share_count += 1
+            post_obj.save()
             return Response("Saved Successfully", status=HTTP_200_OK)
         else:
             return Response("Something is wrong", status=HTTP_200_OK)
 
     def put(self, request):
         pk = int(request.POST.get('id', ''))
-        saved_places = get_object_or_404(Post.objects.all(), pk=pk)
-        serializer = PostShareSerializer(instance=saved_places, data=request.data, partial=True)
+        saved_shares = get_object_or_404(PostShare.objects.all(), pk=pk)
+        serializer = PostShareSerializer(instance=saved_shares, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            places_saved = serializer.save()
-        return Response({"success": "Post '{}' updated successfully".format(places_saved.about)})
+            shares_saved = serializer.save()
+        return Response({"success": "Post '{}' updated successfully".format(shares_saved.about)})
 
     def delete(self, request):
         pk = request.POST.get('id')
-        place = get_object_or_404(Post.objects.all(), pk=pk)
-        place.delete()
-        return Response({"message": "Post with id {} has been deleted.".format(pk)}, status=204)
+        saved_shares = get_object_or_404(PostShare.objects.all(), id=pk)
+        post_name = saved_shares.post
+        post_obj = Post.objects.get(about_post=post_name)
+        post_obj.share_count -= 1
+        post_obj.save()
+        saved_shares.delete()
+        return Response({"message": "Shared Post with id {} has been deleted.".format(pk)}, status=204)
 
     def get(self, instance):
-        place = Post.objects.all()
-        serializer = PostShareSerializer(place, many=True)
-        return Response({"MyPlace": serializer.data})
+        shares = PostShare.objects.all()
+        serializer = PostShareSerializer(shares, many=True)
+        return Response({"Shared Posts": serializer.data})
 
 
 class PostLikesView(APIView):
@@ -196,16 +209,16 @@ class PostLikesView(APIView):
         ui = request.POST.get('user')
         un = User.objects.get(id=ui)
         user_name = un.username
-        place = get_object_or_404(PostLikes.objects.all(), post=pk, user=ui)
-        post_name = place.post
+        saved_likes = get_object_or_404(PostLikes.objects.all(), post=pk, user=ui)
+        post_name = saved_likes.post
         post_obj = Post.objects.get(about_post=post_name)
         post_obj.like_count -= 1
         post_obj.save()
-        place.delete()
+        saved_likes.delete()
         return Response({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)},
                         status=204)
 
     def get(self, instance):
-        place = PostLikes.objects.all()
-        serializer = PostLikesSerializer(place, many=True)
+        likes = PostLikes.objects.all()
+        serializer = PostLikesSerializer(likes, many=True)
         return Response({"MyLikes": serializer.data})

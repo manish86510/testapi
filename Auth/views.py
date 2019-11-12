@@ -1,5 +1,6 @@
 from django.shortcuts import render
 #from pip import logger
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import get_object_or_404
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
@@ -24,6 +25,7 @@ from django.conf import settings
 from .models import *
 import string
 from datetime import datetime
+from rest_framework import serializers
 #from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 
@@ -51,6 +53,7 @@ class CreateUserView(APIView):
         permissions.AllowAny
     ]
 
+    @swagger_auto_schema(description="Create a new user", query_serializer=UserSerializer, responses={200: UserSerializer})
     def post(self, request, format=None):
         letters = string.ascii_lowercase
         code = ''.join(random.choice(letters) for i in range(25))
@@ -84,8 +87,10 @@ def password_reset(request):
             else:
                 return JsonResponse({'message': 'Invalid E-mail'})
 
+
 @api_view(["POST"])
 @permission_classes((AllowAny,))
+@swagger_auto_schema(description="User can login from here", query_serializer=UserSerializer, responses={200: UserSerializer})
 def login(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
@@ -124,6 +129,7 @@ class UpdateProfile(APIView):
         permissions.IsAuthenticated
     ]
 
+    @swagger_auto_schema(description="Update user profile details", query_serializer=UserSerializer, responses={200: UserSerializer})
     def post(self, request):
         try:
             user = User.objects.get(email=request.POST.get('email', ''))
@@ -163,6 +169,7 @@ class MyEducation(APIView):
         permissions.IsAuthenticated
     ]
 
+    @swagger_auto_schema(description="Add education details of any user", query_serializer=EducationSerializer, responses={200: EducationSerializer})
     def post(self, request):
         pk = int(request.POST.get('id'))
         education = EducationSerializer(data=request.data)
@@ -172,6 +179,7 @@ class MyEducation(APIView):
         else:
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
 
+    @swagger_auto_schema(description="Update education details of any user", query_serializer=EducationSerializer, responses={200: EducationSerializer})
     def put(self, request):
         pk = int(request.POST.get('id'))
         saved_education = get_object_or_404(Education.objects.all(), pk=pk)
@@ -198,6 +206,7 @@ class Places(APIView):
         permissions.IsAuthenticated
     ]
 
+    @swagger_auto_schema(description="Add My Place details of any user", query_serializer=PlaceSerializer, responses={200: PlaceSerializer})
     def post(self, request):
         pk = int(request.POST.get('id'))
         place = PlaceSerializer(data=request.data)
@@ -207,6 +216,7 @@ class Places(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Place details inserted!", status=HTTP_200_OK)
 
+    @swagger_auto_schema(description="Update My Place details of any user", query_serializer=PlaceSerializer, responses={200: PlaceSerializer})
     def put(self, request):
         pk = int(request.POST.get('id', ''))
         saved_places = get_object_or_404(MyPlaces.objects.all(), pk=pk)
@@ -231,6 +241,7 @@ class Language(APIView):
         permissions.IsAuthenticated
     ]
 
+    @swagger_auto_schema(description="Add Language details of any user", query_serializer=LanguageSerializer, responses={200: LanguageSerializer})
     def post(self, request):
         pk = int(request.POST.get('id'))
         language = LanguageSerializer(data=request.data)
@@ -240,6 +251,7 @@ class Language(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Language details inserted!", status=HTTP_200_OK)
 
+    @swagger_auto_schema(description="Update education details of any user", query_serializer=LanguageSerializer, responses={200: LanguageSerializer})
     def put(self, request):
         pk = int(request.POST.get('id'))
         saved_language = get_object_or_404(MyLanguage.objects.all(), pk=pk)
@@ -265,6 +277,7 @@ class MyWorkplace(APIView):
         permissions.IsAuthenticated
     ]
 
+    @swagger_auto_schema(description="Add My Work Place details of any user", query_serializer=WorkplaceSerializer, responses={200: WorkplaceSerializer})
     def post(self, request):
         pk = int(request.POST.get('id'))
         work = WorkplaceSerializer(data=request.data)
@@ -274,6 +287,7 @@ class MyWorkplace(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Work Place details inserted!", status=HTTP_200_OK)
 
+    @swagger_auto_schema(description="Update Work Place details of any user", query_serializer=WorkplaceSerializer, responses={200: WorkplaceSerializer})
     def put(self, request):
         pk = int(request.POST.get('id'))
         saved_workplace = get_object_or_404(WorkPlace.objects.all(), pk=pk)
@@ -299,6 +313,7 @@ class Projects(APIView):
         permissions.IsAuthenticated
     ]
 
+    @swagger_auto_schema(description="Add My Project details of any user", query_serializer=ProjectSerializer, responses={200: ProjectSerializer})
     def post(self, request):
         pk = int(request.POST.get('id'))
         project = ProjectSerializer(data=request.data)
@@ -308,6 +323,7 @@ class Projects(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Project details inserted!", status=HTTP_200_OK)
 
+    @swagger_auto_schema(description="Update My Project details of any user", query_serializer=ProjectSerializer, responses={200: ProjectSerializer})
     def put(self, request):
         pk = int(request.POST.get('id', ''))
         saved_project = get_object_or_404(MyProjects.objects.all(), pk=pk)
@@ -333,6 +349,7 @@ class Social(APIView):
         permissions.IsAuthenticated
     ]
 
+    @swagger_auto_schema(description="Add Social Media details of any user", query_serializer=SocialLinksSerializer, responses={200: SocialLinksSerializer})
     def post(self, request):
         pk = int(request.POST.get('id'))
         social = SocialLinksSerializer(data=request.data)
@@ -342,6 +359,7 @@ class Social(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Social details inserted!", status=HTTP_200_OK)
 
+    @swagger_auto_schema(description="Update education details of any user", query_serializer=SocialLinksSerializer, responses={200: SocialLinksSerializer})
     def put(self, request):
         pk = int(request.POST.get('id', ''))
         saved_data = get_object_or_404(SocialLinks.objects.all(), pk=pk)
@@ -367,6 +385,7 @@ class Interest(APIView):
         permissions.IsAuthenticated
     ]
 
+    @swagger_auto_schema(description="Add My Interest details of any user", query_serializer=InterestSerializer, responses={200: InterestSerializer})
     def post(self, request):
         pk = int(request.POST.get('id'))
         project = InterestSerializer(data=request.data)
@@ -376,6 +395,7 @@ class Interest(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Interest details inserted!", status=HTTP_200_OK)
 
+    @swagger_auto_schema(description="Update My Interest details of any user", query_serializer=InterestSerializer, responses={200: InterestSerializer})
     def put(self, request):
         pk = int(request.POST.get('id', ''))
         saved_project = get_object_or_404(MyInterest.objects.all(), pk=pk)

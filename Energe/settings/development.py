@@ -29,14 +29,28 @@ INSTALLED_APPS = [
     'Auth',
     'Posts',
     'rest_framework',
-    'rest_framework_swagger'
+    'drf_yasg'
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+}
+
+REDOC_SETTINGS = {
+   'LAZY_RENDERING': False,
+}
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request'
 )

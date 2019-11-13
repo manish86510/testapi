@@ -5,7 +5,7 @@ from Auth.models import User
 # Create your models here.
 class Post(models.Model):
     about_post = models.TextField(null=False)
-    tags = models.CharField(max_length=200)
+    tags = models.CharField(max_length=200, null=True)
     like_count = models.IntegerField(default=0)
     share_count = models.IntegerField(default=0)
     comment_count = models.IntegerField(default=0)
@@ -14,8 +14,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_public = models.BooleanField(default=True)
-    target_audience_interests = models.CharField(max_length=200)
-    post_type = models.CharField(max_length=200)
+    target_audience_interests = models.CharField(max_length=200, null=True)
+    post_type = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return self.about_post
@@ -27,7 +27,7 @@ class Post(models.Model):
 
 class PostMedia(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    file = models.CharField(max_length=200)
+    file = models.FileField(upload_to='images/', null=True)
     file_types = (
         ("Image", "image"),
         ("PDF", "pdf"),
@@ -49,7 +49,7 @@ class PostMedia(models.Model):
 class PostLikes(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    activity = models.CharField(max_length=200)
+    activity = models.CharField(max_length=200, editable=False, default='Liked')
 
     def __str__(self):
         return self.activity

@@ -1,11 +1,10 @@
 from django.urls import path
-from django.views.decorators.csrf import csrf_exempt
 from .views import *
 from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-    path('hello', GetById.as_view(), name='hello'),
+    #path('hello', GetById.as_view(), name='hello'),
     path('register', CreateUserView.as_view(), name='register'),
     path('verify_mail/<str:code>', verifyMail, name='verify_mail'),
     path('update_profile', UpdateProfile.as_view(), name='update_profile'),
@@ -17,4 +16,4 @@ urlpatterns = [
     path('my_interest', Interest.as_view(), name='my_interest'),
     path('my_social', Social.as_view(), name='my_social'),
 ]
-urlpatterns = format_suffix_patterns(urlpatterns)
+# urlpatterns = format_suffix_patterns(urlpatterns)

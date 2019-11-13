@@ -16,4 +16,4 @@ urlpatterns = [
     path('my_interest', Interest.as_view(), name='my_interest'),
     path('my_social', Social.as_view(), name='my_social'),
 ]
-urlpatterns = format_suffix_patterns(urlpatterns)
+# urlpatterns = format_suffix_patterns(urlpatterns)

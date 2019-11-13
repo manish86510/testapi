@@ -27,7 +27,7 @@ class Post(models.Model):
 
 class PostMedia(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    file = models.ImageField(upload_to='images/', null=True)
+    file = models.FileField(upload_to='images/', null=True)
     file_types = (
         ("Image", "image"),
         ("PDF", "pdf"),

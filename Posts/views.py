@@ -21,7 +21,7 @@ class CreatePostView(APIView):
         IsAuthenticated,
     ]
 
-    @swagger_auto_schema(query_serializer=PostSerializer, responses={200: PostSerializer})
+    @swagger_auto_schema(operation_description="Creates post using the details provided by the user", query_serializer=PostSerializer, responses={200: PostSerializer})
     def post(self, request, format=None):
         pk = request.POST.get('user')
         serializer_class = PostSerializer(data=request.data)
@@ -31,7 +31,7 @@ class CreatePostView(APIView):
         else:
             return Response("Something is wrong, Unable to create a post", status=HTTP_200_OK)
 
-    @swagger_auto_schema(query_serializer=PostSerializer, responses={200: PostSerializer})
+    @swagger_auto_schema(operation_description="Updates an existing post with details modified by the user.", query_serializer=PostSerializer, responses={200: PostSerializer})
     def put(self, request):
         pk = request.POST.get('id')
         instance_obj = get_object_or_404(Post.objects.all(), pk=pk)
@@ -40,14 +40,14 @@ class CreatePostView(APIView):
             post_obj = serializer.save()
         return Response({"success": "Post '{}' updated successfully".format(post_obj.about_post)})
 
-    @swagger_auto_schema(query_serializer=PostSerializer, responses={200: PostSerializer})
+    @swagger_auto_schema(operation_description="Deletes a previously created post based on the post id.", query_serializer=PostSerializer, responses={200: PostSerializer})
     def delete(self, request):
         pk = request.POST.get('id')
         del_query = get_object_or_404(Post.objects.all(), pk=pk)
         del_query.delete()
         return Response({"message": "Post with id {} has been deleted.".format(pk)}, status=204)
 
-    @swagger_auto_schema(query_serializer=PostSerializer, responses={200: PostSerializer})
+    @swagger_auto_schema(operation_description="Displays all the posts created till now.", query_serializer=PostSerializer, responses={200: PostSerializer})
     def get(self, instance):
         myposts = Post.objects.all()
         serializer = PostSerializer(myposts, many=True)

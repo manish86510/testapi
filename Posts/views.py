@@ -10,15 +10,18 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.views.decorators.http import require_http_methods
 from django.db.models.signals import post_save, post_delete
+from drf_yasg.utils import swagger_auto_schema
 
 
 # Added CreatePostView to create post from serializer data
+# @swagger_auto_schema(tags='CreatePost', query_serializer=PostSerializer, responses={200: PostSerializer})
 class CreatePostView(APIView):
     model = Post
     permission_classes = [
         IsAuthenticated,
     ]
 
+    @swagger_auto_schema(query_serializer=PostSerializer, responses={200: PostSerializer})
     def post(self, request, format=None):
         pk = request.POST.get('user')
         serializer_class = PostSerializer(data=request.data)
@@ -28,6 +31,7 @@ class CreatePostView(APIView):
         else:
             return Response("Something is wrong, Unable to create a post", status=HTTP_200_OK)
 
+    @swagger_auto_schema(query_serializer=PostSerializer, responses={200: PostSerializer})
     def put(self, request):
         pk = request.POST.get('id')
         instance_obj = get_object_or_404(Post.objects.all(), pk=pk)
@@ -36,12 +40,14 @@ class CreatePostView(APIView):
             post_obj = serializer.save()
         return Response({"success": "Post '{}' updated successfully".format(post_obj.about_post)})
 
+    @swagger_auto_schema(query_serializer=PostSerializer, responses={200: PostSerializer})
     def delete(self, request):
         pk = request.POST.get('id')
         del_query = get_object_or_404(Post.objects.all(), pk=pk)
         del_query.delete()
         return Response({"message": "Post with id {} has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(query_serializer=PostSerializer, responses={200: PostSerializer})
     def get(self, instance):
         myposts = Post.objects.all()
         serializer = PostSerializer(myposts, many=True)
@@ -54,6 +60,7 @@ class PostMediaView(APIView):
         IsAuthenticated,
     ]
 
+    # @swagger_auto_schema(tags='PostMedia', query_serializer=PostMediaSerializer, responses={200: PostMediaSerializer})
     def post(self, request, format=None):
         pk = request.POST.get('post')
         serializer_class = PostMediaSerializer(data=request.data)
@@ -63,6 +70,7 @@ class PostMediaView(APIView):
         else:
             return Response("Cannot Upload Media", status=HTTP_200_OK)
 
+    # @swagger_auto_schema(tags='PostMedia', query_serializer=PostMediaSerializer, responses={200: PostMediaSerializer})
     def put(self, request):
         pk = request.POST.get('post')
         posts = get_object_or_404(PostMedia.objects.all(), pk=pk)
@@ -71,12 +79,14 @@ class PostMediaView(APIView):
             media_saved = serializer.save()
         return Response({"success": "Post '{}' with media is updated successfully".format(media_saved.post)})
 
+    # @swagger_auto_schema(tags='PostMedia', query_serializer=PostMediaSerializer, responses={200: PostMediaSerializer})
     def delete(self, request):
         pk = request.POST.get('id')
         del_query = get_object_or_404(PostMedia.objects.all(), pk=pk)
         del_query.delete()
         return Response({"message": "Media with id {} has been deleted.".format(pk)}, status=204)
 
+    # @swagger_auto_schema(query_serializer=PostMediaSerializer, responses={200: PostMediaSerializer})
     def get(self, instance):
         media = PostMedia.objects.all()
         serializer = PostMediaSerializer(media, many=True)
@@ -89,6 +99,7 @@ class PostCommentsView(APIView):
         IsAuthenticated,
     ]
 
+    @swagger_auto_schema(query_serializer=PostCommentsSerializer, responses={200: PostCommentsSerializer})
     def post(self, request, format=None):
         pk = request.POST.get('id')
         serializer_class = PostCommentsSerializer(data=request.data)
@@ -102,6 +113,7 @@ class PostCommentsView(APIView):
         else:
             return Response("Cannot add comment", status=HTTP_200_OK)
 
+    @swagger_auto_schema(query_serializer=PostCommentsSerializer, responses={200: PostCommentsSerializer})
     def put(self, request):
         pk = request.POST.get('id')
         instance_obj = get_object_or_404(Post.objects.all(), pk=pk)
@@ -110,6 +122,7 @@ class PostCommentsView(APIView):
             comments_saved = serializer.save()
         return Response({"success": "Comment '{}' updated successfully".format(comments_saved.post)})
 
+    @swagger_auto_schema(query_serializer=PostCommentsSerializer, responses={200: PostCommentsSerializer})
     def delete(self, request):
         pk = request.POST.get('id')
         saved_comments = get_object_or_404(PostComments.objects.all(), id=pk)
@@ -120,6 +133,7 @@ class PostCommentsView(APIView):
         saved_comments.delete()
         return Response({"message": "Comment with id {} has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(query_serializer=PostCommentsSerializer, responses={200: PostCommentsSerializer})
     def get(self, instance):
         comments = PostComments.objects.all()
         serializer = PostCommentsSerializer(comments, many=True)
@@ -132,6 +146,7 @@ class PostShareView(APIView):
         IsAuthenticated,
     ]
 
+    @swagger_auto_schema(query_serializer=PostShareSerializer, responses={200: PostShareSerializer})
     def post(self, request, format=None):
         pk = request.POST.get('post')
         serializer_class = PostShareSerializer(data=request.data)
@@ -145,6 +160,7 @@ class PostShareView(APIView):
         else:
             return Response("Something is wrong", status=HTTP_200_OK)
 
+    @swagger_auto_schema(query_serializer=PostShareSerializer, responses={200: PostShareSerializer})
     def put(self, request):
         pk = request.POST.get('id')
         saved_shares = get_object_or_404(PostShare.objects.all(), pk=pk)
@@ -153,6 +169,7 @@ class PostShareView(APIView):
             shares_saved = serializer.save()
         return Response({"success": "Post '{}' updated successfully".format(shares_saved.about)})
 
+    @swagger_auto_schema(query_serializer=PostShareSerializer, responses={200: PostShareSerializer})
     def delete(self, request):
         pk = request.POST.get('id')
         saved_shares = get_object_or_404(PostShare.objects.all(), id=pk)
@@ -163,6 +180,7 @@ class PostShareView(APIView):
         saved_shares.delete()
         return Response({"message": "Shared Post with id {} has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(query_serializer=PostShareSerializer, responses={200: PostShareSerializer})
     def get(self, instance):
         shares = PostShare.objects.all()
         serializer = PostShareSerializer(shares, many=True)
@@ -175,6 +193,7 @@ class PostLikesView(APIView):
         IsAuthenticated,
     ]
 
+    @swagger_auto_schema(query_serializer=PostLikesSerializer, responses={200: PostLikesSerializer})
     def post(self, request, format=None):
         pk = request.POST.get('post')
         ui = request.POST.get('user')
@@ -196,6 +215,7 @@ class PostLikesView(APIView):
         else:
             return Response("Cannot Like the Post", status=HTTP_200_OK)
 
+    @swagger_auto_schema(query_serializer=PostLikesSerializer, responses={200: PostLikesSerializer})
     def put(self, request):
         pk = request.POST.get('id')
         saved_likes = get_object_or_404(PostLikes.objects.all(), pk=pk)
@@ -204,6 +224,7 @@ class PostLikesView(APIView):
             likes_saved = serializer.save()
         return Response({"success": "Likes '{}' updated successfully".format(likes_saved.post)})
 
+    @swagger_auto_schema(query_serializer=PostLikesSerializer, responses={200: PostLikesSerializer})
     def delete(self, request):
         pk = request.POST.get('post')
         ui = request.POST.get('user')
@@ -218,6 +239,7 @@ class PostLikesView(APIView):
         return Response({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)},
                         status=204)
 
+    @swagger_auto_schema(query_serializer=PostLikesSerializer, responses={200: PostLikesSerializer})
     def get(self, instance):
         likes = PostLikes.objects.all()
         serializer = PostLikesSerializer(likes, many=True)

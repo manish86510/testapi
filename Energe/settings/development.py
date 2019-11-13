@@ -47,9 +47,9 @@ SWAGGER_SETTINGS = {
     },
 }
 
-REDOC_SETTINGS = {
-   'LAZY_RENDERING': False,
-}
+# REDOC_SETTINGS = {
+#    'LAZY_RENDERING': False,
+# }
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request'

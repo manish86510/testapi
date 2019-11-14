@@ -60,6 +60,12 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# class LanguageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = MyLanguage
+#         fields = '__all__'
+
+
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyLanguage

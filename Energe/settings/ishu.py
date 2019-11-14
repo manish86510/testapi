@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'Auth',
     'Posts',
     'rest_framework',
+    # 'rest_framework_swagger',
     'drf_yasg',
 ]
 
@@ -35,23 +36,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    # 'DEFAULT_PARSER_CLASSES': [
-    #     # 'rest_framework.parsers.JSONParser',
-    #     'rest_framework.parsers.FormParser',
-    #     'rest_framework.parsers.MultiPartParser',
-    # ],
-}
-
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'basic': {
-            'type': 'basic'
-        }
-    },
-}
-
-REDOC_SETTINGS = {
-   'LAZY_RENDERING': False,
 }
 
 # SWAGGER_SETTINGS = {
@@ -106,14 +90,14 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ishu.k@skysoft.net.in'
-EMAIL_HOST_PASSWORD = 'Ashuishu1@'
+EMAIL_HOST_PASSWORD = 'ishu@kumar'
 
 WSGI_APPLICATION = 'Energe.wsgi.application'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "energe",
+        'NAME': "energe_2",
         'USER': "ishu",
         'PASSWORD': "mypassword",
         'HOST': "localhost",

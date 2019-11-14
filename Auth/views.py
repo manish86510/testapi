@@ -1,5 +1,5 @@
 from django.shortcuts import render
-#from pip import logger
+# from pip import logger
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import get_object_or_404
 from rest_framework.status import (
@@ -23,10 +23,12 @@ from rest_framework import permissions, generics
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
+from Posts.models import *
 import string
 from datetime import datetime
 from rest_framework import serializers
-#from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
+
+# from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 
 '''@api_view()
@@ -37,14 +39,24 @@ def schema_view(request):
     return Response(generator.get_schema(request=request))'''
 
 
+'''@swagger_auto_schema(
+    tags=["Posts Media"],
+    operation_summary="Create New Media Entry",
+    operation_description="Creates a new media entry when any new media is uploaded for a post",
+    responses={
+        200: PostMediaSerializer,
+    }
+)'''
+
+
 class GetById(APIView):
     permission_classes = [
         permissions.AllowAny
     ]
 
     def get(self, request):
-        content = {'message': 'Hello, World!'}
-        return Response(content)
+        data = request.data
+        print(data)
 
 
 class CreateUserView(APIView):
@@ -53,18 +65,29 @@ class CreateUserView(APIView):
         permissions.AllowAny
     ]
 
-    @swagger_auto_schema(operation_description="Create a new user", query_serializer=UserSerializer, responses={200: UserSerializer})
+    @swagger_auto_schema(
+        tags=["New User"],
+        operation_summary="Creates a New User",
+        operation_description="Create a new user by providing credentials such as `username`,"
+                              + " `email id` and `password`",
+        query_serializer=UserSerializer,
+        responses={
+            200: UserSerializer,
+        }
+    )
     def post(self, request, format=None):
         letters = string.ascii_lowercase
         code = ''.join(random.choice(letters) for i in range(25))
         serializer_class = UserSerializer(data=request.data)
+        # import pdb
+        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save()
             user = User.objects.latest('id')
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'
-            message = "Click here http://127.0.0.1:8000/verify_mail/"+ code +" to verify your email id."
+            message = "Click here http://127.0.0.1:8000/verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):
@@ -74,11 +97,33 @@ class CreateUserView(APIView):
         else:
             return Response("Wrong Entry!", status=HTTP_200_OK)
 
+    @swagger_auto_schema(
+        tags=["New User"],
+        operation_summary="Get all User Table",
+        operation_description="Get user table as output in response with information about all the users",
+        query_serializer=UserSerializer,
+        responses={
+            200: UserSerializer,
+        }
+    )
+    def get(self, instance):
+        user = User.objects.all()
+        serializer = UserSerializer(user, many=True)
+        return Response({"Users": serializer.data})
 
+@swagger_auto_schema(
+    tags=["Password Reset"],
+    operation_summary="Password Reset Method",
+    operation_description="Allows a user to reset the password of the account.",
+    query_serializer=UserSerializer,
+    responses={
+        200: UserSerializer,
+    }
+)
 def password_reset(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
-        a=request.get_host()
+        a = request.get_host()
         if form.is_valid():
             email = form.cleaned_data["email"]
             if User.objects.get(email=email):
@@ -88,40 +133,48 @@ def password_reset(request):
                 return JsonResponse({'message': 'Invalid E-mail'})
 
 
-@api_view(["POST"])
-@permission_classes((AllowAny,))
-@swagger_auto_schema(operation_description="User can login from here", query_serializer=UserSerializer, responses={200: UserSerializer})
-def login(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    jdata = {
-        "username": str(username),
-        "password": password
-    }
-    #curl = request._current_scheme_host
-    curl = "http://127.0.0.1:8000/api/token"
-    token_content = requests.post(curl, json=jdata)
-    token_content_json = token_content.json()
-    #logger.info(type(token_content))
-    if token_content.status_code == 200:
-        try:
-            user = User.objects.get(username=username, is_mail_verified=True)
-        except:
-            return JsonResponse({'message': 'Invalid login'})
-        user_data = {
-            'id': user.id,
-            'username': user.username,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'about': user.about if user.about else '',
-            'email': user.email,
-            'avatar': str(user.avatar) if str(user.avatar) else '',
-            'address': user.address if user.address else '',
-            'skill': user.skills if user.skills else '',
-        }
-        return JsonResponse({'user_data': user_data, 'token': token_content_json})
-    else:
-        return JsonResponse({'message': 'Invalid login'})
+# @api_view(["POST"])
+# @permission_classes((AllowAny,))
+# @swagger_auto_schema(
+#     tags=["Login"],
+#     operation_summary="Login API",
+#     operation_description="User can login from here",
+#     query_serializer=UserSerializer,
+#     responses={
+#         200: UserSerializer,
+#     }
+# )
+# def login(request):
+#     username = request.POST.get('username', '')
+#     password = request.POST.get('password', '')
+#     jdata = {
+#         "username": str(username),
+#         "password": password
+#     }
+#     # curl = request._current_scheme_host
+#     curl = "http://127.0.0.1:8000/api/token"
+#     token_content = requests.post(curl, json=jdata)
+#     token_content_json = token_content.json()
+#     # logger.info(type(token_content))
+#     if token_content.status_code == 200:
+#         try:
+#             user = User.objects.get(username=username, is_mail_verified=True)
+#         except:
+#             return JsonResponse({'message': 'Invalid login'})
+#         user_data = {
+#             'id': user.id,
+#             'username': user.username,
+#             'first_name': user.first_name,
+#             'last_name': user.last_name,
+#             'about': user.about if user.about else '',
+#             'email': user.email,
+#             'avatar': str(user.avatar) if str(user.avatar) else '',
+#             'address': user.address if user.address else '',
+#             'skill': user.skills if user.skills else '',
+#         }
+#         return JsonResponse({'user_data': user_data, 'token': token_content_json})
+#     else:
+#         return JsonResponse({'message': 'Invalid login'})
 
 
 class UpdateProfile(APIView):
@@ -129,7 +182,15 @@ class UpdateProfile(APIView):
         permissions.IsAuthenticated
     ]
 
-    @swagger_auto_schema(operation_description="Update user profile details", query_serializer=UserSerializer, responses={200: UserSerializer})
+    @swagger_auto_schema(
+        tags=["Update Profile"],
+        operation_summary="Updates a User Profile",
+        operation_description="Update user profile details",
+        query_serializer=UserSerializer,
+        responses={
+            200: UserSerializer,
+        }
+    )
     def post(self, request):
         try:
             user = User.objects.get(email=request.POST.get('email', ''))
@@ -156,6 +217,15 @@ class UpdateProfile(APIView):
 
 @api_view(["GET"])
 @permission_classes((AllowAny,))
+# @swagger_auto_schema(
+#     tags=["Verify Email"],
+#     operation_summary="Verify Mail",
+#     operation_description="Updates the verify mail entry within the user table if the email is verified by the user.",
+#     # query_serializer=UserSerializer,
+#     # responses={
+#     #     200: UserSerializer,
+#     # }
+# )
 def verifyMail(self, code):
     try:
         User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
@@ -169,7 +239,15 @@ class MyEducation(APIView):
         permissions.IsAuthenticated
     ]
 
-    @swagger_auto_schema(operation_description="Add education details of any user", query_serializer=EducationSerializer, responses={200: EducationSerializer})
+    @swagger_auto_schema(
+        tags=["User Education"],
+        operation_summary="Add Education Details",
+        operation_description="Add education details of any user",
+        query_serializer=EducationSerializer,
+        responses={
+            200: EducationSerializer,
+        }
+    )
     def post(self, request):
         pk = int(request.POST.get('user'))
         education = EducationSerializer(data=request.data)
@@ -179,7 +257,15 @@ class MyEducation(APIView):
         else:
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
 
-    @swagger_auto_schema(operation_description="Update education details of any user", query_serializer=EducationSerializer, responses={200: EducationSerializer})
+    @swagger_auto_schema(
+        tags=["User Education"],
+        operation_summary="Update Education Details",
+        operation_description="Update education details of any user",
+        query_serializer=EducationSerializer,
+        responses={
+            200: EducationSerializer,
+        }
+    )
     def put(self, request):
         pk = int(request.POST.get('user'))
         saved_education = get_object_or_404(Education.objects.all(), pk=pk)
@@ -188,13 +274,30 @@ class MyEducation(APIView):
             education_saved = serializer.save()
         return Response({"success": "Education '{}' updated successfully".format(education_saved.school_college_name)})
 
-
+    @swagger_auto_schema(
+        tags=["User Education"],
+        operation_summary="Delete Education Details",
+        operation_description="Delete education details of any user",
+        query_serializer=EducationSerializer,
+        responses={
+            200: EducationSerializer,
+        }
+    )
     def delete(self, request):
         pk = int(request.POST.get('user'))
         education = get_object_or_404(Education.objects.all(), pk=pk)
         education.delete()
         return Response({"message": "Education with id `{}` has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(
+        tags=["User Education"],
+        operation_summary="Get Education Details",
+        operation_description="Get education details of all users",
+        query_serializer=EducationSerializer,
+        responses={
+            200: EducationSerializer,
+        }
+    )
     def get(self, instance):
         education = Education.objects.all()
         serializer = EducationSerializer(education, many=True)
@@ -206,17 +309,34 @@ class Places(APIView):
         permissions.IsAuthenticated
     ]
 
-    @swagger_auto_schema(operation_description="Add My Place details of any user", query_serializer=PlaceSerializer, responses={200: PlaceSerializer})
+    @swagger_auto_schema(
+        tags=["User Places"],
+        operation_summary="Add My Place Details",
+        operation_description="Add My Place details of any user",
+        query_serializer=PlaceSerializer,
+        responses={
+            200: PlaceSerializer,
+        }
+    )
     def post(self, request):
-        pk = int(request.POST.get('user'))
+        # pk = int(request.POST.get('user'))
+        pk = request.user
         place = PlaceSerializer(data=request.data)
         if place.is_valid():
-            place.save(user_id=pk)
+            place.save(user=pk)
         else:
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Place details inserted!", status=HTTP_200_OK)
 
-    @swagger_auto_schema(operation_description="Update My Place details of any user", query_serializer=PlaceSerializer, responses={200: PlaceSerializer})
+    @swagger_auto_schema(
+        tags=["User Places"],
+        operation_summary="Update My Place Details",
+        operation_description="Update My Place details of any user",
+        query_serializer=PlaceSerializer,
+        responses={
+            200: PlaceSerializer,
+        }
+    )
     def put(self, request):
         pk = int(request.POST.get('user'))
         saved_places = get_object_or_404(MyPlaces.objects.all(), pk=pk)
@@ -225,25 +345,55 @@ class Places(APIView):
             places_saved = serializer.save()
         return Response({"success": "MyPlace '{}' updated successfully".format(places_saved.place_name)})
 
+    @swagger_auto_schema(
+        tags=["User Places"],
+        operation_summary="Delete My Place Details",
+        operation_description="Delete My Place details of any user",
+        query_serializer=PlaceSerializer,
+        responses={
+            200: PlaceSerializer,
+        }
+    )
     def delete(self, request):
         pk = int(request.POST.get('user'))
         place = get_object_or_404(MyPlaces.objects.all(), pk=pk)
         place.delete()
         return Response({"message": "MyPlace with id `{}` has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(
+        tags=["User Places"],
+        operation_summary="Get My Place Details",
+        operation_description="Get My Place details of all users",
+        query_serializer=PlaceSerializer,
+        responses={
+            200: PlaceSerializer,
+        }
+    )
     def get(self, instance):
         place = MyPlaces.objects.all()
         serializer = PlaceSerializer(place, many=True)
         return Response({"MyPlace": serializer.data})
+
 
 class Language(APIView):
     permission_classes = [
         permissions.IsAuthenticated
     ]
 
-    @swagger_auto_schema(operation_description="Add Language details of any user", query_serializer=LanguageSerializer, responses={200: LanguageSerializer})
+    @swagger_auto_schema(
+        tags=["User Languages"],
+        operation_summary="Add Language Details",
+        operation_description="Add Language details of any user",
+        query_serializer=LanguageSerializer,
+        responses={
+            200: LanguageSerializer,
+        }
+    )
     def post(self, request):
-        pk = int(request.POST.get('user'))
+        # pk = int(request.POST.get('user'))
+        pk = request.user.id
+        # import pdb
+        # pdb.set_trace()
         language = LanguageSerializer(data=request.data)
         if language.is_valid():
             language.save(user_id=pk)
@@ -251,7 +401,15 @@ class Language(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Language details inserted!", status=HTTP_200_OK)
 
-    @swagger_auto_schema(operation_description="Update education details of any user", query_serializer=LanguageSerializer, responses={200: LanguageSerializer})
+    @swagger_auto_schema(
+        tags=["User Languages"],
+        operation_summary="Update Language Details",
+        operation_description="Update education details of any user",
+        query_serializer=LanguageSerializer,
+        responses={
+            200: LanguageSerializer,
+        }
+    )
     def put(self, request):
         pk = int(request.POST.get('user'))
         saved_language = get_object_or_404(MyLanguage.objects.all(), pk=pk)
@@ -260,12 +418,30 @@ class Language(APIView):
             language_saved = serializer.save()
         return Response({"success": "Language '{}' updated successfully".format(language_saved.name)})
 
+    @swagger_auto_schema(
+        tags=["User Languages"],
+        operation_summary="Delete Language Details",
+        operation_description="Delete education details of any user",
+        query_serializer=LanguageSerializer,
+        responses={
+            200: LanguageSerializer,
+        }
+    )
     def delete(self, request):
         pk = int(request.POST.get('user'))
         education = get_object_or_404(MyLanguage.objects.all(), pk=pk)
         education.delete()
         return Response({"message": "Language with id `{}` has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(
+        tags=["User Languages"],
+        operation_summary="Get Language Details",
+        operation_description="Get education details of all users",
+        query_serializer=LanguageSerializer,
+        responses={
+            200: LanguageSerializer,
+        }
+    )
     def get(self, instance):
         place = MyLanguage.objects.all()
         serializer = LanguageSerializer(place, many=True)
@@ -277,7 +453,15 @@ class MyWorkplace(APIView):
         permissions.IsAuthenticated
     ]
 
-    @swagger_auto_schema(operation_description="Add My Work Place details of any user", query_serializer=WorkplaceSerializer, responses={200: WorkplaceSerializer})
+    @swagger_auto_schema(
+        tags=["User Workplace"],
+        operation_summary="Add Workplace Details",
+        operation_description="Add My Work Place details of any user",
+        query_serializer=WorkplaceSerializer,
+        responses={
+            200: WorkplaceSerializer,
+        }
+    )
     def post(self, request):
         pk = int(request.POST.get('user'))
         work = WorkplaceSerializer(data=request.data)
@@ -287,7 +471,15 @@ class MyWorkplace(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Work Place details inserted!", status=HTTP_200_OK)
 
-    @swagger_auto_schema(operation_description="Update Work Place details of any user", query_serializer=WorkplaceSerializer, responses={200: WorkplaceSerializer})
+    @swagger_auto_schema(
+        tags=["User Workplace"],
+        operation_summary="Update Workplace Details",
+        operation_description="Update Work Place details of any user",
+        query_serializer=WorkplaceSerializer,
+        responses={
+            200: WorkplaceSerializer,
+        }
+    )
     def put(self, request):
         pk = int(request.POST.get('user'))
         saved_workplace = get_object_or_404(WorkPlace.objects.all(), pk=pk)
@@ -296,12 +488,30 @@ class MyWorkplace(APIView):
             workplace_saved = serializer.save()
         return Response({"success": "Work Place '{}' updated successfully".format(workplace_saved.name)})
 
+    @swagger_auto_schema(
+        tags=["User Workplace"],
+        operation_summary="Delete Workplace Details",
+        operation_description="Delete Work Place details of any user",
+        query_serializer=WorkplaceSerializer,
+        responses={
+            200: WorkplaceSerializer,
+        }
+    )
     def delete(self, request):
         pk = int(request.POST.get('user'))
         workplace = get_object_or_404(WorkPlace.objects.all(), pk=pk)
         workplace.delete()
         return Response({"message": "Work Place with id `{}` has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(
+        tags=["User Workplace"],
+        operation_summary="Get Workplace Details",
+        operation_description="Get Work Place details of all users",
+        query_serializer=WorkplaceSerializer,
+        responses={
+            200: WorkplaceSerializer,
+        }
+    )
     def get(self, instance):
         place = WorkPlace.objects.all()
         serializer = WorkplaceSerializer(place, many=True)
@@ -313,7 +523,15 @@ class Projects(APIView):
         permissions.IsAuthenticated
     ]
 
-    @swagger_auto_schema(operation_description="Add My Project details of any user", query_serializer=ProjectSerializer, responses={200: ProjectSerializer})
+    @swagger_auto_schema(
+        tags=["User Projects"],
+        operation_summary="Add Projects Details",
+        operation_description="Add My Project details of any user",
+        query_serializer=ProjectSerializer,
+        responses={
+            200: ProjectSerializer,
+        }
+    )
     def post(self, request):
         pk = int(request.POST.get('user'))
         project = ProjectSerializer(data=request.data)
@@ -323,7 +541,15 @@ class Projects(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Project details inserted!", status=HTTP_200_OK)
 
-    @swagger_auto_schema(operation_description="Update My Project details of any user", query_serializer=ProjectSerializer, responses={200: ProjectSerializer})
+    @swagger_auto_schema(
+        tags=["User Projects"],
+        operation_summary="Update Projects Details",
+        operation_description="Update My Project details of any user",
+        query_serializer=ProjectSerializer,
+        responses={
+            200: ProjectSerializer,
+        }
+    )
     def put(self, request):
         pk = int(request.POST.get('user'))
         saved_project = get_object_or_404(MyProjects.objects.all(), pk=pk)
@@ -332,12 +558,30 @@ class Projects(APIView):
             project_saved = serializer.save()
         return Response({"success": "Work Place '{}' updated successfully".format(project_saved.project_title)})
 
+    @swagger_auto_schema(
+        tags=["User Projects"],
+        operation_summary="Delete Projects Details",
+        operation_description="Delete My Project details of any user",
+        query_serializer=ProjectSerializer,
+        responses={
+            200: ProjectSerializer,
+        }
+    )
     def delete(self, request):
         pk = int(request.POST.get('user'))
         workplace = get_object_or_404(MyProjects.objects.all(), pk=pk)
         workplace.delete()
         return Response({"message": "Work Place with id `{}` has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(
+        tags=["User Projects"],
+        operation_summary="Get Projects Details",
+        operation_description="Get My Project details of all users",
+        query_serializer=ProjectSerializer,
+        responses={
+            200: ProjectSerializer,
+        }
+    )
     def get(self, instance):
         project = MyProjects.objects.all()
         serializer = ProjectSerializer(project, many=True)
@@ -349,7 +593,15 @@ class Social(APIView):
         permissions.IsAuthenticated
     ]
 
-    @swagger_auto_schema(operation_dscription="Add Social Media details of any user", query_serializer=SocialLinksSerializer, responses={200: SocialLinksSerializer})
+    @swagger_auto_schema(
+        tags=["User Social Media"],
+        operation_summary="Add Social Media Details",
+        operation_dscription="Add Social Media details of any user",
+        query_serializer=SocialLinksSerializer,
+        responses={
+            200: SocialLinksSerializer,
+        }
+    )
     def post(self, request):
         pk = int(request.POST.get('user'))
         social = SocialLinksSerializer(data=request.data)
@@ -359,7 +611,15 @@ class Social(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Social details inserted!", status=HTTP_200_OK)
 
-    @swagger_auto_schema(operation_description="Update education details of any user", query_serializer=SocialLinksSerializer, responses={200: SocialLinksSerializer})
+    @swagger_auto_schema(
+        tags=["User Social Media"],
+        operation_summary="Update Social Media Details",
+        operation_description="Update Social Media details of any user",
+        query_serializer=SocialLinksSerializer,
+        responses={
+            200: SocialLinksSerializer,
+        }
+    )
     def put(self, request):
         pk = int(request.POST.get('user'))
         saved_data = get_object_or_404(SocialLinks.objects.all(), pk=pk)
@@ -368,12 +628,30 @@ class Social(APIView):
             data_saved = serializer.save()
         return Response({"success": "Work Place '{}' updated successfully".format(data_saved.name)})
 
+    @swagger_auto_schema(
+        tags=["User Social Media"],
+        operation_summary="Delete Social Media Details",
+        operation_description="Delete Social Media details of any user",
+        query_serializer=SocialLinksSerializer,
+        responses={
+            200: SocialLinksSerializer,
+        }
+    )
     def delete(self, request):
         pk = int(request.POST.get('user'))
         social = get_object_or_404(SocialLinks.objects.all(), pk=pk)
         social.delete()
         return Response({"message": "Social Links with id `{}` has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(
+        tags=["User Social Media"],
+        operation_summary="Get Social Media Details",
+        operation_description="Get Social Media details of all users",
+        query_serializer=SocialLinksSerializer,
+        responses={
+            200: SocialLinksSerializer,
+        }
+    )
     def get(self, instance):
         project = SocialLinks.objects.all()
         serializer = SocialLinksSerializer(project, many=True)
@@ -385,7 +663,15 @@ class Interest(APIView):
         permissions.IsAuthenticated
     ]
 
-    @swagger_auto_schema(operation_description="Add My Interest details of any user", query_serializer=InterestSerializer, responses={200: InterestSerializer})
+    @swagger_auto_schema(
+        tags=["User Interests"],
+        operation_summary="Add User Interests Details",
+        operation_description="Add My Interest details of any user",
+        query_serializer=InterestSerializer,
+        responses={
+            200: InterestSerializer,
+        }
+    )
     def post(self, request):
         pk = int(request.POST.get('user'))
         project = InterestSerializer(data=request.data)
@@ -395,7 +681,15 @@ class Interest(APIView):
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
         return Response("Your Interest details inserted!", status=HTTP_200_OK)
 
-    @swagger_auto_schema(operation_description="Update My Interest details of any user", query_serializer=InterestSerializer, responses={200: InterestSerializer})
+    @swagger_auto_schema(
+        tags=["User Interests"],
+        operation_summary="Update User Interests Details",
+        operation_description="Update My Interest details of any user",
+        query_serializer=InterestSerializer,
+        responses={
+            200: InterestSerializer,
+        }
+    )
     def put(self, request):
         pk = int(request.POST.get('user'))
         saved_project = get_object_or_404(MyInterest.objects.all(), pk=pk)
@@ -404,12 +698,30 @@ class Interest(APIView):
             project_saved = serializer.save()
         return Response({"success": "Interest '{}' updated successfully".format(project_saved.project_title)})
 
+    @swagger_auto_schema(
+        tags=["User Interests"],
+        operation_summary="Delete User Interests Details",
+        operation_description="Delete My Interest details of any user",
+        query_serializer=InterestSerializer,
+        responses={
+            200: InterestSerializer,
+        }
+    )
     def delete(self, request):
         pk = int(request.POST.get('user'))
         workplace = get_object_or_404(MyProjects.objects.all(), pk=pk)
         workplace.delete()
         return Response({"message": "My Interest with id `{}` has been deleted.".format(pk)}, status=204)
 
+    @swagger_auto_schema(
+        tags=["User Interests"],
+        operation_summary="Get User Interests Details",
+        operation_description="Get My Interest details of all users",
+        query_serializer=InterestSerializer,
+        responses={
+            200: InterestSerializer,
+        }
+    )
     def get(self, instance):
         project = MyInterest.objects.all()
         serializer = InterestSerializer(project, many=True)

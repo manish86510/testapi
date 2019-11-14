@@ -12,7 +12,7 @@ class Post(models.Model):
     points_earner = models.IntegerField(default=0)
     created_by = models.CharField(max_length=200, null=True)
     created_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     is_public = models.BooleanField(default=True)
     target_audience_interests = models.CharField(max_length=200, null=True)
     post_type = models.CharField(max_length=200, null=True)
@@ -48,7 +48,7 @@ class PostMedia(models.Model):
 
 class PostLikes(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     activity = models.CharField(max_length=200, editable=False, default='Liked')
 
     def __str__(self):
@@ -61,7 +61,7 @@ class PostLikes(models.Model):
 
 class PostComments(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     comment = models.TextField(null=False)
     parent = models.IntegerField(default=1)
 
@@ -75,7 +75,7 @@ class PostComments(models.Model):
 
 class PostShare(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    shared_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    shared_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     description = models.TextField(null=True)
 
     def __str__(self):

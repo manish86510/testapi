@@ -35,6 +35,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         '''
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -58,12 +63,6 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyProjects
         fields = '__all__'
-
-
-# class LanguageSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = MyLanguage
-#         fields = '__all__'
 
 
 class LanguageSerializer(serializers.ModelSerializer):

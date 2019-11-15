@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,6 +38,11 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
+
+SIMPLE_JWT = {
+    'ACCESS TOKEN LIFETIME': timedelta(hours=2),
+}
+
 
 # SWAGGER_SETTINGS = {
 #     'VALIDATOR_URL': 'http://localhost:8189',

@@ -95,7 +95,7 @@ class MyPlaces(models.Model):
 class SocialLinks(models.Model):
     name = models.CharField(max_length=200, null=True)
     unique_id = models.CharField(max_length=100, unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
@@ -106,7 +106,7 @@ class SocialLinks(models.Model):
 
 
 class MyLanguage(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     read = models.CharField(max_length=200, null=True)
     write = models.CharField(max_length=200, null=True)
@@ -128,7 +128,7 @@ class MyProjects(models.Model):
     end_date = models.DateTimeField(auto_now_add=False)
     team_size = models.IntegerField(null=True)
     client_name = models.CharField(max_length=200, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.project_title
@@ -139,7 +139,7 @@ class MyProjects(models.Model):
 
 
 class MyInterest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     interact_code = models.IntegerField(null=False)
 
     def __str__(self):

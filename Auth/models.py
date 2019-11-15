@@ -45,7 +45,7 @@ class City(models.Model):
 
 
 class WorkPlace(models.Model):
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200)
     position = models.CharField(max_length=200, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     description = models.TextField(null=True)
@@ -62,7 +62,7 @@ class WorkPlace(models.Model):
 
 
 class Education(models.Model):
-    school_college_name = models.CharField(max_length=200, null=True)
+    school_college_name = models.CharField(max_length=200)
     description = models.TextField(null=True)
     session_from = models.DateTimeField(auto_now_add=False, null=True)
     session_to = models.DateTimeField(auto_now_add=False, null=True)
@@ -78,10 +78,10 @@ class Education(models.Model):
 
 
 class MyPlaces(models.Model):
-    place_name = models.CharField(max_length=200, null=True)
+    place_name = models.CharField(max_length=200)
     lat_long = models.CharField(max_length=200, null=True)
-    from_date = models.DateTimeField(auto_now_add=False)
-    to_date = models.DateTimeField(auto_now_add=False)
+    from_date = models.DateTimeField(auto_now_add=False, null=True)
+    to_date = models.DateTimeField(auto_now_add=False, null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -93,7 +93,7 @@ class MyPlaces(models.Model):
 
 
 class SocialLinks(models.Model):
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200)
     unique_id = models.CharField(max_length=100, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
@@ -107,7 +107,7 @@ class SocialLinks(models.Model):
 
 class MyLanguage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200)
     read = models.CharField(max_length=200, null=True)
     write = models.CharField(max_length=200, null=True)
     speak = models.CharField(max_length=200, null=True)
@@ -121,7 +121,7 @@ class MyLanguage(models.Model):
 
 
 class MyProjects(models.Model):
-    project_title = models.CharField(max_length=200, null=True)
+    project_title = models.CharField(max_length=200)
     description = models.TextField(null=True)
     skills = models.TextField(null=True)
     start_date = models.DateTimeField(auto_now_add=False)

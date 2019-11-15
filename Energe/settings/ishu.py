@@ -125,6 +125,8 @@ SWAGGER_SETTINGS = {
             "in": "header"
         },
     },
+    'OPERATIONS_SORTER': None,
+    'TAGS_SORTER': None,
 }
 
 # Password validation

@@ -63,7 +63,7 @@ class PostComments(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     comment = models.TextField(null=False)
-    parent = models.IntegerField(default=1)
+    parent = models.IntegerField(default=-1)
 
     def __str__(self):
         return self.comment

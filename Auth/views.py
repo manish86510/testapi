@@ -254,8 +254,8 @@ class MyEducation(APIView):
     def post(self, request):
         pk = request.user.id
         education = EducationSerializer(data=request.data)
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         if education.is_valid():
             education.save(user_id=pk)
             return Response("Your Education details inserted!", status=HTTP_200_OK)

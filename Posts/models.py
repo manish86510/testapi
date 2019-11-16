@@ -39,7 +39,7 @@ class PostMedia(models.Model):
     file_type = models.CharField(max_length=5, choices=file_types, default="Image")
 
     def __str__(self):
-        return self.post
+        return str(self.post)
 
     class Meta:
         verbose_name_plural = 'Post Media'

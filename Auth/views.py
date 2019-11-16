@@ -1,5 +1,6 @@
 from django.shortcuts import render
 # from pip import logger
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import get_object_or_404
 from rest_framework.status import (
@@ -19,7 +20,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import AllowAny
 from .serializers import *
-from rest_framework import permissions, generics
+from rest_framework import permissions, generics, status
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
@@ -30,7 +31,6 @@ from rest_framework import serializers
 from rest_framework.decorators import parser_classes, action
 from rest_framework.parsers import MultiPartParser, FileUploadParser, FormParser, JSONParser
 
-
 # from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 
@@ -40,7 +40,6 @@ from rest_framework.parsers import MultiPartParser, FileUploadParser, FormParser
 def schema_view(request):
     generator = schemas.SchemaGenerator(title='Rest Swagger')
     return Response(generator.get_schema(request=request))'''
-
 
 '''@swagger_auto_schema(
     tags=["Posts Media"],
@@ -62,6 +61,7 @@ class GetById(APIView):
         print(data)
 
 
+@parser_classes([MultiPartParser, FormParser, JSONParser])
 class CreateUserView(APIView):
     model = get_user_model()
     permission_classes = [
@@ -82,8 +82,8 @@ class CreateUserView(APIView):
         letters = string.ascii_lowercase
         code = ''.join(random.choice(letters) for i in range(25))
         serializer_class = UserSerializer(data=request.data)
-        # import pdb
-        # pdb.set_trace()
+        import pdb
+        pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save()
             user = User.objects.latest('id')
@@ -113,6 +113,7 @@ class CreateUserView(APIView):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response({"Users": serializer.data})
+
 
 @swagger_auto_schema(
     tags=["Password Reset"],
@@ -189,7 +190,7 @@ class UpdateProfile(APIView):
         tags=["Update Profile"],
         operation_summary="Updates a User Profile",
         operation_description="Update user profile details",
-        # query_serializer=UserUpdateSerializer,
+        request_body=UserUpdateSerializer,
         responses={
             200: UserUpdateSerializer,
         }
@@ -246,35 +247,37 @@ class MyEducation(APIView):
         tags=["User Education"],
         operation_summary="Add Education Details",
         operation_description="Add education details of any user",
-        query_serializer=EducationSerializer,
+        request_body=EducationSerializer,
         responses={
             200: EducationSerializer,
         }
     )
     def post(self, request):
+        parser_classes(FormParser,)
         pk = request.user.id
         education = EducationSerializer(data=request.data)
-        # import pdb
-        # pdb.set_trace()
         if education.is_valid():
             education.save(user_id=pk)
             return Response("Your Education details inserted!", status=HTTP_200_OK)
         else:
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
 
+    @parser_classes([FormParser, MultiPartParser])
     @swagger_auto_schema(
         tags=["User Education"],
+        consumes = ['application/x-www-form-urlencoded'],
         operation_summary="Update Education Details",
         operation_description="Update education details of any user",
-        query_serializer=EducationSerializer,
+        query_serializer=EducationUpdateSerializer,
         responses={
             200: EducationSerializer,
         }
     )
     def put(self, request):
-        pk = request.POST.get('user')
-        saved_education = get_object_or_404(Education.objects.all(), pk=pk)
-        serializer = EducationSerializer(instance=saved_education, data=request.data, partial=True)
+        pk = request.data.get('id')
+        ui = request.user.id
+        saved_education = get_object_or_404(Education.objects.all(), id=pk, user=ui)
+        serializer = EducationUpdateSerializer(instance=saved_education, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             education_saved = serializer.save()
         return Response({"success": "Education '{}' updated successfully".format(education_saved.school_college_name)})
@@ -312,7 +315,7 @@ class MyEducation(APIView):
         tags=["User Education"],
         operation_summary="Get Education Details",
         operation_description="Get education details of current user",
-        query_serializer=EducationSerializer,
+        # query_serializer=EducationSerializer,
         responses={
             200: EducationSerializer,
         }

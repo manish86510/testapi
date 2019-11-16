@@ -93,5 +93,6 @@ db.sqlite3
 .vscode/
 
 /Energe/settings/__init__.py
+/Energe/settings/ishu.py
 media/
 /static/

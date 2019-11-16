@@ -34,6 +34,8 @@ class CreatePostView(APIView):
     def post(self, request, format=None):
         ui = request.user.id
         serializer_class = PostSerializer(data=request.data)
+        import pdb
+        pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save(user_id=ui)
             return Response("Post Created Successfully", status=HTTP_200_OK)
@@ -99,6 +101,7 @@ class PostMediaView(APIView):
         tags=["Posts Media"],
         operation_summary="Create New Media Entry",
         operation_description="Creates a new media entry when any new media is uploaded for a post",
+        request_body=PostMediaSerializer,
         responses={
             200: PostMediaSerializer,
         }
@@ -106,6 +109,8 @@ class PostMediaView(APIView):
     def post(self, request, format=None):
         pk = request.POST.get('post')
         serializer_class = PostMediaSerializer(data=request.data)
+        import pdb
+        pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save(post_id=pk)
             return Response("Media Uploaded Successfully", status=HTTP_200_OK)
@@ -151,10 +156,19 @@ class PostMediaView(APIView):
         }
     )
     def get(self, instance):
+        result = set()
         ui = instance.user.id
-        media = PostMedia.objects.filter(user=ui)
-        serializer = PostMediaSerializer(media, many=True)
-        return Response({"PostMedia": serializer.data})
+        post_num = Post.objects.filter(user=ui)
+        for x in post_num:
+            media = PostMedia.objects.filter(post=x.id)
+            for y in media:
+                serializer = PostMediaSerializer(data=y.__dict__)
+                import pdb
+                pdb.set_trace()
+                if serializer.is_valid(raise_exception=True):
+                    result.add(serializer.data)
+        if result:
+            return Response({"PostMedia": result})
 
 
 class PostCommentsView(APIView):

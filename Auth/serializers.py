@@ -2,7 +2,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import *
 from .models import MyProjects
-from datetime import datetime
+
+# from datetime import datetime
+
 UserModel = get_user_model()
 
 
@@ -35,6 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
         '''
 
+
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -42,9 +45,26 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class EducationSerializer(serializers.ModelSerializer):
+    # id = serializers.IntegerField(required=True, read_only=False)
     class Meta:
         model = Education
-        fields = '__all__'
+        fields = ('school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
+
+
+class EducationUpdateSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=True, read_only=False)
+    class Meta:
+        model = Education
+        fields = ('id', 'school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
+        write_only_fields = ('id', 'school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
+        # read_only_fields = ('id', )
+    # def get(self, validated_data):
+    #     import pdb
+    #     pdb.set_trace()
+    #     model = Education.objects.get(id=validated_data['id'])
+    #     education = model.create(validated_data)
+    #     education.save()
+    #     return education
 
 
 class PlaceSerializer(serializers.ModelSerializer):

@@ -34,8 +34,8 @@ class CreatePostView(APIView):
     def post(self, request, format=None):
         ui = request.user.id
         serializer_class = PostSerializer(data=request.data)
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save(user_id=ui)
             return Response("Post Created Successfully", status=HTTP_200_OK)
@@ -109,8 +109,8 @@ class PostMediaView(APIView):
     def post(self, request, format=None):
         pk = request.POST.get('post')
         serializer_class = PostMediaSerializer(data=request.data)
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save(post_id=pk)
             return Response("Media Uploaded Successfully", status=HTTP_200_OK)
@@ -163,8 +163,8 @@ class PostMediaView(APIView):
             media = PostMedia.objects.filter(post=x.id)
             for y in media:
                 serializer = PostMediaSerializer(data=y.__dict__)
-                import pdb
-                pdb.set_trace()
+                # import pdb
+                # pdb.set_trace()
                 if serializer.is_valid(raise_exception=True):
                     result.add(serializer.data)
         if result:
@@ -270,8 +270,8 @@ class PostShareView(APIView):
         pk = request.POST.get('post')
         ui = request.user
         serializer_class = PostShareSerializer(data=request.data)
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save(post_id=pk, shared_by=ui)
             post_name = serializer_class.instance.post

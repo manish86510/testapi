@@ -26,6 +26,7 @@ from django.conf import settings
 from .models import *
 from Posts.models import *
 import string
+# import requests
 from datetime import datetime
 from rest_framework import serializers
 from rest_framework.decorators import parser_classes, action
@@ -61,7 +62,6 @@ class GetById(APIView):
         print(data)
 
 
-@parser_classes([MultiPartParser, FormParser, JSONParser])
 class CreateUserView(APIView):
     model = get_user_model()
     permission_classes = [
@@ -73,7 +73,7 @@ class CreateUserView(APIView):
         operation_summary="Creates a New User",
         operation_description="Create a new user by providing credentials such as `username`,"
                               + " `email id` and `password`",
-        query_serializer=UserSerializer,
+        request_body=UserSerializer,
         responses={
             200: UserSerializer,
         }
@@ -82,15 +82,15 @@ class CreateUserView(APIView):
         letters = string.ascii_lowercase
         code = ''.join(random.choice(letters) for i in range(25))
         serializer_class = UserSerializer(data=request.data)
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save()
             user = User.objects.latest('id')
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'
-            message = "Click here http://127.0.0.1:8000/verify_mail/" + code + " to verify your email id."
+            message = "Click here https://energe.do.viewyoursite.net/verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):
@@ -180,7 +180,6 @@ def password_reset(request):
 #     else:
 #         return JsonResponse({'message': 'Invalid login'})
 
-@parser_classes([FormParser, MultiPartParser])
 class UpdateProfile(APIView):
     permission_classes = [
         permissions.IsAuthenticated
@@ -253,7 +252,6 @@ class MyEducation(APIView):
         }
     )
     def post(self, request):
-        parser_classes(FormParser,)
         pk = request.user.id
         education = EducationSerializer(data=request.data)
         if education.is_valid():
@@ -262,10 +260,8 @@ class MyEducation(APIView):
         else:
             return Response("Data not stored, Please try again!", status=HTTP_200_OK)
 
-    @parser_classes([FormParser, MultiPartParser])
     @swagger_auto_schema(
         tags=["User Education"],
-        consumes = ['application/x-www-form-urlencoded'],
         operation_summary="Update Education Details",
         operation_description="Update education details of any user",
         query_serializer=EducationUpdateSerializer,
@@ -274,10 +270,15 @@ class MyEducation(APIView):
         }
     )
     def put(self, request):
+
+        # import pdb
+        # pdb.set_trace()
         pk = request.data.get('id')
         ui = request.user.id
         saved_education = get_object_or_404(Education.objects.all(), id=pk, user=ui)
         serializer = EducationUpdateSerializer(instance=saved_education, data=request.data, partial=True)
+        # import pdb
+        # pdb.set_trace()
         if serializer.is_valid(raise_exception=True):
             education_saved = serializer.save()
         return Response({"success": "Education '{}' updated successfully".format(education_saved.school_college_name)})

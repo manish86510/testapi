@@ -48,8 +48,8 @@ class EducationSerializer(serializers.ModelSerializer):
     # id = serializers.IntegerField(required=True, read_only=False)
     class Meta:
         model = Education
-        fields = ('school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
-
+        # fields = ('id', 'school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
+        fields = '__all__'
 
 class EducationUpdateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=True, read_only=False)

@@ -217,43 +217,24 @@ class UpdateProfile(APIView):
             return Response({'failed': "Profile not updated"})
         return Response({'success': "Profile updated successfully!"})
 
-
-@api_view(["GET"])
-@permission_classes((AllowAny,))
-# @swagger_auto_schema(
-#     tags=["Verify Email"],
-#     operation_summary="Verify Mail",
-#     operation_description="Updates the verify mail entry within the user table if the email is verified by the user.",
-#     # query_serializer=UserSerializer,
-#     # responses={
-#     #     200: UserSerializer,
-#     # }
-# )
-def verifyMail(self, code):
-    try:
-        User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
-    except:
-        return Response("Link has been expired", status=HTTP_200_OK)
-    return Response("Mail verified successfully!", status=HTTP_200_OK)
-
-
 class MyEducation(APIView):
     permission_classes = [
         permissions.IsAuthenticated
     ]
 
+
     @swagger_auto_schema(
         tags=["User Education"],
         operation_summary="Add Education Details",
         operation_description="Add education details of any user",
-        request_body=EducationSerializer,
+        request_body=EducationPostSerializer,
         responses={
             200: EducationSerializer,
         }
     )
     def post(self, request):
         pk = request.user.id
-        education = EducationSerializer(data=request.data)
+        education = EducationPostSerializer(data=request.data)
         if education.is_valid():
             education.save(user_id=pk)
             return Response("Your Education details inserted!", status=HTTP_200_OK)
@@ -264,15 +245,14 @@ class MyEducation(APIView):
         tags=["User Education"],
         operation_summary="Update Education Details",
         operation_description="Update education details of any user",
-        query_serializer=EducationUpdateSerializer,
+        request_body=EducationUpdateSerializer,
         responses={
             200: EducationSerializer,
         }
     )
     def put(self, request):
-
-        # import pdb
-        # pdb.set_trace()
+        import pdb
+        pdb.set_trace()
         pk = request.data.get('id')
         ui = request.user.id
         saved_education = get_object_or_404(Education.objects.all(), id=pk, user=ui)
@@ -287,7 +267,7 @@ class MyEducation(APIView):
         tags=["User Education"],
         operation_summary="Delete Education Details",
         operation_description="Delete education details of any user",
-        query_serializer=EducationSerializer,
+        request_body=EducationSerializer,
         responses={
             200: EducationSerializer,
         }
@@ -297,20 +277,6 @@ class MyEducation(APIView):
         education = get_object_or_404(Education.objects.all(), pk=pk)
         education.delete()
         return Response({"message": "Education with id `{}` has been deleted.".format(pk)}, status=204)
-
-    # @swagger_auto_schema(
-    #     tags=["User Education"],
-    #     operation_summary="Get Education Details",
-    #     operation_description="Get education details of all users",
-    #     query_serializer=EducationSerializer,
-    #     responses={
-    #         200: EducationSerializer,
-    #     }
-    # )
-    # def get(self, instance):
-    #     education = Education.objects.all()
-    #     serializer = EducationSerializer(education, many=True)
-    #     return Response({"education": serializer.data})
 
     @swagger_auto_schema(
         tags=["User Education"],
@@ -356,7 +322,7 @@ class Places(APIView):
         tags=["User Places"],
         operation_summary="Update My Place Details",
         operation_description="Update My Place details of any user",
-        query_serializer=PlaceSerializer,
+        request_body=PlaceSerializer,
         responses={
             200: PlaceSerializer,
         }
@@ -373,7 +339,7 @@ class Places(APIView):
         tags=["User Places"],
         operation_summary="Delete My Place Details",
         operation_description="Delete My Place details of current user",
-        query_serializer=PlaceSerializer,
+        request_body=PlaceSerializer,
         responses={
             200: PlaceSerializer,
         }
@@ -402,7 +368,7 @@ class Places(APIView):
         tags=["User Places"],
         operation_summary="Get My Place Details",
         operation_description="Get My Place details of current user",
-        query_serializer=PlaceSerializer,
+        # query_serializer=PlaceSerializer,
         responses={
             200: PlaceSerializer,
         }
@@ -423,7 +389,7 @@ class Language(APIView):
         tags=["User Languages"],
         operation_summary="Add Language Details",
         operation_description="Add Language details of current user",
-        query_serializer=LanguageSerializer,
+        request_body=LanguageSerializer,
         responses={
             200: LanguageSerializer,
         }
@@ -444,7 +410,7 @@ class Language(APIView):
         tags=["User Languages"],
         operation_summary="Update Language Details",
         operation_description="Update education details of current user",
-        query_serializer=LanguageSerializer,
+        request_body=LanguageSerializer,
         responses={
             200: LanguageSerializer,
         }
@@ -461,7 +427,7 @@ class Language(APIView):
         tags=["User Languages"],
         operation_summary="Delete Language Details",
         operation_description="Delete education details of current user",
-        query_serializer=LanguageSerializer,
+        request_body=LanguageSerializer,
         responses={
             200: LanguageSerializer,
         }
@@ -490,7 +456,7 @@ class Language(APIView):
         tags=["User Languages"],
         operation_summary="Get Language Details",
         operation_description="Get education details of current user",
-        query_serializer=LanguageSerializer,
+        # query_serializer=LanguageSerializer,
         responses={
             200: LanguageSerializer,
         }
@@ -511,7 +477,7 @@ class MyWorkplace(APIView):
         tags=["User Workplace"],
         operation_summary="Add Workplace Details",
         operation_description="Add My Work Place details of any user",
-        query_serializer=WorkplaceSerializer,
+        request_body=WorkplaceSerializer,
         responses={
             200: WorkplaceSerializer,
         }
@@ -529,7 +495,7 @@ class MyWorkplace(APIView):
         tags=["User Workplace"],
         operation_summary="Update Workplace Details",
         operation_description="Update Work Place details of any user",
-        query_serializer=WorkplaceSerializer,
+        request_body=WorkplaceSerializer,
         responses={
             200: WorkplaceSerializer,
         }
@@ -546,7 +512,7 @@ class MyWorkplace(APIView):
         tags=["User Workplace"],
         operation_summary="Delete Workplace Details",
         operation_description="Delete Work Place details of any user",
-        query_serializer=WorkplaceSerializer,
+        request_body=WorkplaceSerializer,
         responses={
             200: WorkplaceSerializer,
         }
@@ -575,7 +541,7 @@ class MyWorkplace(APIView):
         tags=["User Workplace"],
         operation_summary="Get Workplace Details",
         operation_description="Get Work Place details of currrent user",
-        query_serializer=WorkplaceSerializer,
+        # query_serializer=WorkplaceSerializer,
         responses={
             200: WorkplaceSerializer,
         }
@@ -596,7 +562,7 @@ class Projects(APIView):
         tags=["User Projects"],
         operation_summary="Add Projects Details",
         operation_description="Add My Project details of any user",
-        query_serializer=ProjectSerializer,
+        request_body=ProjectSerializer,
         responses={
             200: ProjectSerializer,
         }
@@ -614,7 +580,7 @@ class Projects(APIView):
         tags=["User Projects"],
         operation_summary="Update Projects Details",
         operation_description="Update My Project details of any user",
-        query_serializer=ProjectSerializer,
+        request_body=ProjectSerializer,
         responses={
             200: ProjectSerializer,
         }
@@ -631,7 +597,7 @@ class Projects(APIView):
         tags=["User Projects"],
         operation_summary="Delete Projects Details",
         operation_description="Delete My Project details of any user",
-        query_serializer=ProjectSerializer,
+        request_body=ProjectSerializer,
         responses={
             200: ProjectSerializer,
         }
@@ -660,7 +626,7 @@ class Projects(APIView):
         tags=["User Projects"],
         operation_summary="Get Projects Details",
         operation_description="Get My Project details of current user",
-        query_serializer=ProjectSerializer,
+        # query_serializer=ProjectSerializer,
         responses={
             200: ProjectSerializer,
         }
@@ -681,7 +647,7 @@ class Social(APIView):
         tags=["User Social Media"],
         operation_summary="Add Social Media Details",
         operation_dscription="Add Social Media details of any user",
-        query_serializer=SocialLinksSerializer,
+        request_body=SocialLinksSerializer,
         responses={
             200: SocialLinksSerializer,
         }
@@ -699,7 +665,7 @@ class Social(APIView):
         tags=["User Social Media"],
         operation_summary="Update Social Media Details",
         operation_description="Update Social Media details of any user",
-        query_serializer=SocialLinksSerializer,
+        request_body=SocialLinksSerializer,
         responses={
             200: SocialLinksSerializer,
         }
@@ -716,7 +682,7 @@ class Social(APIView):
         tags=["User Social Media"],
         operation_summary="Delete Social Media Details",
         operation_description="Delete Social Media details of any user",
-        query_serializer=SocialLinksSerializer,
+        request_body=SocialLinksSerializer,
         responses={
             200: SocialLinksSerializer,
         }
@@ -745,7 +711,7 @@ class Social(APIView):
         tags=["User Social Media"],
         operation_summary="Get Social Media Details",
         operation_description="Get Social Media details of current user",
-        query_serializer=SocialLinksSerializer,
+        # query_serializer=SocialLinksSerializer,
         responses={
             200: SocialLinksSerializer,
         }
@@ -766,7 +732,7 @@ class Interest(APIView):
         tags=["User Interests"],
         operation_summary="Add User Interests Details",
         operation_description="Add My Interest details of any user",
-        query_serializer=InterestSerializer,
+        request_body=InterestSerializer,
         responses={
             200: InterestSerializer,
         }
@@ -784,7 +750,7 @@ class Interest(APIView):
         tags=["User Interests"],
         operation_summary="Update User Interests Details",
         operation_description="Update My Interest details of any user",
-        query_serializer=InterestSerializer,
+        request_body=InterestSerializer,
         responses={
             200: InterestSerializer,
         }
@@ -801,7 +767,7 @@ class Interest(APIView):
         tags=["User Interests"],
         operation_summary="Delete User Interests Details",
         operation_description="Delete My Interest details of any user",
-        query_serializer=InterestSerializer,
+        request_body=InterestSerializer,
         responses={
             200: InterestSerializer,
         }
@@ -830,7 +796,7 @@ class Interest(APIView):
         tags=["User Interests"],
         operation_summary="Get User Interests Details",
         operation_description="Get My Interest details of current user",
-        query_serializer=InterestSerializer,
+        # query_serializer=InterestSerializer,
         responses={
             200: InterestSerializer,
         }
@@ -840,3 +806,22 @@ class Interest(APIView):
         project = MyInterest.objects.filter(user=ui)
         serializer = InterestSerializer(project, many=True)
         return Response({"My Interest": serializer.data})
+
+
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+# @swagger_auto_schema(
+#     tags=["Verify Email"],
+#     operation_summary="Verify Mail",
+#     operation_description="Updates the verify mail entry within the user table if the email is verified by the user.",
+#     # query_serializer=UserSerializer,
+#     # responses={
+#     #     200: UserSerializer,
+#     # }
+# )
+def verifyMail(self, code):
+    try:
+        User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
+    except:
+        return Response("Link has been expired", status=HTTP_200_OK)
+    return Response("Mail verified successfully!", status=HTTP_200_OK)

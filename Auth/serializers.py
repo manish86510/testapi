@@ -45,26 +45,29 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class EducationSerializer(serializers.ModelSerializer):
-    # id = serializers.IntegerField(required=True, read_only=False)
     class Meta:
         model = Education
-        # fields = ('id', 'school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
         fields = '__all__'
+
+
+class EducationPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
+        fields = ('school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
 
 class EducationUpdateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=True, read_only=False)
+
     class Meta:
         model = Education
         fields = ('id', 'school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
         write_only_fields = ('id', 'school_college_name', 'description', 'session_from', 'session_to', 'attended_for')
-        # read_only_fields = ('id', )
-    # def get(self, validated_data):
-    #     import pdb
-    #     pdb.set_trace()
-    #     model = Education.objects.get(id=validated_data['id'])
-    #     education = model.create(validated_data)
-    #     education.save()
-    #     return education
+
+
+class EducationDeleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
+        fields = ('id')
 
 
 class PlaceSerializer(serializers.ModelSerializer):

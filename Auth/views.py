@@ -1,5 +1,6 @@
 from django.shortcuts import render
 # from pip import logger
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import get_object_or_404
 from rest_framework.status import (
@@ -19,17 +20,17 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
 from rest_framework.permissions import AllowAny
 from .serializers import *
-from rest_framework import permissions, generics
+from rest_framework import permissions, generics, status
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import *
 from Posts.models import *
 import string
+# import requests
 from datetime import datetime
 from rest_framework import serializers
 from rest_framework.decorators import parser_classes, action
 from rest_framework.parsers import MultiPartParser, FileUploadParser, FormParser, JSONParser
-
 
 # from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
@@ -40,7 +41,6 @@ from rest_framework.parsers import MultiPartParser, FileUploadParser, FormParser
 def schema_view(request):
     generator = schemas.SchemaGenerator(title='Rest Swagger')
     return Response(generator.get_schema(request=request))'''
-
 
 '''@swagger_auto_schema(
     tags=["Posts Media"],
@@ -73,7 +73,7 @@ class CreateUserView(APIView):
         operation_summary="Creates a New User",
         operation_description="Create a new user by providing credentials such as `username`,"
                               + " `email id` and `password`",
-        query_serializer=UserSerializer,
+        request_body=UserSerializer,
         responses={
             200: UserSerializer,
         }
@@ -90,7 +90,7 @@ class CreateUserView(APIView):
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'
-            message = "Click here http://127.0.0.1:8000/verify_mail/" + code + " to verify your email id."
+            message = "Click here https://energe.do.viewyoursite.net/verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):
@@ -113,6 +113,7 @@ class CreateUserView(APIView):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response({"Users": serializer.data})
+
 
 @swagger_auto_schema(
     tags=["Password Reset"],
@@ -179,7 +180,6 @@ def password_reset(request):
 #     else:
 #         return JsonResponse({'message': 'Invalid login'})
 
-@parser_classes([FormParser, MultiPartParser])
 class UpdateProfile(APIView):
     permission_classes = [
         permissions.IsAuthenticated
@@ -189,7 +189,7 @@ class UpdateProfile(APIView):
         tags=["Update Profile"],
         operation_summary="Updates a User Profile",
         operation_description="Update user profile details",
-        # query_serializer=UserUpdateSerializer,
+        request_body=UserUpdateSerializer,
         responses={
             200: UserUpdateSerializer,
         }
@@ -246,7 +246,7 @@ class MyEducation(APIView):
         tags=["User Education"],
         operation_summary="Add Education Details",
         operation_description="Add education details of any user",
-        query_serializer=EducationSerializer,
+        request_body=EducationSerializer,
         responses={
             200: EducationSerializer,
         }
@@ -254,8 +254,6 @@ class MyEducation(APIView):
     def post(self, request):
         pk = request.user.id
         education = EducationSerializer(data=request.data)
-        # import pdb
-        # pdb.set_trace()
         if education.is_valid():
             education.save(user_id=pk)
             return Response("Your Education details inserted!", status=HTTP_200_OK)
@@ -266,15 +264,21 @@ class MyEducation(APIView):
         tags=["User Education"],
         operation_summary="Update Education Details",
         operation_description="Update education details of any user",
-        query_serializer=EducationSerializer,
+        query_serializer=EducationUpdateSerializer,
         responses={
             200: EducationSerializer,
         }
     )
     def put(self, request):
-        pk = request.POST.get('user')
-        saved_education = get_object_or_404(Education.objects.all(), pk=pk)
-        serializer = EducationSerializer(instance=saved_education, data=request.data, partial=True)
+
+        # import pdb
+        # pdb.set_trace()
+        pk = request.data.get('id')
+        ui = request.user.id
+        saved_education = get_object_or_404(Education.objects.all(), id=pk, user=ui)
+        serializer = EducationUpdateSerializer(instance=saved_education, data=request.data, partial=True)
+        # import pdb
+        # pdb.set_trace()
         if serializer.is_valid(raise_exception=True):
             education_saved = serializer.save()
         return Response({"success": "Education '{}' updated successfully".format(education_saved.school_college_name)})
@@ -312,7 +316,7 @@ class MyEducation(APIView):
         tags=["User Education"],
         operation_summary="Get Education Details",
         operation_description="Get education details of current user",
-        query_serializer=EducationSerializer,
+        # query_serializer=EducationSerializer,
         responses={
             200: EducationSerializer,
         }

@@ -90,17 +90,17 @@ class CreateUserView(APIView):
 
     @swagger_auto_schema(
         tags=["New User"],
-        operation_summary="Get all User Table",
-        operation_description="Get user table as output in response with information about all the users",
-        query_serializer=UserSerializer,
+        operation_summary="Get Complete User Data for Current User",
+        operation_description="Get user table as output in response with information about current user",
         responses={
-            200: UserSerializer,
+            200: UserGetSerializer,
         }
     )
     def get(self, instance):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response({"Users": serializer.data})
+        ui = instance.user.id
+        users = User.objects.get(id=ui)
+        serializer = UserGetSerializer(users)
+        return Response({"User": serializer.data})
 
 
 @swagger_auto_schema(
@@ -872,6 +872,26 @@ class GetInterestsById(APIView):
         project = MyInterest.objects.filter(user=ui, id=post_id)
         serializer = InterestSerializer(project, many=True)
         return Response({"My Interest": serializer.data})
+
+
+class GetUserAll(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["New User"],
+        operation_summary="Get all User Table",
+        operation_description="Get user table as output in response with information about all the users",
+        # query_serializer=UserSerializer,
+        responses={
+            200: UserSerializer,
+        }
+    )
+    def get(self, instance):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response({"Users": serializer.data})
 
 
 class GetEducationAll(APIView):

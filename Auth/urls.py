@@ -23,6 +23,7 @@ urlpatterns = [
         path('social', GetSocialMediaById.as_view(), name='social_by_id'),
     ])),
     path('get_all/', include([
+        path('user', GetUserAll.as_view(), name='user_all'),
         path('education', GetEducationAll.as_view(), name='education_all'),
         path('places', GetPlacesAll.as_view(), name='places_all'),
         path('projects', GetProjectsAll.as_view(), name='projects_all'),

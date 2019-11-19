@@ -38,8 +38,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PARSER_CLASS': (
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
+        # 'rest_framework.parsers.JSONParser',
+        # 'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser'
     )
 }
@@ -116,6 +116,13 @@ DATABASES = {
 }
 
 SWAGGER_SETTINGS = {
+    'enabled_methods': [
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
     # default inspector classes, see advanced documentation
     'DEFAULT_AUTO_SCHEMA_CLASS': 'drf_yasg.inspectors.SwaggerAutoSchema',
     'DEFAULT_FIELD_INSPECTORS': [

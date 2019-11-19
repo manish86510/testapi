@@ -52,16 +52,6 @@ def schema_view(request):
 )'''
 
 
-class GetById(APIView):
-    permission_classes = [
-        permissions.AllowAny
-    ]
-
-    def get(self, request):
-        data = request.data
-        print(data)
-
-
 class CreateUserView(APIView):
     model = get_user_model()
     permission_classes = [
@@ -80,10 +70,8 @@ class CreateUserView(APIView):
     )
     def post(self, request, format=None):
         letters = string.ascii_lowercase
-        code = ''.join(random.choice(letters) for i in range(25))
+        code = ''.join(random.choice(letters) for _ in range(25))
         serializer_class = UserSerializer(data=request.data)
-        # import pdb
-        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save()
             user = User.objects.latest('id')
@@ -188,7 +176,7 @@ class UpdateProfile(APIView):
     @swagger_auto_schema(
         tags=["Update Profile"],
         operation_summary="Updates a User Profile",
-        operation_description="Update user profile details",
+        operation_description="Update user profile Details of Current User",
         request_body=UserUpdateSerializer,
         responses={
             200: UserUpdateSerializer,
@@ -203,9 +191,6 @@ class UpdateProfile(APIView):
             user.about = request.POST.get('about', '')
             user.avatar = request.POST.get('avatar', '')
             user.cover_picture = request.POST.get('cover_picture', '')
-            user.posts_count = int(request.POST.get('posts_count', ''))
-            user.followers_count = int(request.POST.get('followers_count', ''))
-            user.following_count = int(request.POST.get('following_count', ''))
             user.skills = request.POST.get('skills', '')
             user.address = request.POST.get('address', '')
             user.enlarge_url = request.POST.get('enlarge_url', '')
@@ -217,15 +202,15 @@ class UpdateProfile(APIView):
             return Response({'failed': "Profile not updated"})
         return Response({'success': "Profile updated successfully!"})
 
+
 class MyEducation(APIView):
     permission_classes = [
         permissions.IsAuthenticated
     ]
 
-
     @swagger_auto_schema(
         tags=["User Education"],
-        operation_summary="Add Education Details",
+        operation_summary="Add Education Details of Current User",
         operation_description="Add education details of any user",
         request_body=EducationPostSerializer,
         responses={
@@ -243,7 +228,7 @@ class MyEducation(APIView):
 
     @swagger_auto_schema(
         tags=["User Education"],
-        operation_summary="Update Education Details",
+        operation_summary="Update Education Details of Current User",
         operation_description="Update education details of any user",
         request_body=EducationUpdateSerializer,
         responses={
@@ -251,38 +236,34 @@ class MyEducation(APIView):
         }
     )
     def put(self, request):
-        import pdb
-        pdb.set_trace()
         pk = request.data.get('id')
         ui = request.user.id
         saved_education = get_object_or_404(Education.objects.all(), id=pk, user=ui)
         serializer = EducationUpdateSerializer(instance=saved_education, data=request.data, partial=True)
-        # import pdb
-        # pdb.set_trace()
         if serializer.is_valid(raise_exception=True):
             education_saved = serializer.save()
         return Response({"success": "Education '{}' updated successfully".format(education_saved.school_college_name)})
 
     @swagger_auto_schema(
         tags=["User Education"],
-        operation_summary="Delete Education Details",
+        operation_summary="Delete Education Details of Current User",
         operation_description="Delete education details of any user",
-        request_body=EducationSerializer,
+        request_body=EducationGetDeleteSerializer,
         responses={
             200: EducationSerializer,
         }
     )
     def delete(self, request):
         pk = request.POST.get('id')
-        education = get_object_or_404(Education.objects.all(), pk=pk)
+        ui = request.user.id
+        education = get_object_or_404(Education.objects.all(), pk=pk, user=ui)
         education.delete()
         return Response({"message": "Education with id `{}` has been deleted.".format(pk)}, status=204)
 
     @swagger_auto_schema(
         tags=["User Education"],
-        operation_summary="Get Education Details",
+        operation_summary="Get Education Details of Current User",
         operation_description="Get education details of current user",
-        # query_serializer=EducationSerializer,
         responses={
             200: EducationSerializer,
         }
@@ -301,15 +282,14 @@ class Places(APIView):
 
     @swagger_auto_schema(
         tags=["User Places"],
-        operation_summary="Add My Place Details",
+        operation_summary="Add My Place Details of Current User",
         operation_description="Add My Place details of any user",
-        query_serializer=PlaceSerializer,
+        request_body=PlacePostSerializer,
         responses={
             200: PlaceSerializer,
         }
     )
     def post(self, request):
-        # pk = int(request.POST.get('user'))
         pk = request.user
         place = PlaceSerializer(data=request.data)
         if place.is_valid():
@@ -320,16 +300,17 @@ class Places(APIView):
 
     @swagger_auto_schema(
         tags=["User Places"],
-        operation_summary="Update My Place Details",
+        operation_summary="Update My Place Details of Current User",
         operation_description="Update My Place details of any user",
-        request_body=PlaceSerializer,
+        request_body=PlaceUpdateSerializer,
         responses={
             200: PlaceSerializer,
         }
     )
     def put(self, request):
         pk = request.POST.get('id')
-        saved_places = get_object_or_404(MyPlaces.objects.all(), pk=pk)
+        ui = request.user.id
+        saved_places = get_object_or_404(MyPlaces.objects.all(), pk=pk, user=ui)
         serializer = PlaceSerializer(instance=saved_places, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             places_saved = serializer.save()
@@ -337,38 +318,24 @@ class Places(APIView):
 
     @swagger_auto_schema(
         tags=["User Places"],
-        operation_summary="Delete My Place Details",
+        operation_summary="Delete My Place Details of Current User",
         operation_description="Delete My Place details of current user",
-        request_body=PlaceSerializer,
+        request_body=PlaceGetDeleteSerializer,
         responses={
             200: PlaceSerializer,
         }
     )
     def delete(self, request):
         pk = request.POST.get('id')
-        place = get_object_or_404(MyPlaces.objects.all(), pk=pk)
+        ui = request.user.id
+        place = get_object_or_404(MyPlaces.objects.all(), pk=pk, user=ui)
         place.delete()
         return Response({"message": "MyPlace with id `{}` has been deleted.".format(pk)}, status=204)
 
-    # @swagger_auto_schema(
-    #     tags=["User Places"],
-    #     operation_summary="Get My Place Details",
-    #     operation_description="Get My Place details of all users",
-    #     query_serializer=PlaceSerializer,
-    #     responses={
-    #         200: PlaceSerializer,
-    #     }
-    # )
-    # def get(self, instance):
-    #     place = MyPlaces.objects.all()
-    #     serializer = PlaceSerializer(place, many=True)
-    #     return Response({"MyPlace": serializer.data})
-
     @swagger_auto_schema(
         tags=["User Places"],
-        operation_summary="Get My Place Details",
+        operation_summary="Get My Place Details of Current User",
         operation_description="Get My Place details of current user",
-        # query_serializer=PlaceSerializer,
         responses={
             200: PlaceSerializer,
         }
@@ -387,18 +354,15 @@ class Language(APIView):
 
     @swagger_auto_schema(
         tags=["User Languages"],
-        operation_summary="Add Language Details",
+        operation_summary="Add Language Details of Current User",
         operation_description="Add Language details of current user",
-        request_body=LanguageSerializer,
+        request_body=LanguagePostSerializer,
         responses={
             200: LanguageSerializer,
         }
     )
     def post(self, request):
-        # pk = int(request.POST.get('user'))
         pk = request.user.id
-        # import pdb
-        # pdb.set_trace()
         language = LanguageSerializer(data=request.data)
         if language.is_valid():
             language.save(user_id=pk)
@@ -408,16 +372,17 @@ class Language(APIView):
 
     @swagger_auto_schema(
         tags=["User Languages"],
-        operation_summary="Update Language Details",
-        operation_description="Update education details of current user",
-        request_body=LanguageSerializer,
+        operation_summary="Update Language Details of Current User",
+        operation_description="Update language details of current user",
+        request_body=LanguageUpdateSerializer,
         responses={
             200: LanguageSerializer,
         }
     )
     def put(self, request):
         pk = request.POST.get('id')
-        saved_language = get_object_or_404(MyLanguage.objects.all(), pk=pk)
+        ui = request.user.id
+        saved_language = get_object_or_404(MyLanguage.objects.all(), pk=pk, user=ui)
         serializer = LanguageSerializer(instance=saved_language, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             language_saved = serializer.save()
@@ -425,38 +390,24 @@ class Language(APIView):
 
     @swagger_auto_schema(
         tags=["User Languages"],
-        operation_summary="Delete Language Details",
-        operation_description="Delete education details of current user",
-        request_body=LanguageSerializer,
+        operation_summary="Delete Language Details of Current User",
+        operation_description="Delete language details of current user",
+        request_body=LanguageGetDeleteSerializer,
         responses={
             200: LanguageSerializer,
         }
     )
     def delete(self, request):
         pk = request.POST.get('id')
-        education = get_object_or_404(MyLanguage.objects.all(), pk=pk)
-        education.delete()
+        ui = request.user.id
+        language = get_object_or_404(MyLanguage.objects.all(), pk=pk, user=ui)
+        language.delete()
         return Response({"message": "Language with id `{}` has been deleted.".format(pk)}, status=204)
-
-    # @swagger_auto_schema(
-    #     tags=["User Languages"],
-    #     operation_summary="Get Language Details",
-    #     operation_description="Get education details of all users",
-    #     query_serializer=LanguageSerializer,
-    #     responses={
-    #         200: LanguageSerializer,
-    #     }
-    # )
-    # def get(self, instance):
-    #     place = MyLanguage.objects.all()
-    #     serializer = LanguageSerializer(place, many=True)
-    #     return Response({"Language": serializer.data})
 
     @swagger_auto_schema(
         tags=["User Languages"],
-        operation_summary="Get Language Details",
-        operation_description="Get education details of current user",
-        # query_serializer=LanguageSerializer,
+        operation_summary="Get Language Details of Current User",
+        operation_description="Get language details of current user",
         responses={
             200: LanguageSerializer,
         }
@@ -475,9 +426,9 @@ class MyWorkplace(APIView):
 
     @swagger_auto_schema(
         tags=["User Workplace"],
-        operation_summary="Add Workplace Details",
+        operation_summary="Add Workplace Details of Current User",
         operation_description="Add My Work Place details of any user",
-        request_body=WorkplaceSerializer,
+        request_body=WorkplacePostSerializer,
         responses={
             200: WorkplaceSerializer,
         }
@@ -493,16 +444,17 @@ class MyWorkplace(APIView):
 
     @swagger_auto_schema(
         tags=["User Workplace"],
-        operation_summary="Update Workplace Details",
+        operation_summary="Update Workplace Details of Current User",
         operation_description="Update Work Place details of any user",
-        request_body=WorkplaceSerializer,
+        request_body=WorkplaceUpdateSerializer,
         responses={
             200: WorkplaceSerializer,
         }
     )
     def put(self, request):
         pk = request.POST.get('id')
-        saved_workplace = get_object_or_404(WorkPlace.objects.all(), pk=pk)
+        ui = request.user.id
+        saved_workplace = get_object_or_404(WorkPlace.objects.all(), pk=pk, user=ui)
         serializer = WorkplaceSerializer(instance=saved_workplace, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             workplace_saved = serializer.save()
@@ -510,38 +462,24 @@ class MyWorkplace(APIView):
 
     @swagger_auto_schema(
         tags=["User Workplace"],
-        operation_summary="Delete Workplace Details",
+        operation_summary="Delete Workplace Details of Current User",
         operation_description="Delete Work Place details of any user",
-        request_body=WorkplaceSerializer,
+        request_body=WorkplaceGetDeleteSerializer,
         responses={
             200: WorkplaceSerializer,
         }
     )
     def delete(self, request):
         pk = request.POST.get('id')
-        workplace = get_object_or_404(WorkPlace.objects.all(), pk=pk)
+        ui = request.user.id
+        workplace = get_object_or_404(WorkPlace.objects.all(), pk=pk, user=ui)
         workplace.delete()
         return Response({"message": "Work Place with id `{}` has been deleted.".format(pk)}, status=204)
 
-    # @swagger_auto_schema(
-    #     tags=["User Workplace"],
-    #     operation_summary="Get Workplace Details",
-    #     operation_description="Get Work Place details of all users",
-    #     query_serializer=WorkplaceSerializer,
-    #     responses={
-    #         200: WorkplaceSerializer,
-    #     }
-    # )
-    # def get(self, instance):
-    #     place = WorkPlace.objects.all()
-    #     serializer = WorkplaceSerializer(place, many=True)
-    #     return Response({"WorkPlace": serializer.data})
-
     @swagger_auto_schema(
         tags=["User Workplace"],
-        operation_summary="Get Workplace Details",
+        operation_summary="Get Workplace Details of Current User",
         operation_description="Get Work Place details of currrent user",
-        # query_serializer=WorkplaceSerializer,
         responses={
             200: WorkplaceSerializer,
         }
@@ -560,9 +498,9 @@ class Projects(APIView):
 
     @swagger_auto_schema(
         tags=["User Projects"],
-        operation_summary="Add Projects Details",
+        operation_summary="Add Projects Details of Current User",
         operation_description="Add My Project details of any user",
-        request_body=ProjectSerializer,
+        request_body=ProjectPostSerializer,
         responses={
             200: ProjectSerializer,
         }
@@ -578,16 +516,17 @@ class Projects(APIView):
 
     @swagger_auto_schema(
         tags=["User Projects"],
-        operation_summary="Update Projects Details",
+        operation_summary="Update Projects Details of Current User",
         operation_description="Update My Project details of any user",
-        request_body=ProjectSerializer,
+        request_body=ProjectUpdateSerializer,
         responses={
             200: ProjectSerializer,
         }
     )
     def put(self, request):
         pk = request.POST.get('id')
-        saved_project = get_object_or_404(MyProjects.objects.all(), pk=pk)
+        ui = request.user.id
+        saved_project = get_object_or_404(MyProjects.objects.all(), pk=pk, user=ui)
         serializer = ProjectSerializer(instance=saved_project, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             project_saved = serializer.save()
@@ -595,36 +534,23 @@ class Projects(APIView):
 
     @swagger_auto_schema(
         tags=["User Projects"],
-        operation_summary="Delete Projects Details",
+        operation_summary="Delete Projects Details of Current User",
         operation_description="Delete My Project details of any user",
-        request_body=ProjectSerializer,
+        request_body=ProjectGetDeleteSerializer,
         responses={
             200: ProjectSerializer,
         }
     )
     def delete(self, request):
         pk = request.POST.get('id')
-        workplace = get_object_or_404(MyProjects.objects.all(), pk=pk)
+        ui = request.user.id
+        workplace = get_object_or_404(MyProjects.objects.all(), pk=pk, user=ui)
         workplace.delete()
         return Response({"message": "Work Place with id `{}` has been deleted.".format(pk)}, status=204)
 
-    # @swagger_auto_schema(
-    #     tags=["User Projects"],
-    #     operation_summary="Get Projects Details",
-    #     operation_description="Get My Project details of all users",
-    #     query_serializer=ProjectSerializer,
-    #     responses={
-    #         200: ProjectSerializer,
-    #     }
-    # )
-    # def get(self, instance):
-    #     project = MyProjects.objects.all()
-    #     serializer = ProjectSerializer(project, many=True)
-    #     return Response({"My Projects": serializer.data})
-
     @swagger_auto_schema(
         tags=["User Projects"],
-        operation_summary="Get Projects Details",
+        operation_summary="Get Projects Details of Current User",
         operation_description="Get My Project details of current user",
         # query_serializer=ProjectSerializer,
         responses={
@@ -645,9 +571,9 @@ class Social(APIView):
 
     @swagger_auto_schema(
         tags=["User Social Media"],
-        operation_summary="Add Social Media Details",
+        operation_summary="Add Social Media Details of Current User",
         operation_dscription="Add Social Media details of any user",
-        request_body=SocialLinksSerializer,
+        request_body=SocialLinksPostSerializer,
         responses={
             200: SocialLinksSerializer,
         }
@@ -663,16 +589,17 @@ class Social(APIView):
 
     @swagger_auto_schema(
         tags=["User Social Media"],
-        operation_summary="Update Social Media Details",
+        operation_summary="Update Social Media Details of Current User",
         operation_description="Update Social Media details of any user",
-        request_body=SocialLinksSerializer,
+        request_body=SocialLinksUpdateSerializer,
         responses={
             200: SocialLinksSerializer,
         }
     )
     def put(self, request):
         pk = request.POST.get('id')
-        saved_data = get_object_or_404(SocialLinks.objects.all(), pk=pk)
+        ui = request.user.id
+        saved_data = get_object_or_404(SocialLinks.objects.all(), pk=pk, user=ui)
         serializer = ProjectSerializer(instance=saved_data, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             data_saved = serializer.save()
@@ -680,38 +607,24 @@ class Social(APIView):
 
     @swagger_auto_schema(
         tags=["User Social Media"],
-        operation_summary="Delete Social Media Details",
+        operation_summary="Delete Social Media Details of Current User",
         operation_description="Delete Social Media details of any user",
-        request_body=SocialLinksSerializer,
+        request_body=SocialLinksGetDeleteSerializer,
         responses={
             200: SocialLinksSerializer,
         }
     )
     def delete(self, request):
         pk = request.POST.get('id')
-        social = get_object_or_404(SocialLinks.objects.all(), pk=pk)
+        ui = request.user.id
+        social = get_object_or_404(SocialLinks.objects.all(), pk=pk, user=ui)
         social.delete()
         return Response({"message": "Social Links with id `{}` has been deleted.".format(pk)}, status=204)
 
-    # @swagger_auto_schema(
-    #     tags=["User Social Media"],
-    #     operation_summary="Get Social Media Details",
-    #     operation_description="Get Social Media details of all users",
-    #     query_serializer=SocialLinksSerializer,
-    #     responses={
-    #         200: SocialLinksSerializer,
-    #     }
-    # )
-    # def get(self, instance):
-    #     project = SocialLinks.objects.all()
-    #     serializer = SocialLinksSerializer(project, many=True)
-    #     return Response({"SocialLinks": serializer.data})
-
     @swagger_auto_schema(
         tags=["User Social Media"],
-        operation_summary="Get Social Media Details",
+        operation_summary="Get Social Media Details of Current User",
         operation_description="Get Social Media details of current user",
-        # query_serializer=SocialLinksSerializer,
         responses={
             200: SocialLinksSerializer,
         }
@@ -730,9 +643,9 @@ class Interest(APIView):
 
     @swagger_auto_schema(
         tags=["User Interests"],
-        operation_summary="Add User Interests Details",
+        operation_summary="Add User Interests Details of Current User",
         operation_description="Add My Interest details of any user",
-        request_body=InterestSerializer,
+        request_body=InterestPostSerializer,
         responses={
             200: InterestSerializer,
         }
@@ -748,16 +661,17 @@ class Interest(APIView):
 
     @swagger_auto_schema(
         tags=["User Interests"],
-        operation_summary="Update User Interests Details",
+        operation_summary="Update User Interests Details of Current User",
         operation_description="Update My Interest details of any user",
-        request_body=InterestSerializer,
+        request_body=InterestUpdateSerializer,
         responses={
             200: InterestSerializer,
         }
     )
     def put(self, request):
         pk = request.POST.get('id')
-        saved_project = get_object_or_404(MyInterest.objects.all(), pk=pk)
+        ui = request.user.id
+        saved_project = get_object_or_404(MyInterest.objects.all(), pk=pk, user=ui)
         serializer = InterestSerializer(instance=saved_project, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             project_saved = serializer.save()
@@ -765,38 +679,24 @@ class Interest(APIView):
 
     @swagger_auto_schema(
         tags=["User Interests"],
-        operation_summary="Delete User Interests Details",
+        operation_summary="Delete User Interests Details of Current User",
         operation_description="Delete My Interest details of any user",
-        request_body=InterestSerializer,
+        request_body=InterestGetDeleteSerializer,
         responses={
             200: InterestSerializer,
         }
     )
     def delete(self, request):
         pk = request.POST.get('id')
-        workplace = get_object_or_404(MyProjects.objects.all(), pk=pk)
+        ui = request.user.id
+        workplace = get_object_or_404(MyProjects.objects.all(), pk=pk, user=ui)
         workplace.delete()
         return Response({"message": "My Interest with id `{}` has been deleted.".format(pk)}, status=204)
 
-    # @swagger_auto_schema(
-    #     tags=["User Interests"],
-    #     operation_summary="Get User Interests Details",
-    #     operation_description="Get My Interest details of all users",
-    #     query_serializer=InterestSerializer,
-    #     responses={
-    #         200: InterestSerializer,
-    #     }
-    # )
-    # def get(self, instance):
-    #     project = MyInterest.objects.all()
-    #     serializer = InterestSerializer(project, many=True)
-    #     return Response({"My Interest": serializer.data})
-
     @swagger_auto_schema(
         tags=["User Interests"],
-        operation_summary="Get User Interests Details",
+        operation_summary="Get User Interests Details of Current User",
         operation_description="Get My Interest details of current user",
-        # query_serializer=InterestSerializer,
         responses={
             200: InterestSerializer,
         }
@@ -810,18 +710,298 @@ class Interest(APIView):
 
 @api_view(["GET"])
 @permission_classes((AllowAny,))
-# @swagger_auto_schema(
-#     tags=["Verify Email"],
-#     operation_summary="Verify Mail",
-#     operation_description="Updates the verify mail entry within the user table if the email is verified by the user.",
-#     # query_serializer=UserSerializer,
-#     # responses={
-#     #     200: UserSerializer,
-#     # }
-# )
 def verifyMail(self, code):
     try:
         User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
     except:
         return Response("Link has been expired", status=HTTP_200_OK)
     return Response("Mail verified successfully!", status=HTTP_200_OK)
+
+
+class GetEducationById(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Education"],
+        operation_summary="Get Education Details by Id",
+        operation_description="Get education details of current based on Id of the entry user",
+        query_serializer=EducationGetDeleteSerializer,
+        responses={
+            200: EducationSerializer,
+        }
+    )
+    def get(self, instance):
+        post_id = instance.GET.get('id')
+        ui = instance.user.id
+        education = Education.objects.filter(user=ui, id=post_id)
+        serializer = EducationSerializer(education, many=True)
+        return Response({"education": serializer.data})
+
+
+class GetPlacesById(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Places"],
+        operation_summary="Get My Place Details by Id",
+        operation_description="Get specific Id entry of My Place details of current user",
+        query_serializer=PlaceGetDeleteSerializer,
+        responses={
+            200: PlaceSerializer,
+        }
+    )
+    def get(self, instance):
+        post_id = instance.GET.get('id')
+        ui = instance.user.id
+        place = MyPlaces.objects.filter(user=ui, id=post_id)
+        serializer = PlaceSerializer(place, many=True)
+        return Response({"MyPlace": serializer.data})
+
+
+class GetLanguagesById(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Languages"],
+        operation_summary="Get Language Details by Id",
+        operation_description="Get specific Id entry of language details of current user",
+        query_serializer=LanguageGetDeleteSerializer,
+        responses={
+            200: LanguageSerializer,
+        }
+    )
+    def get(self, instance):
+        post_id = instance.GET.get('id')
+
+        ui = instance.user.id
+        place = MyLanguage.objects.filter(user=ui, id=post_id)
+        serializer = LanguageSerializer(place, many=True)
+        return Response({"Language": serializer.data})
+
+
+class GetWorkplaceById(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Workplace"],
+        operation_summary="Get Workplace Details by Id",
+        operation_description="Get specific Id entry of Work Place details of currrent user",
+        query_serializer=WorkplaceGetDeleteSerializer,
+        responses={
+            200: WorkplaceSerializer,
+        }
+    )
+    def get(self, instance):
+        post_id = instance.GET.get('id')
+
+        ui = instance.user.id
+        place = WorkPlace.objects.filter(user=ui, id=post_id)
+        serializer = WorkplaceSerializer(place, many=True)
+        return Response({"WorkPlace": serializer.data})
+
+
+class GetProjectsById(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Projects"],
+        operation_summary="Get Projects Details by Id",
+        operation_description="Get specific Id entry of My Project details of current user",
+        query_serializer=ProjectGetDeleteSerializer,
+        responses={
+            200: ProjectSerializer,
+        }
+    )
+    def get(self, instance):
+        post_id = instance.GET.get('id')
+        ui = instance.user.id
+        project = MyProjects.objects.filter(user=ui, id=post_id)
+        serializer = ProjectSerializer(project, many=True)
+        return Response({"My Projects": serializer.data})
+
+
+class GetSocialMediaById(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Social Media"],
+        operation_summary="Get Social Media Details by Id",
+        operation_description="Get specific Id entry of Social Media details of current user",
+        query_serializer=SocialLinksGetDeleteSerializer,
+        responses={
+            200: SocialLinksSerializer,
+        }
+    )
+    def get(self, instance):
+        post_id = instance.GET.get('id')
+        ui = instance.user.id
+        project = SocialLinks.objects.filter(user=ui, id=post_id)
+        serializer = SocialLinksSerializer(project, many=True)
+        return Response({"SocialLinks": serializer.data})
+
+
+class GetInterestsById(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Interests"],
+        operation_summary="Get User Interests Details by Id",
+        operation_description="Get specific Id entry of My Interest details of current user",
+        query_serializer=InterestGetDeleteSerializer,
+        responses={
+            200: InterestSerializer,
+        }
+    )
+    def get(self, instance):
+        post_id = instance.GET.get('id')
+        ui = instance.user.id
+        project = MyInterest.objects.filter(user=ui, id=post_id)
+        serializer = InterestSerializer(project, many=True)
+        return Response({"My Interest": serializer.data})
+
+
+class GetEducationAll(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Education"],
+        operation_summary="Get Every User's Education Details",
+        operation_description="Get education details of all users",
+        responses={
+            200: EducationSerializer,
+        }
+    )
+    def get(self, instance):
+        education = Education.objects.all()
+        serializer = EducationSerializer(education, many=True)
+        return Response({"education": serializer.data})
+
+
+class GetPlacesAll(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Places"],
+        operation_summary="Get Every User's My Place Details",
+        operation_description="Get My Place details of all users",
+        responses={
+            200: PlaceSerializer,
+        }
+    )
+    def get(self, instance):
+        place = MyPlaces.objects.all()
+        serializer = PlaceSerializer(place, many=True)
+        return Response({"MyPlace": serializer.data})
+
+
+class GetLanguagesAll(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Languages"],
+        operation_summary="Get Every User's Language Details",
+        operation_description="Get language details of all users",
+        responses={
+            200: LanguageSerializer,
+        }
+    )
+    def get(self, instance):
+        place = MyLanguage.objects.all()
+        serializer = LanguageSerializer(place, many=True)
+        return Response({"Language": serializer.data})
+
+
+class GetWorkplaceAll(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Workplace"],
+        operation_summary="Get Every User's Workplace Details",
+        operation_description="Get Work Place details of all users",
+        responses={
+            200: WorkplaceSerializer,
+        }
+    )
+    def get(self, instance):
+        place = WorkPlace.objects.all()
+        serializer = WorkplaceSerializer(place, many=True)
+        return Response({"WorkPlace": serializer.data})
+
+
+class GetProjectsAll(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Projects"],
+        operation_summary="Get Every User's Projects Details",
+        operation_description="Get My Project details of all users",
+        responses={
+            200: ProjectSerializer,
+        }
+    )
+    def get(self, instance):
+        project = MyProjects.objects.all()
+        serializer = ProjectSerializer(project, many=True)
+        return Response({"My Projects": serializer.data})
+
+
+class GetSocialMediaAll(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Social Media"],
+        operation_summary="Get Every User's Social Media Details",
+        operation_description="Get Social Media details of all users",
+        responses={
+            200: SocialLinksSerializer,
+        }
+    )
+    def get(self, instance):
+        project = SocialLinks.objects.all()
+        serializer = SocialLinksSerializer(project, many=True)
+        return Response({"SocialLinks": serializer.data})
+
+
+class GetInterestsAll(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["User Interests"],
+        operation_summary="Get Every User's Interests Details",
+        operation_description="Get My Interest details of all users",
+        responses={
+            200: InterestSerializer,
+        }
+    )
+    def get(self, instance):
+        project = MyInterest.objects.all()
+        serializer = InterestSerializer(project, many=True)
+        return Response({"My Interest": serializer.data})

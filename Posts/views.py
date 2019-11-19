@@ -26,7 +26,7 @@ class CreatePostView(APIView):
         tags=["Post Create"],
         operation_summary="Creates a New Post",
         operation_description="Creates post using the details provided by the user",
-        query_serializer=PostSerializer,
+        request_body=PostCreateSerializer,
         responses={
             200: PostSerializer,
         }
@@ -34,8 +34,6 @@ class CreatePostView(APIView):
     def post(self, request, format=None):
         ui = request.user.id
         serializer_class = PostSerializer(data=request.data)
-        # import pdb
-        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save(user_id=ui)
             return Response("Post Created Successfully", status=HTTP_200_OK)
@@ -46,7 +44,7 @@ class CreatePostView(APIView):
         tags=["Post Create"],
         operation_summary="Updates an existing Post",
         operation_description="Updates an existing post with details modified by the user.",
-        query_serializer=PostSerializer,
+        request_body=PostUpdateSerializer,
         responses={
             200: PostSerializer,
         }
@@ -63,7 +61,7 @@ class CreatePostView(APIView):
         tags=["Post Create"],
         operation_summary="Deletes an existing Post",
         operation_description="Deletes a previously created post based on the post id.",
-        query_serializer=PostSerializer,
+        request_body=PostGetDeleteSerializer,
         responses={
             200: PostSerializer,
         }
@@ -78,7 +76,7 @@ class CreatePostView(APIView):
         tags=["Post Create"],
         operation_summary="Displays all the Posts of current user",
         operation_description="Displays all the posts created by the current user",
-        query_serializer=PostSerializer,
+        # query_serializer=PostSerializer,
         responses={
             200: PostSerializer,
         }
@@ -101,7 +99,7 @@ class PostMediaView(APIView):
         tags=["Posts Media"],
         operation_summary="Create New Media Entry",
         operation_description="Creates a new media entry when any new media is uploaded for a post",
-        request_body=PostMediaSerializer,
+        request_body=PostMediaCreateSerializer,
         responses={
             200: PostMediaSerializer,
         }
@@ -109,8 +107,6 @@ class PostMediaView(APIView):
     def post(self, request, format=None):
         pk = request.POST.get('post')
         serializer_class = PostMediaSerializer(data=request.data)
-        # import pdb
-        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save(post_id=pk)
             return Response("Media Uploaded Successfully", status=HTTP_200_OK)
@@ -121,6 +117,7 @@ class PostMediaView(APIView):
         tags=["Posts Media"],
         operation_summary="Update an Existing Media",
         operation_description="Updates an existing media based on the `id` in the media table",
+        request_body=PostMediaUpdateSerializer,
         responses={
             200: PostMediaSerializer,
         }
@@ -137,6 +134,7 @@ class PostMediaView(APIView):
         tags=["Posts Media"],
         operation_summary="Get all Media",
         operation_description="Delete a media entry from the table using the `id`",
+        request_body=PostMediaGetDeleteSerializer,
         responses={
             200: PostMediaSerializer,
         }
@@ -158,13 +156,17 @@ class PostMediaView(APIView):
     def get(self, instance):
         result = set()
         ui = instance.user.id
+        import pdb
+        pdb.set_trace()
+        post_media_keys = [x for x in PostMedia.__dict__.keys()]
         post_num = Post.objects.filter(user=ui)
         for x in post_num:
             media = PostMedia.objects.filter(post=x.id)
             for y in media:
-                serializer = PostMediaSerializer(data=y.__dict__)
-                # import pdb
-                # pdb.set_trace()
+                y_keys = [x for x in y.__dict__.keys()]
+                result = {x : y[x] for x in y_keys if x in post_media_keys}
+                serializer = PostMediaSerializer(data=result)
+
                 if serializer.is_valid(raise_exception=True):
                     result.add(serializer.data)
         if result:
@@ -181,7 +183,7 @@ class PostCommentsView(APIView):
         tags=["Posts Comments"],
         operation_summary="Create New Comment",
         operation_description="Creates a new comment over a post by `id` from the post table",
-        query_serializer=PostCommentsSerializer,
+        request_body=PostCommentsCreateSerializer,
         responses={
             200: PostCommentsSerializer,
         }
@@ -203,7 +205,7 @@ class PostCommentsView(APIView):
         tags=["Posts Comments"],
         operation_summary="Update an existing Comment",
         operation_description="Updates a comment based on the `id` from the comments table",
-        query_serializer=PostCommentsSerializer,
+        request_body=PostCommentsUpdateSerializer,
         responses={
             200: PostCommentsSerializer,
         }
@@ -220,7 +222,7 @@ class PostCommentsView(APIView):
         tags=["Posts Comments"],
         operation_summary="Delete a Comment",
         operation_description="Delete a comment using the `id` from the comments table",
-        query_serializer=PostCommentsSerializer,
+        request_body=PostCommentsGetDeleteSerializer,
         responses={
             200: PostCommentsSerializer,
         }
@@ -239,7 +241,6 @@ class PostCommentsView(APIView):
         tags=["Posts Comments"],
         operation_summary="Get list of Comments from the current user",
         operation_description="Get all comments posted by current user",
-        query_serializer=PostCommentsSerializer,
         responses={
             200: PostCommentsSerializer,
         }
@@ -261,7 +262,7 @@ class PostShareView(APIView):
         tags=["Posts Shared"],
         operation_summary="New Shared Post",
         operation_description="Creates a new share of a post using the `id` fetched from the post table",
-        query_serializer=PostShareSerializer,
+        request_body=PostShareCreateSerializer,
         responses={
             200: PostShareSerializer,
         }
@@ -270,8 +271,6 @@ class PostShareView(APIView):
         pk = request.POST.get('post')
         ui = request.user
         serializer_class = PostShareSerializer(data=request.data)
-        # import pdb
-        # pdb.set_trace()
         if serializer_class.is_valid():
             serializer_class.save(post_id=pk, shared_by=ui)
             post_name = serializer_class.instance.post
@@ -286,7 +285,7 @@ class PostShareView(APIView):
         tags=["Posts Shared"],
         operation_summary="Update Shared Posts",
         operation_description="Updates the information about a shared post using the `id` from the shared post table",
-        query_serializer=PostShareSerializer,
+        request_body=PostShareUpdateSerializer,
         responses={
             200: PostShareSerializer,
         }
@@ -304,7 +303,7 @@ class PostShareView(APIView):
         operation_summary="Delete a Shared Post",
         operation_description="Delete the information about a shared post based on the `id` of the shared post"
                               + " inside the database",
-        query_serializer=PostShareSerializer,
+        request_body=PostShareGetDeleteSerializer,
         responses={
             200: PostShareSerializer,
         }
@@ -323,7 +322,6 @@ class PostShareView(APIView):
         tags=["Posts Shared"],
         operation_summary="Get Shared Posts of Current User",
         operation_description="Get the information of all the posts shared by the current user",
-        query_serializer=PostShareSerializer,
         responses={
             200: PostShareSerializer,
         }
@@ -345,7 +343,7 @@ class PostLikesView(APIView):
         tags=["Post Likes"],
         operation_summary="Create a New Like",
         operation_description="Create a new like on a post",
-        query_serializer=PostLikesSerializer,
+        request_body=PostLikesCreateSerializer,
         responses={
             200: PostLikesSerializer,
         }
@@ -376,7 +374,7 @@ class PostLikesView(APIView):
         operation_summary="Delete a Like",
         operation_description="Delete a like based on the `id` from the user table and `id` of the "
                               + "post from the post table",
-        query_serializer=PostLikesSerializer,
+        request_body=PostLikesGetDeleteSerializer,
         responses={
             200: PostLikesSerializer,
         }
@@ -399,7 +397,7 @@ class PostLikesView(APIView):
         tags=["Post Likes"],
         operation_summary="Get current user Likes",
         operation_description="Get current user's likes",
-        query_serializer=PostLikesSerializer,
+        # query_serializer=PostLikesSerializer,
         responses={
             200: PostLikesSerializer,
         }
@@ -407,6 +405,124 @@ class PostLikesView(APIView):
     def get(self, instance):
         ui = instance.user.id
         likes = PostLikes.objects.filter(user=ui)
+        serializer = PostLikesSerializer(likes, many=True)
+        return Response({"MyLikes": serializer.data})
+
+
+# GetAll methods defined separately to allow viewing of these methods in the documentation view.
+# Separate declaration also allows to identify and disable these methods individually as these
+# does not have any dependency over the requests passed to the views.
+class GetPostsById(APIView):
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["Post Create"],
+        operation_summary="Displays Current User's Posts by ID",
+        operation_description="Displays the post based on requested id",
+        query_serializer=PostGetDeleteSerializer,
+        responses={
+            200: PostSerializer,
+        }
+    )
+    def get(self, instance):
+        ui = instance.user.id
+        post_id = instance.GET.get('id')
+        myposts = get_object_or_404(Post.objects.all(), id=post_id, user=ui)
+        serializer = PostSerializer(myposts, many=True)
+        return Response({"Posts": serializer.data})
+
+
+class GetMediaById(APIView):
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["Posts Media"],
+        operation_summary="Get Current User's Media by ID",
+        operation_description="Get the information for uploaded media based on requested id",
+        query_serializer=PostMediaGetDeleteSerializer,
+        responses={
+            200: PostMediaSerializer,
+        }
+    )
+    def get(self, instance):
+        ui = instance.user.id
+        # import pdb
+        # pdb.set_trace()
+        media_id = instance.GET.get('id')
+        post_objects = Post.objects.filter(user=ui)
+        for obj in post_objects:
+            post_id = obj.id
+            media = PostMedia.objects.filter(id=media_id, post=post_id)
+        serializer = PostMediaSerializer(media, many=True)
+        return Response({"PostMedia": serializer.data})
+
+
+class GetCommentsById(APIView):
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["Posts Comments"],
+        operation_summary="Get Current User's Comments by ID",
+        operation_description="Get comment over the post based on requested id",
+        query_serializer=PostCommentsGetDeleteSerializer,
+        responses={
+            200: PostCommentsSerializer,
+        }
+    )
+    def get(self, instance):
+        ui = instance.user.id
+        comment_id = instance.GET.get('id')
+        comments = get_object_or_404(PostComments.objects.all(), id=comment_id, user=ui)
+        serializer = PostCommentsSerializer(comments, many=True)
+        return Response({"Comments": serializer.data})
+
+
+class GetSharesById(APIView):
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["Posts Shared"],
+        operation_summary="Get Current User's Shared Posts by ID",
+        operation_description="Get the information of the shared post based on requested id",
+        query_serializer=PostShareGetDeleteSerializer,
+        responses={
+            200: PostShareSerializer,
+        }
+    )
+    def get(self, instance):
+        ui = instance.user.id
+        share_id = instance.GET.get('id')
+        shares = get_object_or_404(PostShare.objects.all(), id=share_id, shared_by=ui)
+        serializer = PostShareSerializer(shares, many=True)
+        return Response({"Shared Posts": serializer.data})
+
+
+class GetLikesById(APIView):
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
+    @swagger_auto_schema(
+        tags=["Post Likes"],
+        operation_summary="Get Current User's Likes by ID",
+        operation_description="Get the like based on requested id",
+        query_serializer=PostLikesGetDeleteSerializer,
+        responses={
+            200: PostLikesSerializer,
+        }
+    )
+    def get(self, instance):
+        ui = instance.user.id
+        like_id = instance.GET.get('id')
+        likes = get_object_or_404(PostLikes.objects.all(), id=like_id, user=ui)
         serializer = PostLikesSerializer(likes, many=True)
         return Response({"MyLikes": serializer.data})
 
@@ -423,7 +539,7 @@ class GetAllPostsView(APIView):
         tags=["Post Create"],
         operation_summary="Displays all the Posts",
         operation_description="Displays all the posts created till now.",
-        query_serializer=PostSerializer,
+        # query_serializer=PostSerializer,
         responses={
             200: PostSerializer,
         }
@@ -462,7 +578,7 @@ class GetAllCommentsView(APIView):
         tags=["Posts Comments"],
         operation_summary="Get all Comments",
         operation_description="Get all comments over all the posts",
-        query_serializer=PostCommentsSerializer,
+        # query_serializer=PostCommentsSerializer,
         responses={
             200: PostCommentsSerializer,
         }
@@ -482,7 +598,7 @@ class GetAllSharesView(APIView):
         tags=["Posts Shared"],
         operation_summary="Get all Shared Posts",
         operation_description="Get all the information of all the shared posts yet",
-        query_serializer=PostShareSerializer,
+        # query_serializer=PostShareSerializer,
         responses={
             200: PostShareSerializer,
         }
@@ -502,7 +618,7 @@ class GetAllLikesView(APIView):
         tags=["Post Likes"],
         operation_summary="Get all the Likes",
         operation_description="Get all the likes present yet",
-        query_serializer=PostLikesSerializer,
+        # query_serializer=PostLikesSerializer,
         responses={
             200: PostLikesSerializer,
         }

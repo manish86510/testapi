@@ -78,15 +78,15 @@ class CreateUserView(APIView):
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'
-            message = "Click here http://energe.do.viewyoursite.net/verify_mail/" + code + " to verify your email id."
+            message = "Click here " + request.build_absolute_uri() + "verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):
                 return Response("Please verify your mail", status=HTTP_200_OK)
             else:
-                return Response("Verification Mail not sent! ", status=HTTP_200_OK)
+                return Response("Verification Mail not sent!", status=HTTP_200_OK)
         else:
-            return Response("Wrong Entry!", status=HTTP_200_OK)
+            return Response(serializer_class.errors)
 
     @swagger_auto_schema(
         tags=["New User"],
@@ -167,6 +167,42 @@ def password_reset(request):
 #         return JsonResponse({'user_data': user_data, 'token': token_content_json})
 #     else:
 #         return JsonResponse({'message': 'Invalid login'})
+
+
+class ResendEmail(APIView):
+    permission_classes = [
+        permissions.AllowAny
+    ]
+
+    @swagger_auto_schema(
+        tags=["Resend Email"],
+        operation_summary="Resend Verification email to user",
+        operation_description="Resend a verification email to a user if the email id already exists",
+        request_body=ResendEmailSerializer,
+        responses={
+            200: UserGetSerializer,
+        }
+    )
+    def post(self, request):
+        curr_user_email = request.data.get('email')
+        if curr_user_email:
+            user_obj = get_object_or_404(User.objects.all(), email=curr_user_email)
+        else:
+            return Response("User doesn't exists, please verify if email is correct, or try signing up!")
+        is_mail_ver = user_obj.is_mail_verified
+        if is_mail_ver:
+            return Response("Email Already Verified! Login to your account.", status=HTTP_200_OK)
+        else:
+            ver_code = user_obj.verify_mail_code
+            subject = "Resent Verification Email"
+            message = "Click here " + request.build_absolute_uri() + "verify_mail/" + ver_code + " to verify your email id."
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [curr_user_email, ]
+            if send_mail(subject, message, email_from, recipient_list):
+                return Response("Please check your email account for new verification email", status=HTTP_200_OK)
+            else:
+                return Response("Verification Mail not sent!", status=HTTP_200_OK)
+
 
 class UpdateProfile(APIView):
     permission_classes = [
@@ -712,6 +748,8 @@ class Interest(APIView):
 @permission_classes((AllowAny,))
 def verifyMail(self, code):
     try:
+        import pdb
+        pdb.set_trace()
         User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
     except:
         return Response("Link has been expired", status=HTTP_200_OK)
@@ -890,7 +928,7 @@ class GetUserAll(APIView):
     )
     def get(self, instance):
         users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+        serializer = UserGetSerializer(users, many=True)
         return Response({"Users": serializer.data})
 
 

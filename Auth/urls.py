@@ -4,6 +4,7 @@ from .views import *
 
 urlpatterns = [
     path('register', CreateUserView.as_view(), name='register'),
+    path('resend', ResendEmail.as_view(), name='resend_email'),
     path('verify_mail/<str:code>', verifyMail, name='verify_mail'),
     path('update_profile', UpdateProfile.as_view(), name='update_profile'),
     path('education', MyEducation.as_view(), name='education'),

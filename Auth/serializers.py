@@ -54,6 +54,12 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         )
 
 
+class ResendEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email',)
+
+
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Education

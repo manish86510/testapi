@@ -154,23 +154,23 @@ class PostMediaView(APIView):
         }
     )
     def get(self, instance):
-        result = set()
+        media_list = list()
         ui = instance.user.id
-        import pdb
-        pdb.set_trace()
         post_media_keys = [x for x in PostMedia.__dict__.keys()]
         post_num = Post.objects.filter(user=ui)
         for x in post_num:
+            result = list()
             media = PostMedia.objects.filter(post=x.id)
+            post_name = x.about_post
+            media_list.append(post_name)
             for y in media:
                 y_keys = [x for x in y.__dict__.keys()]
-                result = {x : y[x] for x in y_keys if x in post_media_keys}
-                serializer = PostMediaSerializer(data=result)
-
-                if serializer.is_valid(raise_exception=True):
-                    result.add(serializer.data)
-        if result:
-            return Response({"PostMedia": result})
+                for a in y_keys:
+                    if a not in post_media_keys:
+                        del y.__dict__[a]
+                result.append(y.__dict__)
+            media_list.append(result)
+        return Response({"PostMedia": media_list})
 
 
 class PostCommentsView(APIView):

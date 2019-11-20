@@ -140,7 +140,7 @@ class MyProjects(models.Model):
 
 class MyInterest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    interact_code = models.IntegerField(null=False)
+    interact_code = models.CharField(max_length=200, null=False)
 
     def __str__(self):
         return self.interact_code

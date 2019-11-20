@@ -76,7 +76,6 @@ class CreatePostView(APIView):
         tags=["Post Create"],
         operation_summary="Displays all the Posts of current user",
         operation_description="Displays all the posts created by the current user",
-        # query_serializer=PostSerializer,
         responses={
             200: PostSerializer,
         }
@@ -154,23 +153,19 @@ class PostMediaView(APIView):
         }
     )
     def get(self, instance):
-        result = set()
+        media_list = list()
         ui = instance.user.id
-        import pdb
-        pdb.set_trace()
-        post_media_keys = [x for x in PostMedia.__dict__.keys()]
         post_num = Post.objects.filter(user=ui)
         for x in post_num:
+            result = list()
             media = PostMedia.objects.filter(post=x.id)
+            x_dict = {a:x.__dict__[a] for a in x.__dict__.keys() if a in Post.__dict__.keys()}
+            media_list.append(x_dict)
             for y in media:
-                y_keys = [x for x in y.__dict__.keys()]
-                result = {x : y[x] for x in y_keys if x in post_media_keys}
-                serializer = PostMediaSerializer(data=result)
-
-                if serializer.is_valid(raise_exception=True):
-                    result.add(serializer.data)
-        if result:
-            return Response({"PostMedia": result})
+                y_dict = {a: y.__dict__[a] for a in y.__dict__.keys() if a in PostMedia.__dict__.keys()}
+                result.append(y_dict)
+            media_list.append(result)
+        return Response({"PostMedia": media_list})
 
 
 class PostCommentsView(APIView):
@@ -397,7 +392,6 @@ class PostLikesView(APIView):
         tags=["Post Likes"],
         operation_summary="Get current user Likes",
         operation_description="Get current user's likes",
-        # query_serializer=PostLikesSerializer,
         responses={
             200: PostLikesSerializer,
         }
@@ -409,7 +403,7 @@ class PostLikesView(APIView):
         return Response({"MyLikes": serializer.data})
 
 
-# GetAll methods defined separately to allow viewing of these methods in the documentation view.
+# GetById methods defined separately to allow viewing of these methods in the documentation view.
 # Separate declaration also allows to identify and disable these methods individually as these
 # does not have any dependency over the requests passed to the views.
 class GetPostsById(APIView):
@@ -450,8 +444,6 @@ class GetMediaById(APIView):
     )
     def get(self, instance):
         ui = instance.user.id
-        # import pdb
-        # pdb.set_trace()
         media_id = instance.GET.get('id')
         post_objects = Post.objects.filter(user=ui)
         for obj in post_objects:
@@ -539,7 +531,6 @@ class GetAllPostsView(APIView):
         tags=["Post Create"],
         operation_summary="Displays all the Posts",
         operation_description="Displays all the posts created till now.",
-        # query_serializer=PostSerializer,
         responses={
             200: PostSerializer,
         }
@@ -578,7 +569,6 @@ class GetAllCommentsView(APIView):
         tags=["Posts Comments"],
         operation_summary="Get all Comments",
         operation_description="Get all comments over all the posts",
-        # query_serializer=PostCommentsSerializer,
         responses={
             200: PostCommentsSerializer,
         }
@@ -598,7 +588,6 @@ class GetAllSharesView(APIView):
         tags=["Posts Shared"],
         operation_summary="Get all Shared Posts",
         operation_description="Get all the information of all the shared posts yet",
-        # query_serializer=PostShareSerializer,
         responses={
             200: PostShareSerializer,
         }
@@ -618,7 +607,6 @@ class GetAllLikesView(APIView):
         tags=["Post Likes"],
         operation_summary="Get all the Likes",
         operation_description="Get all the likes present yet",
-        # query_serializer=PostLikesSerializer,
         responses={
             200: PostLikesSerializer,
         }

@@ -78,7 +78,7 @@ class CreateUserView(APIView):
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'
-            message = "Click here https://energe.do.viewyoursite.net/verify_mail/" + code + " to verify your email id."
+            message = "Click here http://energe.do.viewyoursite.net/verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):

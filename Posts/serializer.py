@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import *
 
 
-# Created postserializer to convert the post model to json for creating posts
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post

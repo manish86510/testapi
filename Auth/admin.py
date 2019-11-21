@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from Core.admin import BaseAdmin
 
 
 class UserOptionsAdmin(admin.ModelAdmin):
@@ -7,42 +8,42 @@ class UserOptionsAdmin(admin.ModelAdmin):
     search_fields = ('id', 'username', 'email', 'salutation', 'skills', 'address')
 
 
-class CityOptionsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'city_name', 'city_code', 'created_by')
-    search_fields = ('id', 'city_name', 'city_code', 'created_by')
+class CityOptionsAdmin(BaseAdmin):
+    list_display = ('id', 'city_name', 'city_code', 'created_on', 'created_by')
+    search_fields = ('id', 'city_name', 'city_code')
 
 
-class WorkPlacesOptionsAdmin(admin.ModelAdmin):
+class WorkPlacesOptionsAdmin(BaseAdmin):
     list_display = ('id', 'name', 'position', 'city', 'user')
     search_fields = ('id', 'name', 'position', 'city', 'user')
 
 
-class EducationOptionsAdmin(admin.ModelAdmin):
+class EducationOptionsAdmin(BaseAdmin):
     list_display = ('id', 'school_college_name', 'attended_for', 'user')
     search_fields = ('id', 'school_college_name', 'attended_for', 'user')
 
 
-class MyPlacesOptionsAdmin(admin.ModelAdmin):
+class MyPlacesOptionsAdmin(BaseAdmin):
     list_display = ('id', 'place_name', 'lat_long', 'user')
     search_fields = ('id', 'place_name', 'lat_long', 'user')
 
 
-class MyInterestOptionsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'interact_code', 'user')
-    search_fields = ('id', 'interact_code', 'user')
+class MyInterestOptionsAdmin(BaseAdmin):
+    list_display = ('id', 'interest_code', 'user')
+    search_fields = ('id', 'interest_code', 'user')
 
 
-class MyLanguageOptionsAdmin(admin.ModelAdmin):
+class MyLanguageOptionsAdmin(BaseAdmin):
     list_display = ('id', 'name', 'read', 'write', 'speak', 'user')
     search_fields = ('id', 'name', 'read', 'write', 'speak', 'user')
 
 
-class MyProjectsOptionsAdmin(admin.ModelAdmin):
+class MyProjectsOptionsAdmin(BaseAdmin):
     list_display = ('id', 'project_title', 'skills', 'team_size', 'client_name', 'user')
     search_fields = ('id', 'project_title', 'skills', 'team_size', 'client_name', 'user')
 
 
-class SocialLinksOptionsAdmin(admin.ModelAdmin):
+class SocialLinksOptionsAdmin(BaseAdmin):
     list_display = ('id', 'name', 'unique_id', 'user')
     search_fields = ('id', 'name', 'unique_id', 'user')
 

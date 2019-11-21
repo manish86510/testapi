@@ -1,21 +1,28 @@
 from django.db import models
-from Auth.models import User
+from django.contrib.auth import get_user_model
+from Core.models import SoftDeleteModel
+
+User = get_user_model()
 
 
-# Create your models here.
-class Post(models.Model):
-    about_post = models.TextField(null=False)
+class Post(SoftDeleteModel):
+    POST_TYPES = (
+        ('Post', 'Post'),
+        ('Polls', 'Polls'),
+        ('Project', 'Project'),
+    )
+    about_post = models.TextField(null=False, help_text='Write something about the post.')
     tags = models.CharField(max_length=200, null=True)
-    like_count = models.IntegerField(default=0)
-    share_count = models.IntegerField(default=0)
-    comment_count = models.IntegerField(default=0)
-    points_earner = models.IntegerField(default=0)
-    created_by = models.CharField(max_length=200, null=True)
-    created_at = models.DateTimeField(auto_now=True)
+    like_count = models.IntegerField(default=0, help_text='Count of likes on this post.')
+    share_count = models.IntegerField(default=0, help_text='Count of share on this post.')
+    comment_count = models.IntegerField(default=0, help_text='Count of views on this post.')
+    points_earner = models.IntegerField(default=0, help_text='Coin earn by this post.')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    is_public = models.BooleanField(default=True)
-    target_audience_interests = models.CharField(max_length=200, null=True)
-    post_type = models.CharField(max_length=200, null=True)
+    is_public = models.BooleanField(default=True, help_text='Post not available for other users.')
+    target_audience = models.CharField(max_length=200, null=True, help_text='Target audience should be profession '
+                                                                            'of person. ie. Doctor, Teacher, '
+                                                                            'Software Engineer etc.')
+    post_type = models.CharField(max_length=50, default='Post', choices=POST_TYPES)
 
     def __str__(self):
         return self.about_post
@@ -25,7 +32,7 @@ class Post(models.Model):
         db_table = 'posts'
 
 
-class PostMedia(models.Model):
+class PostMedia(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     file = models.FileField(upload_to='images/', null=True)
     file_types = (
@@ -46,7 +53,7 @@ class PostMedia(models.Model):
         db_table = 'post_media'
 
 
-class PostLikes(models.Model):
+class PostLikes(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     activity = models.CharField(max_length=200, editable=False, default='Liked')
@@ -59,7 +66,7 @@ class PostLikes(models.Model):
         db_table = 'post_likes'
 
 
-class PostComments(models.Model):
+class PostComments(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     comment = models.TextField(null=False)
@@ -73,7 +80,7 @@ class PostComments(models.Model):
         db_table = 'post_comments'
 
 
-class PostShare(models.Model):
+class PostShare(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     shared_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     description = models.TextField(null=True)

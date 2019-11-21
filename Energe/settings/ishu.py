@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'Auth',
     'Posts',
     'rest_framework',
+    'corsheaders',
     # 'rest_framework_swagger',
     'drf_yasg',
 ]
@@ -65,6 +66,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

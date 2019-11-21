@@ -1,6 +1,5 @@
 from .base import *
 
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -13,10 +12,10 @@ WSGI_APPLICATION = 'Energe.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "energe_2",
-        'USER': "ishu",
-        'PASSWORD': "mypassword",
-        'HOST': "localhost",
+        'NAME': "energe",
+        'USER': "postgres",
+        'PASSWORD': "skysoft",
+        'HOST': "192.168.1.9",
         'PORT': "5432",
     }
 }

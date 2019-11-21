@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from Core.models import SoftDeleteModel
+BaseModel = None
 
 
 class User(AbstractUser):
     username = models.CharField(max_length=150, unique=True)
-    email = models.EmailField(unique=True)
-    salutation = models.CharField(max_length=500, null=True)
+    email = models.EmailField(unique=True, max_length=250)
+    salutation = models.CharField(max_length=30, null=True)
     first_name = models.CharField(max_length=150, null=True)
     last_name = models.CharField(max_length=150, null=True)
     about = models.TextField(null=True)
@@ -22,19 +24,19 @@ class User(AbstractUser):
     gender = models.CharField(max_length=20, null=True)
     is_mail_verified = models.BooleanField(default=False)
     verify_mail_code = models.TextField(max_length=30, null=True, blank=True)
+    is_public = models.BooleanField(default=True)
 
     def __str__(self):
         return self.username
 
     class Meta:
-        verbose_name_plural = 'user'
-        db_table = 'user'
+        verbose_name_plural = 'Users'
+        db_table = 'User'
 
 
-class City(models.Model):
+class City(SoftDeleteModel):
     city_name = models.CharField(max_length=200)
     city_code = models.CharField(max_length=20)
-    created_by = models.IntegerField(default=0)
 
     def __str__(self):
         return self.city_name
@@ -44,7 +46,7 @@ class City(models.Model):
         db_table = 'city'
 
 
-class WorkPlace(models.Model):
+class WorkPlace(SoftDeleteModel):
     name = models.CharField(max_length=200)
     position = models.CharField(max_length=200, null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
@@ -61,7 +63,7 @@ class WorkPlace(models.Model):
         db_table = 'work_place'
 
 
-class Education(models.Model):
+class Education(SoftDeleteModel):
     school_college_name = models.CharField(max_length=200)
     description = models.TextField(null=True)
     session_from = models.DateTimeField(auto_now_add=False, null=True)
@@ -74,10 +76,9 @@ class Education(models.Model):
 
     class Meta:
         verbose_name_plural = 'Education'
-        #db_table = 'education'
 
 
-class MyPlaces(models.Model):
+class MyPlaces(SoftDeleteModel):
     place_name = models.CharField(max_length=200)
     lat_long = models.CharField(max_length=200, null=True)
     from_date = models.DateTimeField(auto_now_add=False, null=True)
@@ -92,7 +93,7 @@ class MyPlaces(models.Model):
         db_table = 'place'
 
 
-class SocialLinks(models.Model):
+class SocialLinks(SoftDeleteModel):
     name = models.CharField(max_length=200)
     unique_id = models.CharField(max_length=100, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -105,7 +106,7 @@ class SocialLinks(models.Model):
         db_table = 'social_links'
 
 
-class MyLanguage(models.Model):
+class MyLanguage(SoftDeleteModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200)
     read = models.CharField(max_length=200, null=True)
@@ -120,7 +121,7 @@ class MyLanguage(models.Model):
         db_table = 'language'
 
 
-class MyProjects(models.Model):
+class MyProjects(SoftDeleteModel):
     project_title = models.CharField(max_length=200)
     description = models.TextField(null=True)
     skills = models.TextField(null=True)
@@ -135,16 +136,27 @@ class MyProjects(models.Model):
 
     class Meta:
         verbose_name_plural = 'My Projects'
-        #db_table = 'projects'
 
 
-class MyInterest(models.Model):
+class MyInterest(SoftDeleteModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    interact_code = models.CharField(max_length=200, null=False)
+    interest_code = models.CharField(max_length=200, null=False)
 
     def __str__(self):
-        return self.interact_code
+        return self.interest_code
 
     class Meta:
         verbose_name_plural = 'My Interest'
         db_table = 'interest'
+
+
+class MySkills(SoftDeleteModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    skill = models.CharField(max_length=250)
+
+
+class Followers(SoftDeleteModel):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='follower')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+

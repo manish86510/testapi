@@ -4,19 +4,43 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'', views.PostViewSet, base_name='post')
+# router.register(r'post/comment', views.PostCommentViewSet, base_name='comment')
 # router.register(r'post/media', views.PostMediaViewSet, base_name='post_media')
 
 urlpatterns = [
-   path('', include(router.urls)),
-   path('post/media/<int:post_id>/', views.PostMediaViewSet.as_view(
-      {
-         'get': 'list',
-         'post': 'create',
-         'put': 'update',
-         'delete': 'destroy'
-      }
-   ), name='post_media_list')
-
+    path('', include(router.urls)),
+    path('post/media/<int:post_id>/', views.PostMediaViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='post_comment_list'),
+    path('post/comment/<int:post_id>/', views.PostCommentViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='post_comment_list'),
+    path('post/likes/<int:post_id>/', views.PostLikeViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='post_likes_list'),
+    path('post/share/<int:post_id>/', views.PostShareViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='post_share_list')
 
     # path('create_post', CreatePostView.as_view(), name='createpostview'),
     # path('post_media', PostMediaView.as_view(), name='postmediaview'),

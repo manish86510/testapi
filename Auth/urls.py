@@ -1,8 +1,25 @@
 from django.urls import path, include
-from .views import *
+from rest_framework.routers import DefaultRouter
+from . import views
+
+router = DefaultRouter()
+router.register(r'', views.UserViewSet, base_name='user')
+# router.register(r'user/city', views.CityViewSet, base_name='city')
 
 
 urlpatterns = [
+    path('', include(router.urls)),
+    path('verify_mail/<str:code>', views.verifyMail, name='verify_mail'),
+    path('city', views.CityViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='city_list'),
+
+
     # path('register', CreateUserView.as_view(), name='register'),
     # path('resend', ResendEmail.as_view(), name='resend_email'),
     # path('verify_mail/<str:code>', verifyMail, name='verify_mail'),

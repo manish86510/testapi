@@ -109,7 +109,7 @@ WSGI_APPLICATION = 'Energe.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "energe_2",
+        'NAME': "energe",
         'USER': "ishu",
         'PASSWORD': "mypassword",
         'HOST': "localhost",

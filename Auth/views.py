@@ -45,7 +45,7 @@ class UserViewSet(viewsets.ModelViewSet):
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'
-            message = "Click here http://127.0.0.1:8000/verify_mail/" + code + " to verify your email id."
+            message = "Click here http://energe.do.viewyoursite.net/verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):

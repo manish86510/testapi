@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from .serializers.post import PostSerializer, PostCreateSerializer
+from Posts.serializers.post import PostSerializer, PostCreateSerializer
 
 
 class PostSwaggerDoc:

@@ -95,11 +95,11 @@ class PostLikeViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         pk = request.POST.get('post')
-        # ui = request.user.id
+        ui = request.user.id
         serializer_class = PostLikeSerializer(data=request.data)
         if serializer_class.is_valid():
             try:
-                post_det = PostLikes.objects.get(post=pk)#, user=ui)
+                post_det = PostLikes.objects.get(post=pk, user=ui)
             except PostLikes.DoesNotExist:
                 post_det = None
             if post_det is None:
@@ -116,17 +116,16 @@ class PostLikeViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         pk = request.POST.get('post')
-        # ui = request.user.id
-        # un = User.objects.get(id=ui)
-        # user_name = un.username
-        saved_likes = get_object_or_404(PostLikes.objects.all(), post=pk)#, user=ui)
+        ui = request.user.id
+        un = User.objects.get(id=ui)
+        user_name = un.username
+        saved_likes = get_object_or_404(PostLikes.objects.all(), post=pk, user=ui)
         post_name = saved_likes.post
         post_obj = Post.objects.get(about_post=post_name)
         post_obj.like_count -= 1
         post_obj.save()
         saved_likes.delete()
-        return Response({"message": "Like on post {} created by user has been deleted.".format(pk)},
-                        status=204)#{} has been deleted.".format(pk, user_name)}, status=204)
+        return Response({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)}, status=204)
 
     # @action(methods=['get'], url_path='/<int:post_id>')
     def list(self, request, *args, **kwargs):
@@ -149,10 +148,10 @@ class PostShareViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         pk = request.POST.get('post')
-        # ui = request.user
+        ui = request.user
         serializer_class = PostShareSerializer(data=request.data)
         if serializer_class.is_valid():
-            serializer_class.save(post_id=pk)#, shared_by=ui)
+            serializer_class.save(post_id=pk, shared_by=ui)
             post_name = serializer_class.instance.post
             post_obj = Post.objects.get(about_post=post_name)
             post_obj.share_count += 1

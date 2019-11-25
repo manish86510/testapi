@@ -6,39 +6,42 @@ router = DefaultRouter()
 router.register(r'', views.PostViewSet, base_name='post')
 # router.register(r'post/comment', views.PostCommentViewSet, base_name='comment')
 router.register(r'media', views.PostMediaViewSet, base_name='media')
+router.register(r'comment', views.PostCommentViewSet, base_name='comment')
+router.register(r'like', views.PostLikeViewSet, base_name='like')
+router.register(r'share', views.PostShareViewSet, base_name='share')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('media/<int:post_id>/', views.PostMediaViewSet.as_view(
-        {
-            'get': 'list',
-            'post': 'create',
-            'put': 'update',
-            'delete': 'destroy'
-        }
-    ), name='post_comment_list'),
-    path('comment/<int:post_id>/', views.PostCommentViewSet.as_view(
-        {
-            'get': 'list',
-            'post': 'create',
-            'put': 'update',
-            'delete': 'destroy'
-        }
-    ), name='post_comment_list'),
-    path('likes/<int:post_id>/', views.PostLikeViewSet.as_view(
-        {
-            'get': 'list',
-            'post': 'create',
-            'put': 'update',
-            'delete': 'destroy'
-        }
-    ), name='post_likes_list'),
-    path('share/<int:post_id>/', views.PostShareViewSet.as_view(
-        {
-            'get': 'list',
-            'post': 'create',
-            'put': 'update',
-            'delete': 'destroy'
-        }
-    ), name='post_share_list')
+    # path('media/<int:post_id>/', views.PostMediaViewSet.as_view(
+    #     {
+    #         'get': 'list',
+    #         'post': 'create',
+    #         'put': 'update',
+    #         'delete': 'destroy'
+    #     }
+    # ), name='post_comment_list'),
+    # path('comment/<int:post_id>/', views.PostCommentViewSet.as_view(
+    #     {
+    #         'get': 'list',
+    #         'post': 'create',
+    #         'put': 'update',
+    #         'delete': 'destroy'
+    #     }
+    # ), name='post_comment_list'),
+    # path('likes/<int:post_id>/', views.PostLikeViewSet.as_view(
+    #     {
+    #         'get': 'list',
+    #         'post': 'create',
+    #         'put': 'update',
+    #         'delete': 'destroy'
+    #     }
+    # ), name='post_likes_list'),
+    # path('share/<int:post_id>/', views.PostShareViewSet.as_view(
+    #     {
+    #         'get': 'list',
+    #         'post': 'create',
+    #         'put': 'update',
+    #         'delete': 'destroy'
+    #     }
+    # ), name='post_share_list')
 ]

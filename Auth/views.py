@@ -92,7 +92,7 @@ def verifyMail(self, code):
 class CityViewSet(viewsets.ModelViewSet):
     serializer_class = CitySerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = City.objects.all()
@@ -111,7 +111,7 @@ class CityViewSet(viewsets.ModelViewSet):
 class EducationViewSet(viewsets.ModelViewSet):
     serializer_class = EducationSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = Education.objects.all()
@@ -130,7 +130,7 @@ class EducationViewSet(viewsets.ModelViewSet):
 class FollowerViewSet(viewsets.ModelViewSet):
     serializer_class = FollowerSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = Followers.objects.all()
@@ -149,7 +149,7 @@ class FollowerViewSet(viewsets.ModelViewSet):
 class InterestViewSet(viewsets.ModelViewSet):
     serializer_class = InterestSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = MyInterest.objects.all()
@@ -168,7 +168,7 @@ class InterestViewSet(viewsets.ModelViewSet):
 class LanguageViewSet(viewsets.ModelViewSet):
     serializer_class = LanguageSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = MyLanguage.objects.all()
@@ -187,7 +187,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
 class PlaceViewSet(viewsets.ModelViewSet):
     serializer_class = PlaceSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = MyPlaces.objects.all()
@@ -206,7 +206,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectsSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = MyProjects.objects.all()
@@ -225,7 +225,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class SkillViewSet(viewsets.ModelViewSet):
     serializer_class = SkillSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = MySkills.objects.all()
@@ -244,7 +244,7 @@ class SkillViewSet(viewsets.ModelViewSet):
 class SocialLinkViewSet(viewsets.ModelViewSet):
     serializer_class = SocialLinksSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = SocialLinks.objects.all()
@@ -263,7 +263,7 @@ class SocialLinkViewSet(viewsets.ModelViewSet):
 class WorkplaceViewSet(viewsets.ModelViewSet):
     serializer_class = WorkplaceSerializer
 
-    # http_method_names = ['post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = WorkPlace.objects.all()

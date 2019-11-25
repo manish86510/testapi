@@ -1,8 +1,97 @@
 from django.urls import path, include
-from .views import *
+from rest_framework.routers import DefaultRouter
+from . import views
+
+router = DefaultRouter()
+router.register(r'', views.UserViewSet, base_name='user')
+# router.register(r'user/city', views.CityViewSet, base_name='city')
 
 
 urlpatterns = [
+    path('', include(router.urls)),
+    path('verify_mail/<str:code>', views.verifyMail, name='verify_mail'),
+    path('city', views.CityViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='city_list'),
+    path('education', views.EducationViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='education_list'),
+    path('follower', views.FollowerViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='follower_list'),
+    path('interest', views.InterestViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='interest_list'),
+    path('language', views.LanguageViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='language_list'),
+    path('places', views.PlaceViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='places_list'),
+    path('project', views.ProjectViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='project_list'),
+    path('skill', views.SkillViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='skill_list'),
+    path('social-link', views.SocialLinkViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='social_link_list'),
+    path('workplace', views.WorkplaceViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='workplace_list'),
+
+
     # path('register', CreateUserView.as_view(), name='register'),
     # path('resend', ResendEmail.as_view(), name='resend_email'),
     # path('verify_mail/<str:code>', verifyMail, name='verify_mail'),

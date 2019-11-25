@@ -4,18 +4,18 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'', views.PostViewSet, base_name='post')
-# router.register(r'post/media', views.PostMediaViewSet, base_name='post_media')
+router.register(r'media', views.PostMediaViewSet, base_name='post_media')
 
 urlpatterns = [
    path('', include(router.urls)),
-   path('post/media/<int:post_id>/', views.PostMediaViewSet.as_view(
-      {
-         'get': 'list',
-         'post': 'create',
-         'put': 'update',
-         'delete': 'destroy'
-      }
-   ), name='post_media_list')
+   # path('media/<int:post_id>/', views.PostMediaViewSet.as_view(
+   #    {
+   #       'get': 'list',
+   #       'post': 'create',
+   #       'put': 'update',
+   #       'delete': 'destroy'
+   #    }
+   # ), name='post_media_list')
 
 
     # path('create_post', CreatePostView.as_view(), name='createpostview'),

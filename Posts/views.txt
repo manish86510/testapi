@@ -152,6 +152,7 @@ class PostMediaView(APIView):
             200: PostMediaSerializer,
         }
     )
+
     def get(self, instance):
         media_list = list()
         ui = instance.user.id

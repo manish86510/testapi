@@ -42,9 +42,10 @@ class PostMediaViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = PostMedia.objects.all()
+        if self.kwargs.get('post_id'):
+            queryset = queryset.filter(post=self.kwargs.get('post_id'))
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
     def list(self, request, *args, **kwargs):
         return super(PostMediaViewSet, self).list(request, *args, **kwargs)
 

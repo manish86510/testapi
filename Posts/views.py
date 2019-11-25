@@ -12,6 +12,7 @@ from .swagger.post_comments import PostCommentSwagger
 from .swagger.post_likes import PostLikeSwagger
 from .swagger.post_share import PostShareSwagger
 from django.utils.decorators import method_decorator
+from requests import Response
 
 
 @method_decorator(name='create', decorator=PostSwaggerDoc.create())
@@ -44,6 +45,7 @@ class PostViewSet(viewsets.ModelViewSet):
 @method_decorator(name='retrieve', decorator=PostMediaSwagger.retrieve())
 class PostMediaViewSet(viewsets.ModelViewSet):
     serializer_class = PostMediaSerializer
+
     # http_method_names = ['post', 'put', 'delete']
 
     def get_queryset(self):
@@ -62,6 +64,7 @@ class PostMediaViewSet(viewsets.ModelViewSet):
 @method_decorator(name='retrieve', decorator=PostCommentSwagger.retrieve())
 class PostCommentViewSet(viewsets.ModelViewSet):
     serializer_class = PostCommentSerializer
+
     # http_method_names = ['post', 'put', 'delete']
 
     def get_queryset(self):
@@ -80,11 +83,47 @@ class PostCommentViewSet(viewsets.ModelViewSet):
 @method_decorator(name='retrieve', decorator=PostLikeSwagger.retrieve())
 class PostLikeViewSet(viewsets.ModelViewSet):
     serializer_class = PostLikeSerializer
+
     # http_method_names = ['post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = PostLikes.objects.all()
         return queryset
+
+    def create(self, request, *args, **kwargs):
+        pk = request.POST.get('post')
+        ui = request.user.id
+        serializer_class = PostLikeSerializer(data=request.data)
+        if serializer_class.is_valid():
+            try:
+                post_det = PostLikes.objects.get(post=pk, user=ui)
+            except PostLikes.DoesNotExist:
+                post_det = None
+            if post_det is None:
+                serializer_class.save(post_id=pk)
+                post_name = serializer_class.instance.post
+                post_obj = Post.objects.get(about_post=post_name)
+                post_obj.like_count += 1
+                post_obj.save()
+                return Response("Like Saved Successfully", status=HTTP_200_OK)
+            else:
+                return Response("Like already stored", status=HTTP_200_OK)
+        else:
+            return Response("Cannot Like the Post", status=HTTP_200_OK)
+
+    def destroy(self, request, *args, **kwargs):
+        pk = request.POST.get('post')
+        ui = request.user.id
+        un = User.objects.get(id=ui)
+        user_name = un.username
+        saved_likes = get_object_or_404(PostLikes.objects.all(), post=pk, user=ui)
+        post_name = saved_likes.post
+        post_obj = Post.objects.get(about_post=post_name)
+        post_obj.like_count -= 1
+        post_obj.save()
+        saved_likes.delete()
+        return Response({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)},
+                        status=204)
 
     # @action(methods=['get'], url_path='/<int:post_id>')
     def list(self, request, *args, **kwargs):
@@ -98,13 +137,37 @@ class PostLikeViewSet(viewsets.ModelViewSet):
 @method_decorator(name='retrieve', decorator=PostShareSwagger.retrieve())
 class PostShareViewSet(viewsets.ModelViewSet):
     serializer_class = PostShareSerializer
+
     # http_method_names = ['post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = PostShare.objects.all()
         return queryset
 
+    def create(self, request, *args, **kwargs):
+        pk = request.POST.get('post')
+        ui = request.user
+        serializer_class = PostShareSerializer(data=request.data)
+        if serializer_class.is_valid():
+            serializer_class.save(post_id=pk, shared_by=ui)
+            post_name = serializer_class.instance.post
+            post_obj = Post.objects.get(about_post=post_name)
+            post_obj.share_count += 1
+            post_obj.save()
+            return Response("Saved Successfully", status=HTTP_200_OK)
+        else:
+            return Response("Something is wrong", status=HTTP_200_OK)
+
+    def destroy(self, request, *args, **kwargs):
+        pk = request.POST.get('id')
+        saved_shares = get_object_or_404(PostShare.objects.all(), id=pk)
+        post_name = saved_shares.post
+        post_obj = Post.objects.get(about_post=post_name)
+        post_obj.share_count -= 1
+        post_obj.save()
+        saved_shares.delete()
+        return Response({"message": "Shared Post with id {} has been deleted.".format(pk)}, status=204)
+
     # @action(methods=['get'], url_path='/<int:post_id>')
     def list(self, request, *args, **kwargs):
         return super(PostShareViewSet, self).list(request, *args, **kwargs)
-

@@ -63,7 +63,7 @@ class UserViewSet(viewsets.ModelViewSet):
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'
-            message = "Click here https://energe.do.viewyoursite.net/verify_mail/" + code + " to verify your email id."
+            message = "Click here " + request.build_absolute_uri() + "verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):
@@ -76,7 +76,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 @api_view(["GET"])
 @permission_classes((permissions.AllowAny,))
-def verifyMail(code):
+def verifyMail(self, code):
     try:
         User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
     except:

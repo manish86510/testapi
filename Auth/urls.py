@@ -18,6 +18,78 @@ urlpatterns = [
             'delete': 'destroy'
         }
     ), name='city_list'),
+    path('education', views.EducationViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='education_list'),
+    path('follower', views.FollowerViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='follower_list'),
+    path('interest', views.InterestViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='interest_list'),
+    path('language', views.LanguageViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='language_list'),
+    path('places', views.PlaceViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='places_list'),
+    path('project', views.ProjectViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='project_list'),
+    path('skill', views.SkillViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='skill_list'),
+    path('social-link', views.SocialLinkViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='social_link_list'),
+    path('workplace', views.WorkplaceViewSet.as_view(
+        {
+            'get': 'list',
+            'post': 'create',
+            'put': 'update',
+            'delete': 'destroy'
+        }
+    ), name='workplace_list'),
 
 
     # path('register', CreateUserView.as_view(), name='register'),

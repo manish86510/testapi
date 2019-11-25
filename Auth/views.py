@@ -2,8 +2,26 @@ from rest_framework import viewsets, permissions
 from .models import *
 from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer
 from .serializers.user_city import CitySerializer
+from .serializers.user_education import EducationSerializer
+from .serializers.user_my_followers import FollowerSerializer
+from .serializers.user_my_interest import InterestSerializer
+from .serializers.user_my_languages import LanguageSerializer
+from .serializers.user_my_places import PlaceSerializer
+from .serializers.user_my_projects import ProjectsSerializer
+from .serializers.user_my_skills import SkillSerializer
+from .serializers.user_social_links import SocialLinksSerializer
+from .serializers.user_workplace import WorkplaceSerializer
 from .swagger.user import UserSwaggerDoc
 from .swagger.user_city import CitySwagger
+from .swagger.user_education import EducationSwagger
+from .swagger.user_my_followers import FollowerSwagger
+from .swagger.user_my_interest import InterestSwagger
+from .swagger.user_my_languages import LanguageSwagger
+from .swagger.user_my_places import PlaceSwagger
+from .swagger.user_my_projects import ProjectSwagger
+from .swagger.user_my_skills import SkillSwagger
+from .swagger.user_social_links import SocialLinkSwagger
+from .swagger.user_workplace import WorkplaceSwagger
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 from rest_framework.response import Response
@@ -58,7 +76,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 @api_view(["GET"])
 @permission_classes((permissions.AllowAny,))
-def verifyMail(self, code):
+def verifyMail(code):
     try:
         User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
     except:
@@ -73,6 +91,7 @@ def verifyMail(self, code):
 @method_decorator(name='retrieve', decorator=CitySwagger.retrieve())
 class CityViewSet(viewsets.ModelViewSet):
     serializer_class = CitySerializer
+
     # http_method_names = ['post', 'put', 'delete']
 
     def get_queryset(self):
@@ -82,3 +101,174 @@ class CityViewSet(viewsets.ModelViewSet):
     # @action(methods=['get'], url_path='/<int:post_id>')
     def list(self, request, *args, **kwargs):
         return super(CityViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=EducationSwagger.create())
+@method_decorator(name='list', decorator=EducationSwagger.list())
+@method_decorator(name='destroy', decorator=EducationSwagger.delete())
+@method_decorator(name='update', decorator=EducationSwagger.update())
+@method_decorator(name='retrieve', decorator=EducationSwagger.retrieve())
+class EducationViewSet(viewsets.ModelViewSet):
+    serializer_class = EducationSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = Education.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(EducationViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=FollowerSwagger.create())
+@method_decorator(name='list', decorator=FollowerSwagger.list())
+@method_decorator(name='destroy', decorator=FollowerSwagger.delete())
+@method_decorator(name='update', decorator=FollowerSwagger.update())
+@method_decorator(name='retrieve', decorator=FollowerSwagger.retrieve())
+class FollowerViewSet(viewsets.ModelViewSet):
+    serializer_class = FollowerSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = Followers.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(FollowerViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=InterestSwagger.create())
+@method_decorator(name='list', decorator=InterestSwagger.list())
+@method_decorator(name='destroy', decorator=InterestSwagger.delete())
+@method_decorator(name='update', decorator=InterestSwagger.update())
+@method_decorator(name='retrieve', decorator=InterestSwagger.retrieve())
+class InterestViewSet(viewsets.ModelViewSet):
+    serializer_class = InterestSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = MyInterest.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(InterestViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=LanguageSwagger.create())
+@method_decorator(name='list', decorator=LanguageSwagger.list())
+@method_decorator(name='destroy', decorator=LanguageSwagger.delete())
+@method_decorator(name='update', decorator=LanguageSwagger.update())
+@method_decorator(name='retrieve', decorator=LanguageSwagger.retrieve())
+class LanguageViewSet(viewsets.ModelViewSet):
+    serializer_class = LanguageSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = MyLanguage.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(LanguageViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=PlaceSwagger.create())
+@method_decorator(name='list', decorator=PlaceSwagger.list())
+@method_decorator(name='destroy', decorator=PlaceSwagger.delete())
+@method_decorator(name='update', decorator=PlaceSwagger.update())
+@method_decorator(name='retrieve', decorator=PlaceSwagger.retrieve())
+class PlaceViewSet(viewsets.ModelViewSet):
+    serializer_class = PlaceSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = MyPlaces.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(PlaceViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=ProjectSwagger.create())
+@method_decorator(name='list', decorator=ProjectSwagger.list())
+@method_decorator(name='destroy', decorator=ProjectSwagger.delete())
+@method_decorator(name='update', decorator=ProjectSwagger.update())
+@method_decorator(name='retrieve', decorator=ProjectSwagger.retrieve())
+class ProjectViewSet(viewsets.ModelViewSet):
+    serializer_class = ProjectsSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = MyProjects.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(ProjectViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=SkillSwagger.create())
+@method_decorator(name='list', decorator=SkillSwagger.list())
+@method_decorator(name='destroy', decorator=SkillSwagger.delete())
+@method_decorator(name='update', decorator=SkillSwagger.update())
+@method_decorator(name='retrieve', decorator=SkillSwagger.retrieve())
+class SkillViewSet(viewsets.ModelViewSet):
+    serializer_class = SkillSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = MySkills.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(SkillViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=SocialLinkSwagger.create())
+@method_decorator(name='list', decorator=SocialLinkSwagger.list())
+@method_decorator(name='destroy', decorator=SocialLinkSwagger.delete())
+@method_decorator(name='update', decorator=SocialLinkSwagger.update())
+@method_decorator(name='retrieve', decorator=SocialLinkSwagger.retrieve())
+class SocialLinkViewSet(viewsets.ModelViewSet):
+    serializer_class = SocialLinksSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = SocialLinks.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(SocialLinkViewSet, self).list(request, *args, **kwargs)
+
+
+@method_decorator(name='create', decorator=WorkplaceSwagger.create())
+@method_decorator(name='list', decorator=WorkplaceSwagger.list())
+@method_decorator(name='destroy', decorator=WorkplaceSwagger.delete())
+@method_decorator(name='update', decorator=WorkplaceSwagger.update())
+@method_decorator(name='retrieve', decorator=WorkplaceSwagger.retrieve())
+class WorkplaceViewSet(viewsets.ModelViewSet):
+    serializer_class = WorkplaceSerializer
+
+    # http_method_names = ['post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = WorkPlace.objects.all()
+        return queryset
+
+    # @action(methods=['get'], url_path='/<int:post_id>')
+    def list(self, request, *args, **kwargs):
+        return super(WorkplaceViewSet, self).list(request, *args, **kwargs)

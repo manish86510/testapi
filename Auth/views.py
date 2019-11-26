@@ -70,8 +70,13 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response("Please verify your mail", status=HTTP_200_OK)
             else:
                 return Response("Verification Mail not sent!", status=HTTP_200_OK)
-        else:
             return Response(serializer_class.errors)
+        else:
+            pass
+
+    def get_queryset(self):
+        queryset = User.objects.filter(user=self.request.user.id)
+        return queryset
 
 
 @api_view(["GET"])
@@ -98,9 +103,10 @@ class CityViewSet(viewsets.ModelViewSet):
         queryset = City.objects.all()
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(CityViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=EducationSwagger.create())
@@ -114,12 +120,13 @@ class EducationViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Education.objects.all()
+        queryset = Education.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(EducationViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=FollowerSwagger.create())
@@ -133,12 +140,13 @@ class FollowerViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Followers.objects.all()
+        queryset = Followers.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(FollowerViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=InterestSwagger.create())
@@ -152,12 +160,13 @@ class InterestViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = MyInterest.objects.all()
+        queryset = MyInterest.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(InterestViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=LanguageSwagger.create())
@@ -171,12 +180,13 @@ class LanguageViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = MyLanguage.objects.all()
+        queryset = MyLanguage.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(LanguageViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=PlaceSwagger.create())
@@ -190,12 +200,13 @@ class PlaceViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = MyPlaces.objects.all()
+        queryset = MyPlaces.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(PlaceViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=ProjectSwagger.create())
@@ -209,12 +220,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = MyProjects.objects.all()
+        queryset = MyProjects.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(ProjectViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=SkillSwagger.create())
@@ -228,12 +240,13 @@ class SkillViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = MySkills.objects.all()
+        queryset = MySkills.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(SkillViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=SocialLinkSwagger.create())
@@ -247,12 +260,13 @@ class SocialLinkViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = SocialLinks.objects.all()
+        queryset = SocialLinks.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(SocialLinkViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=WorkplaceSwagger.create())
@@ -266,9 +280,10 @@ class WorkplaceViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = WorkPlace.objects.all()
+        queryset = WorkPlace.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(WorkplaceViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()

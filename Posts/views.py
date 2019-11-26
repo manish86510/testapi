@@ -1,4 +1,6 @@
 from rest_framework import viewsets, permissions
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from .models import *
 # from .serializers import *
 from .serializers.post import PostSerializer, PostCreateSerializer
@@ -15,7 +17,10 @@ from django.utils.decorators import method_decorator
 from requests import Response
 from rest_framework.generics import get_object_or_404
 from rest_framework.status import HTTP_200_OK
+from django.db.models import Q
 
+
+# from rest_framework.permissions import IsAuthenticated
 
 @method_decorator(name='create', decorator=PostSwaggerDoc.create())
 @method_decorator(name='list', decorator=PostSwaggerDoc.list())
@@ -23,10 +28,8 @@ from rest_framework.status import HTTP_200_OK
 @method_decorator(name='update', decorator=PostSwaggerDoc.update())
 @method_decorator(name='retrieve', decorator=PostSwaggerDoc.retrieve())
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
     serializer_class = PostSerializer
     http_method_names = ['get', 'post', 'put', 'delete']
-    # permission_classes = [permissions.AllowAny, ]
     serializer_action_classes = {
         'list': PostSerializer,
         'create': PostCreateSerializer,
@@ -38,6 +41,15 @@ class PostViewSet(viewsets.ModelViewSet):
             return self.serializer_action_classes[self.action]
         except(KeyError, AttributeError):
             return super().get_serializer_class()
+
+    def get_queryset(self):
+        queryset = Post.objects.filter(Q(user=self.request.user.id) | Q(is_public=True))
+        return queryset
+
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=PostMediaSwagger.create())
@@ -56,8 +68,10 @@ class PostMediaViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(post=self.kwargs.get('post_id'))
         return queryset
 
-    def list(self, request, *args, **kwargs):
-        return super(PostMediaViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=PostCommentSwagger.create())
@@ -71,12 +85,13 @@ class PostCommentViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = PostComments.objects.all()
+        queryset = PostComments.objects.filter(user=self.request.user.id)
         return queryset
 
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(PostCommentViewSet, self).list(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.save()
 
 
 @method_decorator(name='create', decorator=PostLikeSwagger.create())
@@ -90,7 +105,7 @@ class PostLikeViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'delete']
 
     def get_queryset(self):
-        queryset = PostLikes.objects.all()
+        queryset = PostLikes.objects.filter(user=self.request.user.id)
         return queryset
 
     def create(self, request, *args, **kwargs):
@@ -125,11 +140,8 @@ class PostLikeViewSet(viewsets.ModelViewSet):
         post_obj.like_count -= 1
         post_obj.save()
         saved_likes.delete()
-        return Response({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)}, status=204)
-
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(PostLikeViewSet, self).list(request, *args, **kwargs)
+        return Response({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)},
+                        status=204)
 
 
 @method_decorator(name='create', decorator=PostShareSwagger.create())
@@ -143,7 +155,7 @@ class PostShareViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = PostShare.objects.all()
+        queryset = PostShare.objects.filter(shared_by=self.request.user.pk)
         return queryset
 
     def create(self, request, *args, **kwargs):
@@ -169,7 +181,3 @@ class PostShareViewSet(viewsets.ModelViewSet):
         post_obj.save()
         saved_shares.delete()
         return Response({"message": "Shared Post with id {} has been deleted.".format(pk)}, status=204)
-
-    # @action(methods=['get'], url_path='/<int:post_id>')
-    def list(self, request, *args, **kwargs):
-        return super(PostShareViewSet, self).list(request, *args, **kwargs)

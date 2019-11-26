@@ -74,9 +74,6 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             pass
 
-    def get_queryset(self):
-        queryset = User.objects.filter(user=self.request.user.id)
-        return queryset
 
 
 @api_view(["GET"])

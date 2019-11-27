@@ -70,9 +70,9 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response("Please verify your mail", status=HTTP_200_OK)
             else:
                 return Response("Verification Mail not sent!", status=HTTP_200_OK)
-            return Response(serializer_class.errors)
+            return Response("wrong entry!", status=HTTP_200_OK)
         else:
-            pass
+            return Response(serializer_class.errors)
 
 
 

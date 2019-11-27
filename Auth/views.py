@@ -1,4 +1,7 @@
 from rest_framework import viewsets, permissions
+from django.contrib.auth.decorators import login_required
+from rest_framework.permissions import BasePermission
+
 from .models import *
 from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer
 from .serializers.user_city import CitySerializer
@@ -36,21 +39,32 @@ from django.conf import settings
 import string, random
 
 
+class AllowCreateUser(BasePermission):
+    def has_permission(self, request, view):
+        if (request.method in ['POST'] or
+                request.user and
+                request.user.is_authenticated):
+            return True
+        return False
+
 @method_decorator(name='create', decorator=UserSwaggerDoc.create())
 @method_decorator(name='list', decorator=UserSwaggerDoc.list())
 @method_decorator(name='destroy', decorator=UserSwaggerDoc.delete())
 @method_decorator(name='update', decorator=UserSwaggerDoc.update())
 @method_decorator(name='retrieve', decorator=UserSwaggerDoc.retrieve())
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
     http_method_names = ['get', 'post', 'put', 'delete']
-    permission_classes = [permissions.AllowAny, ]
     serializer_action_class = {
         'list': UserSerializer,
         'create': UserCreateSerializer,
         'update': UserUpdateSerializer,
     }
+    permission_classes = [AllowCreateUser]
+
+    def get_queryset(self):
+        queryset = User.objects.filter(id=self.request.user.id)
+        return queryset
 
     def get_serializer_class(self):
         try:

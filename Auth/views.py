@@ -26,7 +26,12 @@ from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_404_NOT_FOUND,
+    HTTP_400_BAD_REQUEST,
+    HTTP_408_REQUEST_TIMEOUT,
+)
 from django.conf import settings
 import string, random
 
@@ -69,11 +74,9 @@ class UserViewSet(viewsets.ModelViewSet):
             if send_mail(subject, message, email_from, recipient_list):
                 return Response("Please verify your mail", status=HTTP_200_OK)
             else:
-                return Response("Verification Mail not sent!", status=HTTP_200_OK)
-            return Response("wrong entry!", status=HTTP_200_OK)
+                return Response("Verification Mail not sent!", status=HTTP_408_REQUEST_TIMEOUT)
         else:
-            return Response(serializer_class.errors)
-
+            return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])

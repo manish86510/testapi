@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated
 from .models import *
 # from .serializers import *
@@ -102,12 +102,34 @@ class PostCommentViewSet(viewsets.ModelViewSet):
 class PostLikeViewSet(viewsets.ModelViewSet):
     serializer_class = PostLikeSerializer
 
-    http_method_names = ['get', 'post', 'delete']
+    import pdb
+    pdb.set_trace()
+
+    http_method_names = ['get', 'put', 'post', 'delete']
 
     def get_queryset(self):
         queryset = PostLikes.objects.filter(user=self.request.user.id)
         return queryset
 
+
+    # def perform_create(self, serializer):
+    #     try:
+    #         post_det = PostLikes.objects.get(post=self.request.pk, user=self.request.user.id)
+    #     except PostLikes.DoesNotExist:
+    #         post_det = None
+    #     if post_det is None:
+    #         import pdb
+    #         pdb.set_trace()
+    #         serializer.save(post_id=self.request.pk)
+    #         post_name = serializer.instance.post
+    #         post_obj = Post.objects.get(about_post=post_name)
+    #         post_obj.like_count += 1
+    #         post_obj.save()
+    #         return Response("Like Saved Successfully", status=HTTP_200_OK)
+    #     else:
+    #         return Response("Like already stored", status=HTTP_200_OK)
+
+    @api_view(['POST'])
     def create(self, request, *args, **kwargs):
         pk = request.POST.get('post')
         ui = request.user.id

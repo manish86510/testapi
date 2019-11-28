@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Posts.serializers.post_comments import PostCommentSerializer, PostCommentCreateSerializer
+from Posts.serializers.post_comments import PostCommentSerializer
 
 
 class PostCommentSwagger:
@@ -10,7 +10,7 @@ class PostCommentSwagger:
             tags=["Post Comment"],
             operation_summary="Creates a New Post",
             operation_description="Creates post using the details provided by the user",
-            request_body=PostCommentCreateSerializer,
+            request_body=PostCommentSerializer,
             responses={'200': PostCommentSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class PostCommentSwagger:
             tags=["Post Comment"],
             operation_summary="Update Post",
             operation_description="Creates post using the details provided by the user",
-            request_body=PostCommentCreateSerializer,
+            request_body=PostCommentSerializer,
             responses={'200': PostCommentSerializer}
         )
         return doc

@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated
 from .models import *
@@ -43,7 +44,7 @@ class PostViewSet(viewsets.ModelViewSet):
             return super().get_serializer_class()
 
     def get_queryset(self):
-        queryset = Post.objects.filter(Q(user=self.request.user.id) | Q(is_public=True))
+        queryset = Post.objects.filter(Q(user=self.request.user.id) | Q(is_public=True)).order_by('-id')
         return queryset
 
     def perform_create(self, serializer):
@@ -85,6 +86,7 @@ class PostCommentViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
+        # queryset = PostComments.objects.all()
         queryset = PostComments.objects.filter(user=self.request.user.id)
         return queryset
 

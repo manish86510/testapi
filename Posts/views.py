@@ -44,7 +44,7 @@ class PostViewSet(viewsets.ModelViewSet):
             return super().get_serializer_class()
 
     def get_queryset(self):
-        queryset = Post.objects.filter(Q(user=self.request.user.id) | Q(is_public=True))
+        queryset = Post.objects.filter(Q(user=self.request.user.id) | Q(is_public=True)).order_by('-id')
         return queryset
 
     def perform_create(self, serializer):

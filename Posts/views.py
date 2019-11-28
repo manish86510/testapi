@@ -102,8 +102,6 @@ class PostCommentViewSet(viewsets.ModelViewSet):
 class PostLikeViewSet(viewsets.ModelViewSet):
     serializer_class = PostLikeSerializer
 
-    import pdb
-    pdb.set_trace()
 
     http_method_names = ['get', 'put', 'post', 'delete']
 

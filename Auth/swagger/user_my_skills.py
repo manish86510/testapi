@@ -1,8 +1,8 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_skills import SkillSerializer
+from Auth.serializers.user_my_skills import MySkillSerializer
 
 
-class SkillSwagger:
+class MySkillSwagger:
 
     @staticmethod
     def create():
@@ -10,8 +10,8 @@ class SkillSwagger:
             tags=["My Skills"],
             operation_summary="Adds User Skill",
             operation_description="Adds My skill information for the user",
-            request_body=SkillSerializer,
-            responses={200: SkillSerializer}
+            request_body=MySkillSerializer,
+            responses={200: MySkillSerializer}
         )
         return doc
 
@@ -30,8 +30,8 @@ class SkillSwagger:
             tags=["My Skills"],
             operation_summary="Updates User Skill",
             operation_description="Updates My skill information for the user",
-            request_body=SkillSerializer,
-            responses={200: SkillSerializer}
+            request_body=MySkillSerializer,
+            responses={200: MySkillSerializer}
         )
         return doc
 
@@ -41,7 +41,7 @@ class SkillSwagger:
             tags=["My Skills"],
             operation_summary="Lists User Skills",
             operation_description="List all My skill information for the user",
-            responses={200: SkillSerializer}
+            responses={200: MySkillSerializer}
         )
         return doc
 
@@ -51,7 +51,7 @@ class SkillSwagger:
             tags=["My Skills"],
             operation_summary="Retrieve User Skill",
             operation_description="Retrieve My skill information for the user",
-            responses={200: SkillSerializer}
+            responses={200: MySkillSerializer}
         )
         return doc
 

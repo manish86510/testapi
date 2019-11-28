@@ -1,8 +1,8 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_languages import LanguageSerializer
+from Auth.serializers.user_my_languages import MyLanguageSerializer
 
 
-class LanguageSwagger:
+class MyLanguageSwagger:
 
     @staticmethod
     def create():
@@ -10,8 +10,8 @@ class LanguageSwagger:
             tags=["My Languages"],
             operation_summary="Adds a User Language",
             operation_description="Adds a language by the user",
-            request_body=LanguageSerializer,
-            responses={200: LanguageSerializer}
+            request_body=MyLanguageSerializer,
+            responses={200: MyLanguageSerializer}
         )
         return doc
 
@@ -30,8 +30,8 @@ class LanguageSwagger:
             tags=["My Languages"],
             operation_summary="Updates a User Language",
             operation_description="Updates a language by the user",
-            request_body=LanguageSerializer,
-            responses={200: LanguageSerializer}
+            request_body=MyLanguageSerializer,
+            responses={200: MyLanguageSerializer}
         )
         return doc
 
@@ -41,7 +41,7 @@ class LanguageSwagger:
             tags=["My Languages"],
             operation_summary="Lists All User Languages",
             operation_description="Lists all languages added by the user",
-            responses={200: LanguageSerializer(many=True)}
+            responses={200: MyLanguageSerializer(many=True)}
         )
         return doc
 
@@ -51,6 +51,6 @@ class LanguageSwagger:
             tags=["My Languages"],
             operation_summary="Retireve a User Language",
             operation_description="Retrieve a language by the user",
-            responses={200: LanguageSerializer}
+            responses={200: MyLanguageSerializer}
         )
         return doc

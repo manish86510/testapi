@@ -24,4 +24,3 @@ class SoftDeleteModel(models.Model):
 
     def hard_delete(self):
         super(SoftDeletionModel, self).delete()
-

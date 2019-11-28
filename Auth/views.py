@@ -7,24 +7,32 @@ from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSe
 from .serializers.user_city import CitySerializer
 from .serializers.user_education import EducationSerializer
 from .serializers.user_my_followers import FollowerSerializer
-from .serializers.user_my_interest import InterestSerializer
-from .serializers.user_my_languages import LanguageSerializer
+from .serializers.user_my_interest import MyInterestSerializer
+from .serializers.user_my_languages import MyLanguageSerializer
 from .serializers.user_my_places import PlaceSerializer
 from .serializers.user_my_projects import ProjectsSerializer
-from .serializers.user_my_skills import SkillSerializer
+from .serializers.user_my_skills import MySkillSerializer
 from .serializers.user_social_links import SocialLinksSerializer
 from .serializers.user_workplace import WorkplaceSerializer
+from .serializers.interest import InterestSerializer
+from .serializers.language import LanguageSerializer
+from .serializers.skill import SkillCreateSerializer
+
 from .swagger.user import UserSwaggerDoc
 from .swagger.user_city import CitySwagger
 from .swagger.user_education import EducationSwagger
 from .swagger.user_my_followers import FollowerSwagger
-from .swagger.user_my_interest import InterestSwagger
-from .swagger.user_my_languages import LanguageSwagger
+from .swagger.user_my_interest import MyInterestSwagger
+from .swagger.user_my_languages import MyLanguageSwagger
 from .swagger.user_my_places import PlaceSwagger
 from .swagger.user_my_projects import ProjectSwagger
-from .swagger.user_my_skills import SkillSwagger
+from .swagger.user_my_skills import MySkillSwagger
 from .swagger.user_social_links import SocialLinkSwagger
 from .swagger.user_workplace import WorkplaceSwagger
+from .swagger.interest import InterestSwagger
+from .swagger.language import LanguageSwagger
+from .swagger.skill import SkillSwagger
+
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 from rest_framework.response import Response
@@ -46,6 +54,7 @@ class AllowCreateUser(BasePermission):
                 request.user.is_authenticated):
             return True
         return False
+
 
 @method_decorator(name='create', decorator=UserSwaggerDoc.create())
 @method_decorator(name='list', decorator=UserSwaggerDoc.list())
@@ -128,7 +137,7 @@ class CityViewSet(viewsets.ModelViewSet):
 @method_decorator(name='destroy', decorator=EducationSwagger.delete())
 @method_decorator(name='update', decorator=EducationSwagger.update())
 @method_decorator(name='retrieve', decorator=EducationSwagger.retrieve())
-class EducationViewSet(viewsets.ModelViewSet):
+class MyEducationViewSet(viewsets.ModelViewSet):
     serializer_class = EducationSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
@@ -148,7 +157,7 @@ class EducationViewSet(viewsets.ModelViewSet):
 @method_decorator(name='destroy', decorator=FollowerSwagger.delete())
 @method_decorator(name='update', decorator=FollowerSwagger.update())
 @method_decorator(name='retrieve', decorator=FollowerSwagger.retrieve())
-class FollowerViewSet(viewsets.ModelViewSet):
+class MyFollowerViewSet(viewsets.ModelViewSet):
     serializer_class = FollowerSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
@@ -163,13 +172,13 @@ class FollowerViewSet(viewsets.ModelViewSet):
         post.save()
 
 
-@method_decorator(name='create', decorator=InterestSwagger.create())
-@method_decorator(name='list', decorator=InterestSwagger.list())
-@method_decorator(name='destroy', decorator=InterestSwagger.delete())
-@method_decorator(name='update', decorator=InterestSwagger.update())
-@method_decorator(name='retrieve', decorator=InterestSwagger.retrieve())
-class InterestViewSet(viewsets.ModelViewSet):
-    serializer_class = InterestSerializer
+@method_decorator(name='create', decorator=MyInterestSwagger.create())
+@method_decorator(name='list', decorator=MyInterestSwagger.list())
+@method_decorator(name='destroy', decorator=MyInterestSwagger.delete())
+@method_decorator(name='update', decorator=MyInterestSwagger.update())
+@method_decorator(name='retrieve', decorator=MyInterestSwagger.retrieve())
+class MyInterestViewSet(viewsets.ModelViewSet):
+    serializer_class = MyInterestSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
 
@@ -183,13 +192,13 @@ class InterestViewSet(viewsets.ModelViewSet):
         post.save()
 
 
-@method_decorator(name='create', decorator=LanguageSwagger.create())
-@method_decorator(name='list', decorator=LanguageSwagger.list())
-@method_decorator(name='destroy', decorator=LanguageSwagger.delete())
-@method_decorator(name='update', decorator=LanguageSwagger.update())
-@method_decorator(name='retrieve', decorator=LanguageSwagger.retrieve())
-class LanguageViewSet(viewsets.ModelViewSet):
-    serializer_class = LanguageSerializer
+@method_decorator(name='create', decorator=MyLanguageSwagger.create())
+@method_decorator(name='list', decorator=MyLanguageSwagger.list())
+@method_decorator(name='destroy', decorator=MyLanguageSwagger.delete())
+@method_decorator(name='update', decorator=MyLanguageSwagger.update())
+@method_decorator(name='retrieve', decorator=MyLanguageSwagger.retrieve())
+class MyLanguageViewSet(viewsets.ModelViewSet):
+    serializer_class = MyLanguageSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
 
@@ -208,7 +217,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
 @method_decorator(name='destroy', decorator=PlaceSwagger.delete())
 @method_decorator(name='update', decorator=PlaceSwagger.update())
 @method_decorator(name='retrieve', decorator=PlaceSwagger.retrieve())
-class PlaceViewSet(viewsets.ModelViewSet):
+class MyPlaceViewSet(viewsets.ModelViewSet):
     serializer_class = PlaceSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
@@ -228,7 +237,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
 @method_decorator(name='destroy', decorator=ProjectSwagger.delete())
 @method_decorator(name='update', decorator=ProjectSwagger.update())
 @method_decorator(name='retrieve', decorator=ProjectSwagger.retrieve())
-class ProjectViewSet(viewsets.ModelViewSet):
+class MyProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectsSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
@@ -243,13 +252,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
         post.save()
 
 
-@method_decorator(name='create', decorator=SkillSwagger.create())
-@method_decorator(name='list', decorator=SkillSwagger.list())
-@method_decorator(name='destroy', decorator=SkillSwagger.delete())
-@method_decorator(name='update', decorator=SkillSwagger.update())
-@method_decorator(name='retrieve', decorator=SkillSwagger.retrieve())
-class SkillViewSet(viewsets.ModelViewSet):
-    serializer_class = SkillSerializer
+@method_decorator(name='create', decorator=MySkillSwagger.create())
+@method_decorator(name='list', decorator=MySkillSwagger.list())
+@method_decorator(name='destroy', decorator=MySkillSwagger.delete())
+@method_decorator(name='update', decorator=MySkillSwagger.update())
+@method_decorator(name='retrieve', decorator=MySkillSwagger.retrieve())
+class MySkillViewSet(viewsets.ModelViewSet):
+    serializer_class = MySkillSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
 
@@ -301,3 +310,51 @@ class WorkplaceViewSet(viewsets.ModelViewSet):
         post = serializer.save()
         post.user = self.request.user
         post.save()
+
+
+@method_decorator(name='create', decorator=InterestSwagger.create())
+@method_decorator(name='list', decorator=InterestSwagger.list())
+@method_decorator(name='destroy', decorator=InterestSwagger.delete())
+@method_decorator(name='update', decorator=InterestSwagger.update())
+@method_decorator(name='retrieve', decorator=InterestSwagger.retrieve())
+class InterestViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny,]
+    serializer_class = InterestSerializer
+
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = Interests.objects.all()
+        return queryset
+
+
+@method_decorator(name='create', decorator=SkillSwagger.create())
+@method_decorator(name='list', decorator=SkillSwagger.list())
+@method_decorator(name='destroy', decorator=SkillSwagger.delete())
+@method_decorator(name='update', decorator=SkillSwagger.update())
+@method_decorator(name='retrieve', decorator=SkillSwagger.retrieve())
+class SkillViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny,]
+    serializer_class = SkillCreateSerializer
+
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = Skills.objects.all()
+        return queryset
+
+
+@method_decorator(name='create', decorator=LanguageSwagger.create())
+@method_decorator(name='list', decorator=LanguageSwagger.list())
+@method_decorator(name='destroy', decorator=LanguageSwagger.delete())
+@method_decorator(name='update', decorator=LanguageSwagger.update())
+@method_decorator(name='retrieve', decorator=LanguageSwagger.retrieve())
+class LanguageViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny,]
+    serializer_class = LanguageSerializer
+
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = Languages.objects.all()
+        return queryset

@@ -1,8 +1,8 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_interest import InterestSerializer
+from Auth.serializers.user_my_interest import MyInterestSerializer
 
 
-class InterestSwagger:
+class MyInterestSwagger:
 
     @staticmethod
     def create():
@@ -10,8 +10,8 @@ class InterestSwagger:
             tags=["My Interest"],
             operation_summary="Add User Interest",
             operation_description="Adds a user interest by the user",
-            request_body=InterestSerializer,
-            responses={200: InterestSerializer}
+            request_body=MyInterestSerializer,
+            responses={200: MyInterestSerializer}
         )
         return doc
 
@@ -30,8 +30,8 @@ class InterestSwagger:
             tags=["My Interest"],
             operation_summary="Update User Interest",
             operation_description="Updates a user interest by the user",
-            request_body=InterestSerializer,
-            responses={200: InterestSerializer}
+            request_body=MyInterestSerializer,
+            responses={200: MyInterestSerializer}
         )
         return doc
 
@@ -41,7 +41,7 @@ class InterestSwagger:
             tags=["My Interest"],
             operation_summary="List User Interest",
             operation_description="List all user interests",
-            responses={200: InterestSerializer(many=True)}
+            responses={200: MyInterestSerializer(many=True)}
         )
         return doc
 
@@ -51,6 +51,6 @@ class InterestSwagger:
             tags=["My Interest"],
             operation_summary="Retrieve User Interest",
             operation_description="Retrieve a user interest by ID",
-            responses={200: InterestSerializer}
+            responses={200: MyInterestSerializer}
         )
         return doc

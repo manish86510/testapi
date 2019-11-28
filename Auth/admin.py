@@ -48,6 +48,16 @@ class SocialLinksOptionsAdmin(BaseAdmin):
     search_fields = ('id', 'name', 'unique_id', 'user')
 
 
+class MySkillsOptionsAdmin(BaseAdmin):
+    list_display = ('id', 'user', 'skill')
+    search_fields = ('id', 'user', 'skill')
+
+
+class MyFollowersOptionsAdmin(BaseAdmin):
+    list_display = ('id', 'user', 'follower')
+    search_fields = ('id', 'user', 'follower')
+
+
 admin.site.register(User, UserOptionsAdmin)
 admin.site.register(City, CityOptionsAdmin)
 admin.site.register(WorkPlace, WorkPlacesOptionsAdmin)
@@ -57,3 +67,5 @@ admin.site.register(MyInterest, MyInterestOptionsAdmin)
 admin.site.register(MyLanguage, MyLanguageOptionsAdmin)
 admin.site.register(MyProjects, MyProjectsOptionsAdmin)
 admin.site.register(SocialLinks, SocialLinksOptionsAdmin)
+admin.site.register(MySkills, MySkillsOptionsAdmin)
+admin.site.register(Followers, MyFollowersOptionsAdmin)

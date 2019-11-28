@@ -102,7 +102,6 @@ class PostCommentViewSet(viewsets.ModelViewSet):
 class PostLikeViewSet(viewsets.ModelViewSet):
     serializer_class = PostLikeSerializer
 
-
     http_method_names = ['get', 'put', 'post', 'delete']
 
     def get_queryset(self):
@@ -127,7 +126,7 @@ class PostLikeViewSet(viewsets.ModelViewSet):
     #     else:
     #         return Response("Like already stored", status=HTTP_200_OK)
 
-    @api_view(['POST'])
+    # @api_view(['POST'])
     def create(self, request, *args, **kwargs):
         pk = request.POST.get('post')
         ui = request.user.id

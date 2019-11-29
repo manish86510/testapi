@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_places import PlaceSerializer
+from Auth.serializers.user_my_places import PlaceSerializer, PlaceCreateSerializer
 
 
 class PlaceSwagger:
@@ -10,7 +10,7 @@ class PlaceSwagger:
             tags=["My Places"],
             operation_summary="Adds User Place",
             operation_description="Adds a my place for the user",
-            request_body=PlaceSerializer,
+            request_body=PlaceCreateSerializer,
             responses={200: PlaceSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class PlaceSwagger:
             tags=["My Places"],
             operation_summary="Updates User Place",
             operation_description="Updates a my place for the user",
-            request_body=PlaceSerializer,
+            request_body=PlaceCreateSerializer,
             responses={200: PlaceSerializer}
         )
         return doc

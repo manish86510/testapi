@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_social_links import SocialLinksSerializer
+from Auth.serializers.user_social_links import SocialLinksSerializer, SocialLinksCreateSerializer
 
 
 class SocialLinkSwagger:
@@ -10,7 +10,7 @@ class SocialLinkSwagger:
             tags=["My Social Links"],
             operation_summary="Adds Social Links",
             operation_description="Adds social links for a user",
-            request_body=SocialLinksSerializer,
+            request_body=SocialLinksCreateSerializer,
             responses={200: SocialLinksSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class SocialLinkSwagger:
             tags=["My Social Links"],
             operation_summary="Updates Social Links",
             operation_description="Updates social links for a user",
-            request_body=SocialLinksSerializer,
+            request_body=SocialLinksCreateSerializer,
             responses={200: SocialLinksSerializer}
         )
         return doc

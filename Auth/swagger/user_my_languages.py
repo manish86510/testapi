@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_languages import MyLanguageSerializer
+from Auth.serializers.user_my_languages import MyLanguageSerializer, MyLanguageCreateSerializer
 
 
 class MyLanguageSwagger:
@@ -10,7 +10,7 @@ class MyLanguageSwagger:
             tags=["My Languages"],
             operation_summary="Adds a User Language",
             operation_description="Adds a language by the user",
-            request_body=MyLanguageSerializer,
+            request_body=MyLanguageCreateSerializer,
             responses={200: MyLanguageSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class MyLanguageSwagger:
             tags=["My Languages"],
             operation_summary="Updates a User Language",
             operation_description="Updates a language by the user",
-            request_body=MyLanguageSerializer,
+            request_body=MyLanguageCreateSerializer,
             responses={200: MyLanguageSerializer}
         )
         return doc

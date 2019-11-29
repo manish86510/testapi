@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_followers import FollowerSerializer
+from Auth.serializers.user_my_followers import FollowerSerializer, FollowerCreateSerializer
 
 
 class FollowerSwagger:
@@ -10,7 +10,7 @@ class FollowerSwagger:
             tags=['My Follower'],
             operation_summary="Adds a Follower",
             operation_description="Adds a follower to the current user",
-            request_body=FollowerSerializer,
+            request_body=FollowerCreateSerializer,
             responses={200: FollowerSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class FollowerSwagger:
             tags=['My Follower'],
             operation_summary="Adds a Follower",
             operation_description="Adds a follower to the current user",
-            request_body=FollowerSerializer,
+            request_body=FollowerCreateSerializer,
             responses={200: FollowerSerializer}
         )
         return doc

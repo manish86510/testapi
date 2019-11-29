@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_education import EducationSerializer
+from Auth.serializers.user_education import EducationSerializer, EducationCreateSerializer
 
 
 class EducationSwagger:
@@ -10,7 +10,7 @@ class EducationSwagger:
             tags=["My Education"],
             operation_summary="Add User's Education Information",
             operation_description="Adds education information for the user",
-            request_body=EducationSerializer,
+            request_body=EducationCreateSerializer,
             responses={200: EducationSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class EducationSwagger:
             tags=["My Education"],
             operation_summary="Update User's Education Information",
             operation_description="Adds education information for the user",
-            request_body=EducationSerializer,
+            request_body=EducationCreateSerializer,
             responses={200: EducationSerializer}
         )
         return doc

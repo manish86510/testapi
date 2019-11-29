@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_interest import MyInterestSerializer
+from Auth.serializers.user_my_interest import MyInterestSerializer, MyInterestCreateSerializer
 
 
 class MyInterestSwagger:
@@ -10,7 +10,7 @@ class MyInterestSwagger:
             tags=["My Interest"],
             operation_summary="Add User Interest",
             operation_description="Adds a user interest by the user",
-            request_body=MyInterestSerializer,
+            request_body=MyInterestCreateSerializer,
             responses={200: MyInterestSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class MyInterestSwagger:
             tags=["My Interest"],
             operation_summary="Update User Interest",
             operation_description="Updates a user interest by the user",
-            request_body=MyInterestSerializer,
+            request_body=MyInterestCreateSerializer,
             responses={200: MyInterestSerializer}
         )
         return doc

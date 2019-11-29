@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_skills import MySkillSerializer
+from Auth.serializers.user_my_skills import MySkillSerializer, MySkillCreateSerializer
 
 
 class MySkillSwagger:
@@ -10,7 +10,7 @@ class MySkillSwagger:
             tags=["My Skills"],
             operation_summary="Adds User Skill",
             operation_description="Adds My skill information for the user",
-            request_body=MySkillSerializer,
+            request_body=MySkillCreateSerializer,
             responses={200: MySkillSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class MySkillSwagger:
             tags=["My Skills"],
             operation_summary="Updates User Skill",
             operation_description="Updates My skill information for the user",
-            request_body=MySkillSerializer,
+            request_body=MySkillCreateSerializer,
             responses={200: MySkillSerializer}
         )
         return doc

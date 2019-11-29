@@ -6,4 +6,4 @@ class SkillCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Skills
-        fields = '__all__'
+        fields = "__all__"

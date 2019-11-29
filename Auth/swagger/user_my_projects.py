@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_my_projects import ProjectsSerializer
+from Auth.serializers.user_my_projects import ProjectsSerializer, ProjectsCreateSerializer
 
 
 class ProjectSwagger:
@@ -10,7 +10,7 @@ class ProjectSwagger:
             tags=["My Projects"],
             operation_summary="Adds a User Project",
             operation_description="Adds information about a user projects",
-            request_body=ProjectsSerializer,
+            request_body=ProjectsCreateSerializer,
             responses={200: ProjectsSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class ProjectSwagger:
             tags=["My Projects"],
             operation_summary="Updates a User Project",
             operation_description="Updates information about a user projects",
-            request_body=ProjectsSerializer,
+            request_body=ProjectsCreateSerializer,
             responses={200: ProjectsSerializer}
         )
         return doc

@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Auth.serializers.user_workplace import WorkplaceSerializer
+from Auth.serializers.user_workplace import WorkplaceSerializer, WorkplaceCreateSerializer
 
 
 class WorkplaceSwagger:
@@ -10,7 +10,7 @@ class WorkplaceSwagger:
             tags=["My Workplace"],
             operation_summary="Add User Workplace",
             operation_description="Adds information about user workplace",
-            request_body=WorkplaceSerializer,
+            request_body=WorkplaceCreateSerializer,
             responses={200: WorkplaceSerializer}
         )
         return doc
@@ -30,7 +30,7 @@ class WorkplaceSwagger:
             tags=["My Workplace"],
             operation_summary="Update User Workplace",
             operation_description="Update information about user workplace",
-            request_body=WorkplaceSerializer,
+            request_body=WorkplaceCreateSerializer,
             responses={200: WorkplaceSerializer}
         )
         return doc

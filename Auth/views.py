@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions
 from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import BasePermission
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import *
 from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer
@@ -63,6 +64,7 @@ class AllowCreateUser(BasePermission):
 @method_decorator(name='retrieve', decorator=UserSwaggerDoc.retrieve())
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
+    parser_classes = (MultiPartParser, FormParser)
     http_method_names = ['get', 'post', 'put', 'delete']
     serializer_action_class = {
         'list': UserSerializer,

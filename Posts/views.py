@@ -2,22 +2,29 @@ from rest_framework import viewsets, permissions
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
+from .helpers import modify_input_for_multiple_files
 from .models import *
 # from .serializers import *
 from .serializers.post import PostSerializer, PostCreateSerializer
-from .serializers.post_media import PostMediaSerializer
+from .serializers.post_media import PostMediaSerializer, PostMediaCreateSerializer
 from .serializers.post_comments import PostCommentSerializer
 from .serializers.post_likes import PostLikeSerializer
 from .serializers.post_share import PostShareSerializer
+from .serializers.post_tag import PostTagSerializer
+
 from .swagger.post import PostSwaggerDoc
 from .swagger.post_media import PostMediaSwagger
 from .swagger.post_comments import PostCommentSwagger
 from .swagger.post_likes import PostLikeSwagger
 from .swagger.post_share import PostShareSwagger
+from .swagger.post_tag import PostTagSwagger
+
 from django.utils.decorators import method_decorator
+from django.http import JsonResponse
 from requests import Response
 from rest_framework.generics import get_object_or_404
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from django.db.models import Q
 
 
@@ -59,20 +66,39 @@ class PostViewSet(viewsets.ModelViewSet):
 @method_decorator(name='update', decorator=PostMediaSwagger.update())
 @method_decorator(name='retrieve', decorator=PostMediaSwagger.retrieve())
 class PostMediaViewSet(viewsets.ModelViewSet):
-    serializer_class = PostMediaSerializer
+    serializer_class = PostMediaCreateSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
         queryset = PostMedia.objects.all()
-        if self.kwargs.get('post_id'):
-            queryset = queryset.filter(post=self.kwargs.get('post_id'))
+        if self.kwargs.get('post'):
+            queryset = queryset.filter(post=self.kwargs.get('post'))
         return queryset
 
-    def perform_create(self, serializer):
-        post = serializer.save()
-        post.user = self.request.user
-        post.save()
+    def create(self, request, *args, **kwargs):
+        post = Post.objects.get(id=int(request.data['post']))
+
+        # converts querydict to original dict
+        images = dict((request.data).lists())['file']
+        type = request.data['file_type']
+        flag = 1
+        arr = []
+        for img_name in images:
+            modified_data = modify_input_for_multiple_files(post,
+                                                            img_name, type)
+            file_serializer = PostMediaCreateSerializer(data=modified_data)
+            if file_serializer.is_valid():
+                file_serializer.save()
+                arr.append(file_serializer.data)
+            else:
+                flag = 0
+
+        if flag == 1:
+            return JsonResponse({"result": "Media Uploaded Successfully"}, status=HTTP_200_OK)
+        else:
+            return JsonResponse({"result": "Error Uploading Media"}, status=HTTP_400_BAD_REQUEST)
 
 
 @method_decorator(name='create', decorator=PostCommentSwagger.create())
@@ -110,7 +136,6 @@ class PostLikeViewSet(viewsets.ModelViewSet):
         queryset = PostLikes.objects.filter(user=self.request.user.id)
         return queryset
 
-
     # def perform_create(self, serializer):
     #     try:
     #         post_det = PostLikes.objects.get(post=self.request.pk, user=self.request.user.id)
@@ -144,11 +169,11 @@ class PostLikeViewSet(viewsets.ModelViewSet):
                 post_obj = Post.objects.get(about_post=post_name)
                 post_obj.like_count += 1
                 post_obj.save()
-                return Response("Like Saved Successfully", status=HTTP_200_OK)
+                return JsonResponse("Like Saved Successfully", status=HTTP_200_OK)
             else:
-                return Response("Like already stored", status=HTTP_200_OK)
+                return JsonResponse("Like already stored", status=HTTP_200_OK)
         else:
-            return Response("Cannot Like the Post", status=HTTP_200_OK)
+            return JsonResponse("Cannot Like the Post", status=HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
         pk = request.POST.get('post')
@@ -161,7 +186,7 @@ class PostLikeViewSet(viewsets.ModelViewSet):
         post_obj.like_count -= 1
         post_obj.save()
         saved_likes.delete()
-        return Response({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)},
+        return JsonResponse({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)},
                         status=204)
 
 
@@ -189,9 +214,9 @@ class PostShareViewSet(viewsets.ModelViewSet):
             post_obj = Post.objects.get(about_post=post_name)
             post_obj.share_count += 1
             post_obj.save()
-            return Response("Saved Successfully", status=HTTP_200_OK)
+            return JsonResponse("Saved Successfully", status=HTTP_200_OK)
         else:
-            return Response("Something is wrong", status=HTTP_200_OK)
+            return JsonResponse("Something is wrong", status=HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
         pk = request.POST.get('id')
@@ -201,4 +226,19 @@ class PostShareViewSet(viewsets.ModelViewSet):
         post_obj.share_count -= 1
         post_obj.save()
         saved_shares.delete()
-        return Response({"message": "Shared Post with id {} has been deleted.".format(pk)}, status=204)
+        return JsonResponse({"message": "Shared Post with id {} has been deleted.".format(pk)}, status=204)
+
+
+@method_decorator(name='create', decorator=PostTagSwagger.create())
+@method_decorator(name='list', decorator=PostTagSwagger.list())
+@method_decorator(name='destroy', decorator=PostTagSwagger.delete())
+@method_decorator(name='update', decorator=PostTagSwagger.update())
+@method_decorator(name='retrieve', decorator=PostTagSwagger.retrieve())
+class PostTagViewSet(viewsets.ModelViewSet):
+    serializer_class = PostTagSerializer
+
+    http_method_names = ['get', 'put', 'post', 'delete']
+
+    def get_queryset(self):
+        queryset = PostTag.objects.filter(user=self.request.user.id)
+        return queryset

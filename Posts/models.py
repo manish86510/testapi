@@ -91,3 +91,15 @@ class PostShare(SoftDeleteModel):
     class Meta:
         verbose_name_plural = 'Post Share'
         db_table = 'post_share'
+
+
+class PostTag(SoftDeleteModel):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    tagged_users = models.TextField(null=False)
+
+    def __str__(self):
+        return self.post
+
+    class Meta:
+        verbose_name_plural = 'Post Tag'
+        db_table = 'post_tag'

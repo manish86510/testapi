@@ -40,7 +40,7 @@ class PostViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
     serializer_action_classes = {
         'list': PostSerializer,
-        'create': PostCreateSerializer,
+        # 'create': PostCreateSerializer,
         'update': PostCreateSerializer,
     }
 

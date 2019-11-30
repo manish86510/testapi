@@ -3,11 +3,11 @@ from Posts.models import PostLikes
 
 
 class PostLikeSerializer(serializers.ModelSerializer):
-    activity = serializers.CharField(max_length=200, read_only=False)
+    # activity = serializers.CharField(max_length=200, read_only=False)
 
     class Meta:
         model = PostLikes
-        fields = ['activity']
+        fields = ['id', 'post', 'activity', 'user']
 
 
 class PostLikeCreateSerializer(serializers.ModelSerializer):
@@ -15,4 +15,5 @@ class PostLikeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PostLikes
-        fields = ['post', 'activity']
+        fields = ['post', 'activity', 'user']
+        read_only_fields = ['user',]

@@ -8,11 +8,14 @@ router.register(r'media', views.PostMediaViewSet, base_name='media')
 router.register(r'comment', views.PostCommentViewSet, base_name='comment')
 router.register(r'like', views.PostLikeViewSet, base_name='like')
 router.register(r'share', views.PostShareViewSet, base_name='share')
+# router.register(r'get-post', views.GetPostsViewSet, base_name='post_info')
 router.register(r'', views.PostViewSet, base_name='post')
 
 urlpatterns = [
+    path('get-post/', views.GetPostsViewSet.as_view(), name='posts_list'),
     path('', include(router.urls)),
-    # path('media/', views.PostMediaViewSet.as_view(
+
+    #  path('media/', views.PostMediaViewSet.as_view(
     #     {
     #         'get': 'list',
     #         'post': 'create',

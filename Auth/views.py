@@ -46,6 +46,9 @@ from rest_framework.status import (
 )
 from django.conf import settings
 import string, random
+from django.db.models import Q
+from django.utils import timezone
+
 
 
 class AllowCreateUser(BasePermission):
@@ -103,6 +106,13 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
 
+    def destroy(self, request, *args, **kwargs):
+        query = User.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
+
+
 
 @api_view(["GET"])
 @permission_classes((permissions.AllowAny,))
@@ -153,6 +163,13 @@ class MyEducationViewSet(viewsets.ModelViewSet):
         post.user = self.request.user
         post.save()
 
+    def destroy(self, request, *args, **kwargs):
+        query = Education.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
+
+
 
 @method_decorator(name='create', decorator=FollowerSwagger.create())
 @method_decorator(name='list', decorator=FollowerSwagger.list())
@@ -172,6 +189,12 @@ class MyFollowerViewSet(viewsets.ModelViewSet):
         post = serializer.save()
         post.user = self.request.user
         post.save()
+
+    def destroy(self, request, *args, **kwargs):
+        query = Followers.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
 
 
 @method_decorator(name='create', decorator=MyInterestSwagger.create())
@@ -193,6 +216,12 @@ class MyInterestViewSet(viewsets.ModelViewSet):
         post.user = self.request.user
         post.save()
 
+    def destroy(self, request, *args, **kwargs):
+        query = MyInterest.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
+
 
 @method_decorator(name='create', decorator=MyLanguageSwagger.create())
 @method_decorator(name='list', decorator=MyLanguageSwagger.list())
@@ -212,6 +241,12 @@ class MyLanguageViewSet(viewsets.ModelViewSet):
         post = serializer.save()
         post.user = self.request.user
         post.save()
+
+    def destroy(self, request, *args, **kwargs):
+        query = MyLanguage.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
 
 
 @method_decorator(name='create', decorator=PlaceSwagger.create())
@@ -233,6 +268,12 @@ class MyPlaceViewSet(viewsets.ModelViewSet):
         post.user = self.request.user
         post.save()
 
+    def destroy(self, request, *args, **kwargs):
+        query = MyPlaces.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
+
 
 @method_decorator(name='create', decorator=ProjectSwagger.create())
 @method_decorator(name='list', decorator=ProjectSwagger.list())
@@ -252,6 +293,12 @@ class MyProjectViewSet(viewsets.ModelViewSet):
         post = serializer.save()
         post.user = self.request.user
         post.save()
+
+    def destroy(self, request, *args, **kwargs):
+        query = MyProjects.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
 
 
 @method_decorator(name='create', decorator=MySkillSwagger.create())
@@ -273,6 +320,12 @@ class MySkillViewSet(viewsets.ModelViewSet):
         post.user = self.request.user
         post.save()
 
+    def destroy(self, request, *args, **kwargs):
+        query = MySkills.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
+
 
 @method_decorator(name='create', decorator=SocialLinkSwagger.create())
 @method_decorator(name='list', decorator=SocialLinkSwagger.list())
@@ -292,6 +345,12 @@ class SocialLinkViewSet(viewsets.ModelViewSet):
         post = serializer.save()
         post.user = self.request.user
         post.save()
+
+    def destroy(self, request, *args, **kwargs):
+        query = SocialLinks.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
 
 
 @method_decorator(name='create', decorator=WorkplaceSwagger.create())
@@ -313,6 +372,12 @@ class WorkplaceViewSet(viewsets.ModelViewSet):
         post.user = self.request.user
         post.save()
 
+    def destroy(self, request, *args, **kwargs):
+        query = WorkPlace.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
+
 
 @method_decorator(name='create', decorator=InterestSwagger.create())
 @method_decorator(name='list', decorator=InterestSwagger.list())
@@ -328,6 +393,12 @@ class InterestViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Interests.objects.all()
         return queryset
+
+    def destroy(self, request, *args, **kwargs):
+        query = Interests.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
 
 
 @method_decorator(name='create', decorator=SkillSwagger.create())
@@ -345,6 +416,12 @@ class SkillViewSet(viewsets.ModelViewSet):
         queryset = Skills.objects.all()
         return queryset
 
+    def destroy(self, request, *args, **kwargs):
+        query = Skills.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
+
 
 @method_decorator(name='create', decorator=LanguageSwagger.create())
 @method_decorator(name='list', decorator=LanguageSwagger.list())
@@ -360,3 +437,10 @@ class LanguageViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Languages.objects.all()
         return queryset
+
+    def destroy(self, request, *args, **kwargs):
+        query = Languages.objects.get(id=self.kwargs['pk'])
+        query.deleted_on = timezone.now()
+        query.delete()
+        return Response("Deleted Successfully", status=HTTP_200_OK)
+

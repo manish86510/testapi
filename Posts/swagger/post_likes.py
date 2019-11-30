@@ -11,7 +11,7 @@ class PostLikeSwagger:
             operation_summary="Creates a New Post",
             operation_description="Creates post using the details provided by the user",
             request_body=PostLikeCreateSerializer,
-            responses={'200': PostLikeSerializer}
+            responses={'200': PostLikeCreateSerializer}
         )
         return doc
 
@@ -31,7 +31,7 @@ class PostLikeSwagger:
             operation_summary="Update Post",
             operation_description="Creates post using the details provided by the user",
             request_body=PostLikeCreateSerializer,
-            responses={'200': PostLikeSerializer}
+            responses={'200': PostLikeCreateSerializer}
         )
         return doc
 
@@ -41,7 +41,7 @@ class PostLikeSwagger:
             tags=["Post Like"],
             operation_summary="List Post",
             operation_description="Creates post using the details provided by the user",
-            responses={200: PostLikeSerializer(many=True)}
+            responses={200: PostLikeCreateSerializer(many=True)}
         )
         return doc
 
@@ -51,6 +51,6 @@ class PostLikeSwagger:
             tags=["Post Like"],
             operation_summary="Get Post",
             operation_description="Creates post using the details provided by the user",
-            responses={200: PostLikeSerializer}
+            responses={200: PostLikeCreateSerializer}
         )
         return doc

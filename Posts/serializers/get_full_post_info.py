@@ -7,15 +7,17 @@ from Posts.serializers.post_share import PostShareSerializer
 from Posts.serializers.post_tag import PostTagSerializer
 from Auth.serializers.user import UserSerializer
 from Posts.models import Post
+from django.contrib.postgres.fields import JSONField
+
 
 
 class GetFullPostInfoSerializer(serializers.Serializer):
     post = PostSerializer(help_text="Help text for post")
-    media = PostMediaSerializer(help_text="Help text for post media")
-    comments = PostCommentSerializer(help_text="Help text for post comments")
-    likes = PostLikeSerializer(help_text="Help text for post likes")
-    shares = PostShareSerializer(help_text="Help text for post shares")
-    tags = PostTagSerializer(help_text="Help text for post tags")
+    media = JSONField(blank=True, default=dict)
+    comments = JSONField(blank=True, default=dict)
+    likes = JSONField(blank=True, default=dict)
+    shares = JSONField(blank=True, default=dict)
+    tags = JSONField(blank=True, default=dict)
     # user = UserSerializer(help_text="Help text for post User")
     # import pdb
     # pdb.set_trace()

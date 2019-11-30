@@ -178,20 +178,19 @@ class PostLikeViewSet(viewsets.ModelViewSet):
 
     # @api_view(['POST'])
     def create(self, request, *args, **kwargs):
-        import pdb
-        pdb.set_trace()
         pk = request.data.get('post')
         ui = request.user.id
+        # import pdb
+        # pdb.set_trace()
         serializer_class = PostLikeSerializer(data=request.data)
         if serializer_class.is_valid():
             try:
-                post_det = PostLikes.objects.get(post=pk, user=ui)
+                post_det = PostLikes.objects.get(post_id=pk, user_id=ui)
             except PostLikes.DoesNotExist:
                 post_det = None
             if post_det is None:
-                serializer_class.save(post_id=pk)
-                post_name = serializer_class.instance.post
-                post_obj = Post.objects.get(about_post=post_name)
+                serializer_class.save(post_id=pk, user_id=ui)
+                post_obj = Post.objects.get(id=pk)
                 post_obj.like_count += 1
                 post_obj.save()
                 return JsonResponse("Like Saved Successfully", status=HTTP_200_OK, safe=False)
@@ -201,17 +200,22 @@ class PostLikeViewSet(viewsets.ModelViewSet):
             return JsonResponse("Cannot Like the Post", status=HTTP_200_OK, safe=False)
 
     def destroy(self, request, *args, **kwargs):
-        pk = request.POST.get('post')
+        import pdb
+        pdb.set_trace()
+        # pk = request.POST.get('post')
+
         ui = request.user.id
         un = User.objects.get(id=ui)
         user_name = un.username
-        saved_likes = get_object_or_404(PostLikes.objects.all(), post=pk, user=ui)
-        post_name = saved_likes.post
-        post_obj = Post.objects.get(about_post=post_name)
+        saved_likes = get_object_or_404(PostLikes.objects.all(), id=self.kwargs['pk'], user=ui)
+        # post_name = saved_likes.post
+        post_obj = Post.objects.get(id=saved_likes.post_id)
+        # post_obj = Post.objects.get(about_post=post_name)
         post_obj.like_count -= 1
         post_obj.save()
+        saved_likes.deleted_on = timezone.now()
         saved_likes.delete()
-        return JsonResponse({"message": "Like on post {} created by user {} has been deleted.".format(pk, user_name)},
+        return JsonResponse({"message": "Like on post {} created by user {} has been deleted.".format(saved_likes.post_id, user_name)},
                             status=204, safe=False)
 
 

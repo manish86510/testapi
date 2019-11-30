@@ -15,4 +15,4 @@ class PostLikeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PostLikes
-        fields = ['post_id', 'activity']
+        fields = ['post', 'activity']

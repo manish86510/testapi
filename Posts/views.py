@@ -326,8 +326,8 @@ class GetPostsViewSet(views.APIView):
         posts = Post.objects.filter(user=request.user.id)
         for post in posts:
             post = post
-            import pdb
-            pdb.set_trace()
+            # import pdb
+            # pdb.set_trace()
             media = return_list(PostMediaSerializer, PostMedia, post.pk)
             comments = return_list(PostCommentSerializer, PostComments, post.pk)
             likes = return_list(PostLikeSerializer, PostLikes, post.pk)
@@ -344,8 +344,10 @@ class GetPostsViewSet(views.APIView):
             # likes = PostLikes.objects.filter(post=post.pk)
             # shares = PostShare.objects.filter(post=post.pk)
             # tags = PostTag.objects.filter(post=post.pk)
-
-        return Response(arr)
+        # print(arr)
+        import pdb
+        pdb.set_trace()
+        return arr
 
     # @api_view(['GET'])
     # def get_queryset(self):

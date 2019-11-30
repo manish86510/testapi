@@ -20,5 +20,5 @@ def return_list(serializer_name, model_name, post_key):
     obj_data = []
     for object in data_objects:
         object_serializer = serializer_name(data=object)
-        obj_data += object_serializer.initial_data
+        obj_data.append(object_serializer.initial_data)
     return obj_data

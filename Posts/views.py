@@ -7,7 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .helpers import modify_input_for_multiple_files, return_list
 from .models import *
 # from .serializers import *
-from .serializers.post import PostSerializer, PostCreateSerializer
+from .serializers.post import PostSerializer, PostCreateSerializer,PostAllDetailSerializer
 from .serializers.post_media import PostMediaSerializer, PostMediaCreateSerializer
 from .serializers.post_comments import PostCommentSerializer
 from .serializers.post_likes import PostLikeSerializer
@@ -26,10 +26,11 @@ from .swagger.get_full_post_info import GetFullPostSwagger
 
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
-from requests import Response
+# from requests import Response
 from rest_framework.generics import get_object_or_404
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from django.db.models import Q
+from rest_framework.response import Response
 from django.utils import timezone
 
 
@@ -311,61 +312,9 @@ class PostTagViewSet(viewsets.ModelViewSet):
 # @method_decorator(name='get', decorator=GetFullPostSwagger.retrieve())
 class GetPostsViewSet(views.APIView):
     serializer_class = GetFullPostInfoSerializer
-    # model = Post
-    # import pdb
-    # pdb.set_trace()
     http_method_names = ['get']
 
-    # @api_view(['GET'])
-    # @swagger_auto_schema(
-    #     tags=["Get Posts"],
-    #     operation_summary="List Post",
-    #     operation_description="List posts using the details provided by the user",
-    #     responses={200: GetFullPostInfoSerializer(many=True)}
-    # )
     def get(self, request):
-        arr = []
-        # import pdb
-        # pdb.set_trace()
         posts = Post.objects.filter(user=request.user.id)
-        for post in posts:
-            post = post
-            # import pdb
-            # pdb.set_trace()
-            media = return_list(PostMediaSerializer, PostMedia, post.pk)
-            comments = return_list(PostCommentSerializer, PostComments, post.pk)
-            likes = return_list(PostLikeSerializer, PostLikes, post.pk)
-            shares = return_list(PostShareSerializer, PostShare, post.pk)
-            tags = return_list(PostTagSerializer, PostTag, post.pk)
-            arr_2 = [post, media, comments, likes, shares, tags]
-            arr.append(arr_2)
-            # user = UserSerializer, User, post.user)
-            # import pdb
-            # pdb.set_trace()
-            # media = PostMedia.objects.filter(post=post.pk)
-            # comments = PostComments.objects.filter(post=post.pk)
-            #
-            # likes = PostLikes.objects.filter(post=post.pk)
-            # shares = PostShare.objects.filter(post=post.pk)
-            # tags = PostTag.objects.filter(post=post.pk)
-        # print(arr)
-        import pdb
-        pdb.set_trace()
-        return arr
-
-    # @api_view(['GET'])
-    # def get_queryset(self):
-    #     # import pdb
-    #     # pdb.set_trace()
-    #     posts = Post.objects.filter(user=self.request.user.id)
-    #     for post in queryset:
-    #         post = post
-    #         media = PostMedia.objects.filter(post=post.pk)
-    #         comments = PostComments.objects.filter(post=post.pk)
-    #         likes = PostLikes.objects.filter(post=post.pk)
-    #         shares = PostShare.objects.filter(post=post.pk)
-    #         tags = PostTag.objects.filter(post=post.pk)
-    #
-    #     return queryset
-    #     # queryset = Post.objects.all()
-    #     # return queryset
+        serializer = PostAllDetailSerializer(posts, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)

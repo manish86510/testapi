@@ -6,6 +6,7 @@ from .post_likes import *
 from .post_comments import *
 from .post_media import *
 from .post_share import *
+from Auth.serializers import *
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -27,8 +28,8 @@ class PostAllDetailSerializer(serializers.ModelSerializer):
     post_like = PostLikeSerializer(many=True)
     post_share = PostShareSerializer(many=True)
     post_media = PostMediaSerializer(many=True)
+    user = user.UserCustomFieldSerializer()
 
-    # user = serializers.
     class Meta:
         model = Post
         fields = ('post_tag', 'post_comment', 'post_like', 'post_share', 'post_media', 'about_post', 'tags',

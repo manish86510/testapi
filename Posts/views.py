@@ -91,7 +91,6 @@ class PostMediaViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         post = Post.objects.get(id=int(request.data['post']))
-
         # converts querydict to original dict
         images = dict((request.data).lists())['file']
         type = request.data['file_type']

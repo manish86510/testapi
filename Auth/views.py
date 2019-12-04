@@ -4,7 +4,7 @@ from rest_framework.permissions import BasePermission
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import *
-from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer
+from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer,UserCustomFieldSerializer
 from .serializers.user_city import CitySerializer
 from .serializers.user_education import EducationSerializer
 from .serializers.user_my_followers import FollowerSerializer
@@ -33,7 +33,7 @@ from .swagger.user_workplace import WorkplaceSwagger
 from .swagger.interest import InterestSwagger
 from .swagger.language import LanguageSwagger
 from .swagger.skill import SkillSwagger
-
+from rest_framework.views import APIView
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail
 from rest_framework.response import Response
@@ -76,8 +76,13 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCreateUser]
 
     def get_queryset(self, **kwargs):
-        queryset = User.objects.filter(id=self.request.user.id)
+        queryset = User.objects.filter(id=self.kwargs.get('pk'),is_active=True)
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = User.objects.get(id=self.request.user.id, is_active=True)
+        serializer = UserCustomFieldSerializer(queryset)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     def get_serializer_class(self):
         try:
@@ -440,3 +445,16 @@ class LanguageViewSet(viewsets.ModelViewSet):
         query.deleted_on = timezone.now()
         query.delete()
         return Response("Deleted Successfully", status=HTTP_200_OK)
+
+
+# @method_decorator(name='list', decorator=UserSwaggerDoc.list())
+class UserListViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.AllowAny, ]
+    serializer_class = UserSerializer
+    # http_method_names = ['get']
+
+    def list(self, request, *args, **kwargs):
+
+        queryset = User.objects.filter(is_active=True)
+        serializer = UserCustomFieldSerializer(queryset, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)

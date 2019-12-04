@@ -17,12 +17,14 @@ router.register(r'user/projects', views.MyProjectViewSet, base_name='projects')
 router.register(r'user/skill', views.MySkillViewSet, base_name='skill')
 router.register(r'user/social-link', views.SocialLinkViewSet, base_name='social_link')
 router.register(r'user/workplace', views.WorkplaceViewSet, base_name='workplace')
-# router.register(r'user/city', views.CityViewSet, base_name='city')
+router.register(r'user/list', views.UserListViewSet, base_name='all_user_list')
 
 
 urlpatterns = [
     path('', include(router.urls)),
     path('verify_mail/<str:code>', views.verifyMail, name='verify_mail'),
+    # path('user-list', views.UserListApiView, name='user_list'),
+
     # path('city', views.CityViewSet.as_view(
     #     {
     #         'get': 'list',

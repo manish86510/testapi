@@ -31,7 +31,7 @@ class UserSwaggerDoc:
             operation_summary="Updates User Info",
             operation_description="Updates user information of an existing user",
             request_body=UserUpdateSerializer,
-            responses={'200':UserSerializer}
+            responses={'200': UserSerializer}
         )
         return doc
 

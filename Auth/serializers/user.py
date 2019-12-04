@@ -8,6 +8,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class UserCustomFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('pk', 'first_name', 'last_name', 'username', 'address', 'avatar', 'cover_picture', 'email')
+
+
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

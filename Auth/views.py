@@ -50,7 +50,6 @@ from django.db.models import Q
 from django.utils import timezone
 
 
-
 class AllowCreateUser(BasePermission):
     def has_permission(self, request, view):
         if (request.method in ['POST'] or
@@ -76,11 +75,11 @@ class UserViewSet(viewsets.ModelViewSet):
     }
     permission_classes = [AllowCreateUser]
 
-    def get_queryset(self,**kwargs):
+    def get_queryset(self, **kwargs):
         queryset = User.objects.filter(id=self.kwargs.get('pk'))
         return queryset
 
-    def list(self,request):
+    def list(self, request):
         queryset = User.objects.filter(is_active=True)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
@@ -116,7 +115,6 @@ class UserViewSet(viewsets.ModelViewSet):
         query.deleted_on = timezone.now()
         query.delete()
         return Response("Deleted Successfully", status=HTTP_200_OK)
-
 
 
 @api_view(["GET"])
@@ -173,7 +171,6 @@ class MyEducationViewSet(viewsets.ModelViewSet):
         query.deleted_on = timezone.now()
         query.delete()
         return Response("Deleted Successfully", status=HTTP_200_OK)
-
 
 
 @method_decorator(name='create', decorator=FollowerSwagger.create())
@@ -390,7 +387,7 @@ class WorkplaceViewSet(viewsets.ModelViewSet):
 @method_decorator(name='update', decorator=InterestSwagger.update())
 @method_decorator(name='retrieve', decorator=InterestSwagger.retrieve())
 class InterestViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny,]
+    permission_classes = [permissions.AllowAny, ]
     serializer_class = InterestSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
@@ -412,7 +409,7 @@ class InterestViewSet(viewsets.ModelViewSet):
 @method_decorator(name='update', decorator=SkillSwagger.update())
 @method_decorator(name='retrieve', decorator=SkillSwagger.retrieve())
 class SkillViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny,]
+    permission_classes = [permissions.AllowAny, ]
     serializer_class = SkillCreateSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
@@ -434,7 +431,7 @@ class SkillViewSet(viewsets.ModelViewSet):
 @method_decorator(name='update', decorator=LanguageSwagger.update())
 @method_decorator(name='retrieve', decorator=LanguageSwagger.retrieve())
 class LanguageViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny,]
+    permission_classes = [permissions.AllowAny, ]
     serializer_class = LanguageSerializer
 
     http_method_names = ['get', 'post', 'put', 'delete']
@@ -448,4 +445,3 @@ class LanguageViewSet(viewsets.ModelViewSet):
         query.deleted_on = timezone.now()
         query.delete()
         return Response("Deleted Successfully", status=HTTP_200_OK)
-

@@ -79,11 +79,6 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = User.objects.filter(id=self.request.user.id)
         return queryset
 
-    def list(self, request):
-        queryset = User.objects.filter(is_active=True)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=HTTP_200_OK)
-
     def get_serializer_class(self):
         try:
             return self.serializer_action_class[self.action]

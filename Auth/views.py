@@ -80,6 +80,8 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = User.objects.filter(id=self.request.user.id)
         return queryset
 
+
+
     def get_serializer_class(self):
         try:
             return self.serializer_action_class[self.action]

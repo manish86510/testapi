@@ -76,7 +76,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCreateUser]
 
     def get_queryset(self, **kwargs):
-        queryset = User.objects.filter(id=self.kwargs.get('pk'))
+        queryset = User.objects.filter(id=self.request.user.id)
         return queryset
 
     def list(self, request):

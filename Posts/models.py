@@ -33,7 +33,7 @@ class Post(SoftDeleteModel):
 
 
 class PostMedia(SoftDeleteModel):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_media')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_media', null=True)
     file = models.FileField(upload_to='images/', null=True)
     file_types = (
         ("Image", "image"),

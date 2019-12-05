@@ -393,7 +393,7 @@ class InterestViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Interests.objects.all()
+        queryset = Interests.objects.filter(interest=self.request.GET.get('querystring'))
         return queryset
 
     def destroy(self, request, *args, **kwargs):

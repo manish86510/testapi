@@ -32,6 +32,6 @@ class PostAllDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('post_tag', 'post_comment', 'post_like', 'post_share', 'post_media', 'about_post', 'tags',
+        fields = ('id', 'post_tag', 'post_comment', 'post_like', 'post_share', 'post_media', 'about_post', 'tags',
                   'like_count', 'share_count', 'comment_count', 'points_earner', 'user', 'is_public', 'target_audience',
                   'post_type')

@@ -64,6 +64,9 @@ class PostViewSet(viewsets.ModelViewSet):
         post = serializer.save()
         post.user = self.request.user
         post.save()
+        for obj in PostMedia.objects.filter(id__in=self.request.data.get('media_id')):
+            obj.post = post
+            obj.save()
 
     def destroy(self, request, *args, **kwargs):
         query = Post.objects.get(id=self.kwargs['pk'])
@@ -170,17 +173,18 @@ class PostLikeViewSet(viewsets.ModelViewSet):
         serializer_class = PostLikeSerializer(data=request.data)
         if serializer_class.is_valid(raise_exception=True):
             try:
-                post_like_query = PostLikes.objects.get(post_id=request.data.get('post'), user_id=request.user.id)
+                post_like_query = PostLikes.objects.get(post_id=request.data.get('post'), user=request.user)
             except PostLikes.DoesNotExist:
                 post_like_query = None
             if post_like_query is None:
-                like_obj = serializer_class.save(post_id=request.data.get('post'), user_id=request.user.id)
+                like_obj = serializer_class.save(post_id=request.data.get('post'), user=request.user)
                 like_obj.post.like_count += 1
                 like_obj.post.save()
                 return JsonResponse("Like Saved Successfully", status=HTTP_200_OK, safe=False)
             else:
                 post_like_query.post.like_count -= 1
                 post_like_query.post.save()
+                post_like_query.delete()
                 return JsonResponse("Unlike Saved Successfully", status=HTTP_200_OK, safe=False)
         else:
             return JsonResponse(serializer_class.errors, status=HTTP_400_BAD_REQUEST, safe=False)

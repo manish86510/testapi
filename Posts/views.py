@@ -7,7 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .helpers import modify_input_for_multiple_files, return_list
 from .models import *
 # from .serializers import *
-from .serializers.post import PostSerializer, PostCreateSerializer,PostAllDetailSerializer
+from .serializers.post import PostSerializer, PostCreateSerializer, PostAllDetailSerializer
 from .serializers.post_media import PostMediaSerializer, PostMediaCreateSerializer
 from .serializers.post_comments import PostCommentSerializer
 from .serializers.post_likes import PostLikeSerializer
@@ -100,16 +100,17 @@ class PostMediaViewSet(viewsets.ModelViewSet):
             modified_data = modify_input_for_multiple_files(request.data.get('post'),
                                                             img_name, type)
             file_serializer = PostMediaCreateSerializer(data=modified_data)
-            if file_serializer.is_valid():
+            if file_serializer.is_valid(raise_exception=True):
                 file_serializer.save()
-                arr.append(file_serializer.data)
+                arr.append(file_serializer.data.get('id'))
             else:
                 flag = 0
 
         if flag == 1:
-            return JsonResponse({"result": "Media Uploaded Successfully"}, status=HTTP_200_OK, safe=False)
+            return JsonResponse({"result": "Media Uploaded Successfully", "media_id": arr}, status=HTTP_200_OK,
+                                safe=False)
         else:
-            return JsonResponse({"result": "Error Uploading Media"}, status=HTTP_400_BAD_REQUEST, safe=False)
+            return JsonResponse(file_serializer.errors, status=HTTP_400_BAD_REQUEST, safe=False)
 
     def destroy(self, request, *args, **kwargs):
         query = PostMedia.objects.get(id=self.kwargs['pk'])
@@ -134,13 +135,17 @@ class PostCommentViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        post = serializer.save()
-        post.user = self.request.user
-        post.save()
+        comment_obj = serializer.save()
+        comment_obj.user = self.request.user
+        comment_obj.save()
+        comment_obj.post.comment_count += 1
+        comment_obj.post.save()
 
     def destroy(self, request, *args, **kwargs):
         query = PostComments.objects.get(id=self.kwargs['pk'])
         query.deleted_on = timezone.now()
+        query.post.comment_count -= 1
+        query.post.save()
         query.delete()
         return Response("Deleted Successfully", status=HTTP_200_OK)
 
@@ -159,51 +164,28 @@ class PostLikeViewSet(viewsets.ModelViewSet):
         queryset = PostLikes.objects.filter(user=self.request.user.id)
         return queryset
 
-    # def perform_create(self, serializer):
-    #     try:
-    #         post_det = PostLikes.objects.get(post=self.request.pk, user=self.request.user.id)
-    #     except PostLikes.DoesNotExist:
-    #         post_det = None
-    #     if post_det is None:
-    #         import pdb
-    #         pdb.set_trace()
-    #         serializer.save(post_id=self.request.pk)
-    #         post_name = serializer.instance.post
-    #         post_obj = Post.objects.get(about_post=post_name)
-    #         post_obj.like_count += 1
-    #         post_obj.save()
-    #         return Response("Like Saved Successfully", status=HTTP_200_OK)
-    #     else:
-    #         return Response("Like already stored", status=HTTP_200_OK)
-
-    # @api_view(['POST'])
     def create(self, request, *args, **kwargs):
-        pk = request.data.get('post')
-        ui = request.user.id
         # import pdb
         # pdb.set_trace()
         serializer_class = PostLikeSerializer(data=request.data)
-        if serializer_class.is_valid():
+        if serializer_class.is_valid(raise_exception=True):
             try:
-                post_det = PostLikes.objects.get(post_id=pk, user_id=ui)
+                post_like_query = PostLikes.objects.get(post_id=request.data.get('post'), user_id=request.user.id)
             except PostLikes.DoesNotExist:
-                post_det = None
-            if post_det is None:
-                serializer_class.save(post_id=pk, user_id=ui)
-                post_obj = Post.objects.get(id=pk)
-                post_obj.like_count += 1
-                post_obj.save()
+                post_like_query = None
+            if post_like_query is None:
+                like_obj = serializer_class.save(post_id=request.data.get('post'), user_id=request.user.id)
+                like_obj.post.like_count += 1
+                like_obj.post.save()
                 return JsonResponse("Like Saved Successfully", status=HTTP_200_OK, safe=False)
             else:
-                return JsonResponse("Like already stored", status=HTTP_200_OK, safe=False)
+                post_like_query.post.like_count -= 1
+                post_like_query.post.save()
+                return JsonResponse("Unlike Saved Successfully", status=HTTP_200_OK, safe=False)
         else:
-            return JsonResponse("Cannot Like the Post", status=HTTP_200_OK, safe=False)
+            return JsonResponse(serializer_class.errors, status=HTTP_400_BAD_REQUEST, safe=False)
 
     def destroy(self, request, *args, **kwargs):
-        import pdb
-        pdb.set_trace()
-        # pk = request.POST.get('post')
-
         ui = request.user.id
         un = User.objects.get(id=ui)
         user_name = un.username
@@ -215,8 +197,9 @@ class PostLikeViewSet(viewsets.ModelViewSet):
         post_obj.save()
         saved_likes.deleted_on = timezone.now()
         saved_likes.delete()
-        return JsonResponse({"message": "Like on post {} created by user {} has been deleted.".format(saved_likes.post_id, user_name)},
-                            status=204, safe=False)
+        return JsonResponse(
+            {"message": "Like on post {} created by user {} has been deleted.".format(saved_likes.post_id, user_name)},
+            status=204, safe=False)
 
 
 @method_decorator(name='create', decorator=PostShareSwagger.create())
@@ -234,18 +217,14 @@ class PostShareViewSet(viewsets.ModelViewSet):
         return queryset
 
     def create(self, request, *args, **kwargs):
-        pk = request.POST.get('post')
-        ui = request.user
         serializer_class = PostShareSerializer(data=request.data)
-        if serializer_class.is_valid():
-            serializer_class.save(post_id=pk, shared_by=ui)
-            post_name = serializer_class.instance.post
-            post_obj = Post.objects.get(about_post=post_name)
-            post_obj.share_count += 1
-            post_obj.save()
+        if serializer_class.is_valid(raise_exception=True):
+            share_obj = serializer_class.save(post_id=request.data.get('post'), shared_by=request.user)
+            share_obj.post.share_count += 1
+            share_obj.post.save()
             return JsonResponse("Saved Successfully", status=HTTP_200_OK, safe=False)
         else:
-            return JsonResponse("Something is wrong", status=HTTP_200_OK, safe=False)
+            return JsonResponse("Something is wrong", status=HTTP_400_BAD_REQUEST, safe=False)
 
     def destroy(self, request, *args, **kwargs):
         pk = request.POST.get('id')
@@ -314,6 +293,6 @@ class GetPostsViewSet(views.APIView):
     http_method_names = ['get']
 
     def get(self, request):
-        posts = Post.objects.filter(user=request.user.id)
+        posts = Post.objects.filter(user=request.user.id).order_by('-id')
         serializer = PostAllDetailSerializer(posts, many=True)
         return Response(serializer.data, status=HTTP_200_OK)

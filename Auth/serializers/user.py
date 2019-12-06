@@ -5,7 +5,8 @@ from Auth.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('pk', 'first_name', 'last_name', 'username', 'address', 'avatar', 'cover_picture', 'email',
+                  'enlarge_url', 'about')
 
 
 class UserCustomFieldSerializer(serializers.ModelSerializer):

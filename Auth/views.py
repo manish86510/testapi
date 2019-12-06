@@ -458,7 +458,7 @@ class UserListViewSet(viewsets.ModelViewSet):
     # http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
-
-        queryset = User.objects.filter(is_active=True)
+        follower_obj = Followers.objects.filter(user=request.user.id).values_list('follower')
+        queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=request.user.id)
         serializer = UserCustomFieldSerializer(queryset, many=True)
         return Response(serializer.data, status=HTTP_200_OK)

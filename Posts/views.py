@@ -90,14 +90,14 @@ class PostMediaViewSet(viewsets.ModelViewSet):
         return queryset
 
     def create(self, request, *args, **kwargs):
-        post = Post.objects.get(id=int(request.data['post']))
+        # post = Post.objects.get(id=int(request.data['post']))
         # converts querydict to original dict
         images = dict((request.data).lists())['file']
         type = request.data['file_type']
         flag = 1
         arr = []
         for img_name in images:
-            modified_data = modify_input_for_multiple_files(post,
+            modified_data = modify_input_for_multiple_files(request.data.get('post'),
                                                             img_name, type)
             file_serializer = PostMediaCreateSerializer(data=modified_data)
             if file_serializer.is_valid():

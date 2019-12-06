@@ -23,7 +23,7 @@ router.register(r'user/list', views.UserListViewSet, base_name='all_user_list')
 urlpatterns = [
     path('', include(router.urls)),
     path('verify_mail/<str:code>', views.verifyMail, name='verify_mail'),
-    # path('user-list', views.UserListApiView, name='user_list'),
+    path('del-insterest', views.delinter, name='del'),
 
     # path('city', views.CityViewSet.as_view(
     #     {

@@ -59,15 +59,28 @@ class AllowCreateUser(BasePermission):
         return False
 
 
+@method_decorator(name='put', decorator=UserSwaggerDoc.update())
+class UserUpdateViewSet(APIView):
+    http_method_names = ['put']
+
+    def put(self, request):
+        serializer = UserUpdateSerializer(request.user, data=request.data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({"message": "User Update Successful."}, status=HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
 @method_decorator(name='create', decorator=UserSwaggerDoc.create())
 @method_decorator(name='list', decorator=UserSwaggerDoc.list())
 @method_decorator(name='destroy', decorator=UserSwaggerDoc.delete())
-@method_decorator(name='update', decorator=UserSwaggerDoc.update())
+# @method_decorator(name='update', decorator=UserSwaggerDoc.update())
 @method_decorator(name='retrieve', decorator=UserSwaggerDoc.retrieve())
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     parser_classes = (MultiPartParser, FormParser)
-    http_method_names = ['get', 'post', 'put', 'delete']
+    http_method_names = ['get', 'post', 'delete']
     serializer_action_class = {
         'list': UserSerializer,
         'create': UserCreateSerializer,
@@ -456,11 +469,11 @@ class UserListViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny, ]
     serializer_class = UserSerializer
 
-    # http_method_names = ['get']
+    http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
+
         follower_obj = Followers.objects.filter(user=request.user.id).values_list('follower')
         queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=request.user.id)
         serializer = UserCustomFieldSerializer(queryset, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
-

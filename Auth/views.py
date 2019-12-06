@@ -464,8 +464,3 @@ class UserListViewSet(viewsets.ModelViewSet):
         serializer = UserCustomFieldSerializer(queryset, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
 
-
-class delinter(APIView):
-    def get(self,request):
-        Interests.objects.all().delete()
-        return Response({"e": "w"})

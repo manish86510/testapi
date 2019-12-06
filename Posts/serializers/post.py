@@ -28,7 +28,7 @@ class PostAllDetailSerializer(serializers.ModelSerializer):
     # post_like = PostLikeSerializer(many=True)
     # post_share = PostShareSerializer(many=True)
     post_media = PostMediaSerializer(many=True)
-    user = user.UserCustomFieldSerializer()
+    user = user.UserFollowerDetailSerializer()
 
     class Meta:
         model = Post

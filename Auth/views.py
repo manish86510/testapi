@@ -4,10 +4,10 @@ from rest_framework.permissions import BasePermission
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import *
-from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer,UserCustomFieldSerializer
+from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer, UserCustomFieldSerializer
 from .serializers.user_city import CitySerializer
 from .serializers.user_education import EducationSerializer
-from .serializers.user_my_followers import FollowerSerializer,FollowerCreateSerializer
+from .serializers.user_my_followers import FollowerSerializer, FollowerCreateSerializer
 from .serializers.user_my_interest import MyInterestSerializer
 from .serializers.user_my_languages import MyLanguageSerializer
 from .serializers.user_my_places import PlaceSerializer
@@ -76,7 +76,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowCreateUser]
 
     def get_queryset(self, **kwargs):
-        queryset = User.objects.filter(id=self.kwargs.get('pk'),is_active=True)
+        queryset = User.objects.filter(id=self.kwargs.get('pk'), is_active=True)
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -192,7 +192,7 @@ class MyFollowerViewSet(viewsets.ModelViewSet):
         if serializer.is_valid(raise_exception=True):
             follower = User.objects.get(pk=request.data.get('follower'))
             serializer.save(follower=follower, user=self.request.user)
-            return Response({"message":"ok"}, status=HTTP_200_OK)
+            return Response({"message": "ok"}, status=HTTP_200_OK)
         else:
             return Response(serializer.errors, status=HTTP_200_OK)
 
@@ -455,6 +455,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
 class UserListViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny, ]
     serializer_class = UserSerializer
+
     # http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
@@ -462,3 +463,9 @@ class UserListViewSet(viewsets.ModelViewSet):
         queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=request.user.id)
         serializer = UserCustomFieldSerializer(queryset, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
+
+
+class delinter(APIView):
+    def get(self):
+        Interests.objects.all().delete()
+        return Response({"e": "w"})

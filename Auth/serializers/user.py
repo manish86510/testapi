@@ -37,6 +37,4 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('salutation', 'first_name', 'last_name', 'about', 'avatar',
-                  'cover_picture', 'skills', 'address', 'enlarge_url', 'date_of_birth',
-                  'birth_place', 'gender')
+        fields = ('username','first_name', 'last_name', 'about', 'enlarge_url',)

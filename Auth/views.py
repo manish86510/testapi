@@ -466,6 +466,6 @@ class UserListViewSet(viewsets.ModelViewSet):
 
 
 class delinter(APIView):
-    def get(self):
+    def get(self,request):
         Interests.objects.all().delete()
         return Response({"e": "w"})

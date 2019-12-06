@@ -7,7 +7,7 @@ from .models import *
 from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer,UserCustomFieldSerializer
 from .serializers.user_city import CitySerializer
 from .serializers.user_education import EducationSerializer
-from .serializers.user_my_followers import FollowerSerializer
+from .serializers.user_my_followers import FollowerSerializer,FollowerCreateSerializer
 from .serializers.user_my_interest import MyInterestSerializer
 from .serializers.user_my_languages import MyLanguageSerializer
 from .serializers.user_my_places import PlaceSerializer
@@ -187,10 +187,14 @@ class MyFollowerViewSet(viewsets.ModelViewSet):
         queryset = Followers.objects.filter(user=self.request.user.id)
         return queryset
 
-    def perform_create(self, serializer):
-        post = serializer.save()
-        post.user = self.request.user
-        post.save()
+    def create(self, request, *args, **kwargs):
+        serializer = FollowerCreateSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            follower = User.objects.get(pk=request.data.get('follower'))
+            serializer.save(follower=follower, user=self.request.user)
+            return Response({"message":"ok"}, status=HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
         query = Followers.objects.get(id=self.kwargs['pk'])

@@ -9,6 +9,8 @@ class PostMediaSerializer(serializers.ModelSerializer):
 
 
 class PostMediaCreateSerializer(serializers.ModelSerializer):
+    # post = serializers.RelatedField(source="Post",required=False,read_only=True)
+
     class Meta:
         model = PostMedia
         fields = ['id', 'post', 'file', 'file_type']

@@ -44,6 +44,7 @@ class PostMedia(SoftDeleteModel):
         ("xlsx", "xlsx"),
     )
     file_type = models.CharField(max_length=5, choices=file_types, default="Image")
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.post)
@@ -57,6 +58,7 @@ class PostLikes(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='post_like')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     activity = models.CharField(max_length=200, editable=False, default='Liked')
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.activity
@@ -71,6 +73,7 @@ class PostComments(SoftDeleteModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     comment = models.TextField(null=False)
     parent = models.IntegerField(default=-1)
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.comment
@@ -84,6 +87,7 @@ class PostShare(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='post_share')
     shared_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     description = models.TextField(null=True)
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.post
@@ -96,6 +100,7 @@ class PostShare(SoftDeleteModel):
 class PostTag(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='post_tag')
     tagged_users = models.TextField(null=False)
+    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.post

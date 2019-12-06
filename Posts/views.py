@@ -310,7 +310,7 @@ class PostTagViewSet(viewsets.ModelViewSet):
 @method_decorator(name='get', decorator=GetFullPostSwagger.list())
 # @method_decorator(name='get', decorator=GetFullPostSwagger.retrieve())
 class GetPostsViewSet(views.APIView):
-    serializer_class = GetFullPostInfoSerializer
+    serializer_class = PostAllDetailSerializer
     http_method_names = ['get']
 
     def get(self, request):

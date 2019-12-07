@@ -9,7 +9,7 @@ from .models import *
 # from .serializers import *
 from .serializers.post import PostSerializer, PostCreateSerializer, PostAllDetailSerializer
 from .serializers.post_media import PostMediaSerializer, PostMediaCreateSerializer
-from .serializers.post_comments import PostCommentSerializer
+from .serializers.post_comments import *
 from .serializers.post_likes import PostLikeSerializer
 from .serializers.post_share import PostShareSerializer
 from .serializers.post_tag import PostTagSerializer
@@ -138,12 +138,17 @@ class PostCommentViewSet(viewsets.ModelViewSet):
         queryset = PostComments.objects.filter(post=self.request.GET.get('post_id'))
         return queryset
 
-    def perform_create(self, serializer):
-        comment_obj = serializer.save()
-        comment_obj.user = self.request.user
-        comment_obj.save()
-        comment_obj.post.comment_count += 1
-        comment_obj.post.save()
+    def create(self, request, *args, **kwargs):
+        serializer = PostCommentCreateSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            comment_obj = serializer.save()
+            comment_obj.user = self.request.user
+            comment_obj.save()
+            comment_obj.post.comment_count += 1
+            comment_obj.post.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
         query = PostComments.objects.get(id=self.kwargs['pk'])

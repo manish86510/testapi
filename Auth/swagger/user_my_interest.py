@@ -9,7 +9,7 @@ class MyInterestSwagger:
         doc = swagger_auto_schema(
             tags=["My Interest"],
             operation_summary="Add User Interest",
-            operation_description="Adds a user interest by the user",
+            operation_description="Add a user interest by the user",
             request_body=MyInterestCreateSerializer,
             responses={200: MyInterestSerializer}
         )

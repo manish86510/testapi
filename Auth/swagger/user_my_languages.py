@@ -8,8 +8,8 @@ class MyLanguageSwagger:
     def create():
         doc = swagger_auto_schema(
             tags=["My Languages"],
-            operation_summary="Adds a User Language",
-            operation_description="Adds a language by the user",
+            operation_summary="Add a User Language",
+            operation_description="Add a language by the user",
             request_body=MyLanguageCreateSerializer,
             responses={200: MyLanguageSerializer}
         )

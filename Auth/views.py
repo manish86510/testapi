@@ -467,7 +467,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return Response("Deleted Successfully", status=HTTP_200_OK)
 
 
-# @method_decorator(name='list', decorator=UserSwaggerDoc.list())
+@method_decorator(name='list', decorator=UserSwaggerDoc.list())
 class RecommendedViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny, ]
     serializer_class = UserSerializer

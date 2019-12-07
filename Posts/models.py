@@ -35,6 +35,7 @@ class Post(SoftDeleteModel):
 class PostMedia(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.SET_NULL, related_name='post_media', null=True, default=None)
     file = models.FileField(upload_to='images/', null=True)
+    media_url = models.URLField(null=True, max_length=300)
     file_types = (
         ("Image", "image"),
         ("PDF", "pdf"),

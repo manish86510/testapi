@@ -410,7 +410,10 @@ class InterestViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Interests.objects.filter(interest__istartswith=self.request.GET.get('querystring'))
+        if self.request.GET.get('querystring'):
+            queryset = Interests.objects.filter(interest__istartswith=self.request.GET.get('querystring'))
+        else:
+            queryset = Interests.objects.all()
         return queryset
 
     def destroy(self, request, *args, **kwargs):
@@ -465,7 +468,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
 
 
 # @method_decorator(name='list', decorator=UserSwaggerDoc.list())
-class UserListViewSet(viewsets.ModelViewSet):
+class RecommendedViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny, ]
     serializer_class = UserSerializer
 
@@ -474,5 +477,5 @@ class UserListViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         follower_obj = Followers.objects.filter(user=request.user.id).values_list('follower')
         queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=request.user.id)
-        serializer = UserCustomFieldSerializer(queryset, many=True)
+        serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data, status=HTTP_200_OK)

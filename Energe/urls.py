@@ -38,7 +38,7 @@ urlpatterns = [
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('', include('Auth.urls')),
+    path('user/', include('Auth.urls')),
     path('api/v1/post/', include('Posts.urls')),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),

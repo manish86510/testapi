@@ -135,7 +135,7 @@ class PostCommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # queryset = PostComments.objects.all()
-        queryset = PostComments.objects.filter(user=self.request.user.id)
+        queryset = PostComments.objects.filter(post=self.request.GET.get('post_id'))
         return queryset
 
     def perform_create(self, serializer):
@@ -169,8 +169,6 @@ class PostLikeViewSet(viewsets.ModelViewSet):
         return queryset
 
     def create(self, request, *args, **kwargs):
-        # import pdb
-        # pdb.set_trace()
         serializer_class = PostLikeSerializer(data=request.data)
         if serializer_class.is_valid(raise_exception=True):
             try:

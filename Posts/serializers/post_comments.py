@@ -8,7 +8,7 @@ class PostCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PostComments
-        fields = ['post', 'comment', 'parent', 'user']
+        fields = ['id','post', 'comment', 'parent', 'user']
 
 
 class PostCommentCreateSerializer(serializers.ModelSerializer):

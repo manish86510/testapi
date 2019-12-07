@@ -8,8 +8,8 @@ class PostShareSwagger:
     def create():
         doc = swagger_auto_schema(
             tags=["Post Share"],
-            operation_summary="Creates a New Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="Creates a New Share",
+            operation_description="Creates Share using the details provided by the user",
             request_body=PostShareCreateSerializer,
             responses={'200': PostShareSerializer}
         )
@@ -19,8 +19,8 @@ class PostShareSwagger:
     def delete():
         doc = swagger_auto_schema(
             tags=["Post Share"],
-            operation_summary="Delete Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="Delete Share",
+            operation_description="Delete Share using the details provided by the user",
         )
         return doc
 
@@ -28,8 +28,8 @@ class PostShareSwagger:
     def update():
         doc = swagger_auto_schema(
             tags=["Post Share"],
-            operation_summary="Update Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="Update Share",
+            operation_description="Update Share using the details provided by the user",
             request_body=PostShareCreateSerializer,
             responses={'200': PostShareSerializer}
         )
@@ -39,8 +39,8 @@ class PostShareSwagger:
     def list():
         doc = swagger_auto_schema(
             tags=["Post Share"],
-            operation_summary="List Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="List Share",
+            operation_description="List Share using the details provided by the user",
             responses={200: PostShareSerializer(many=True)}
         )
         return doc
@@ -49,8 +49,8 @@ class PostShareSwagger:
     def retrieve():
         doc = swagger_auto_schema(
             tags=["Post Share"],
-            operation_summary="Get Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="Get Share",
+            operation_description="get Share using the details provided by the user",
             responses={200: PostShareSerializer}
         )
         return doc

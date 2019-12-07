@@ -8,8 +8,8 @@ class ProjectSwagger:
     def create():
         doc = swagger_auto_schema(
             tags=["My Projects"],
-            operation_summary="Adds a User Project",
-            operation_description="Adds information about a user projects",
+            operation_summary="Add a User Project",
+            operation_description="Add information about a user projects",
             request_body=ProjectsCreateSerializer,
             responses={200: ProjectsSerializer}
         )

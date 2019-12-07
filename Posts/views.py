@@ -176,11 +176,8 @@ class PostLikeViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer_class = PostLikeSerializer(data=request.data)
         if serializer_class.is_valid(raise_exception=True):
-            try:
-                post_like_query = PostLikes.objects.get(post_id=request.data.get('post'), user=request.user)
-            except PostLikes.DoesNotExist:
-                post_like_query = None
-            if post_like_query is None:
+            post_like_query = PostLikes.objects.filter(post_id=request.data.get('post'), user=request.user).first()
+            if not post_like_query:
                 like_obj = serializer_class.save(post_id=request.data.get('post'), user=request.user)
                 like_obj.post.like_count += 1
                 like_obj.post.save()
@@ -188,7 +185,7 @@ class PostLikeViewSet(viewsets.ModelViewSet):
             else:
                 post_like_query.post.like_count -= 1
                 post_like_query.post.save()
-                post_like_query.delete()
+                post_like_query.hard_delete()
                 return JsonResponse("Unlike Saved Successfully", status=HTTP_200_OK, safe=False)
         else:
             return JsonResponse(serializer_class.errors, status=HTTP_400_BAD_REQUEST, safe=False)

@@ -8,8 +8,8 @@ class SocialLinkSwagger:
     def create():
         doc = swagger_auto_schema(
             tags=["My Social Links"],
-            operation_summary="Adds Social Links",
-            operation_description="Adds social links for a user",
+            operation_summary="Add Social Links",
+            operation_description="Add social links for a user",
             request_body=SocialLinksCreateSerializer,
             responses={200: SocialLinksSerializer}
         )

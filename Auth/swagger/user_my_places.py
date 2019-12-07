@@ -8,8 +8,8 @@ class PlaceSwagger:
     def create():
         doc = swagger_auto_schema(
             tags=["My Places"],
-            operation_summary="Adds User Place",
-            operation_description="Adds a my place for the user",
+            operation_summary="Add User Place",
+            operation_description="Add a my place for the user",
             request_body=PlaceCreateSerializer,
             responses={200: PlaceSerializer}
         )

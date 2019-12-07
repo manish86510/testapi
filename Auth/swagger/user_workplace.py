@@ -9,7 +9,7 @@ class WorkplaceSwagger:
         doc = swagger_auto_schema(
             tags=["My Workplace"],
             operation_summary="Add User Workplace",
-            operation_description="Adds information about user workplace",
+            operation_description="Add information about user workplace",
             request_body=WorkplaceCreateSerializer,
             responses={200: WorkplaceSerializer}
         )

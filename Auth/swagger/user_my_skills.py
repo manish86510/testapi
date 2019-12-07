@@ -8,8 +8,8 @@ class MySkillSwagger:
     def create():
         doc = swagger_auto_schema(
             tags=["My Skills"],
-            operation_summary="Adds User Skill",
-            operation_description="Adds My skill information for the user",
+            operation_summary="Add User Skill",
+            operation_description="Add My skill information for the user",
             request_body=MySkillCreateSerializer,
             responses={200: MySkillSerializer}
         )

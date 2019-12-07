@@ -8,8 +8,8 @@ class PostLikeSwagger:
     def create():
         doc = swagger_auto_schema(
             tags=["Post Like"],
-            operation_summary="Creates a New Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="Creates a New Like",
+            operation_description="Creates Like using the details provided by the user",
             request_body=PostLikeCreateSerializer,
             responses={'200': PostLikeSerializer}
         )
@@ -19,8 +19,8 @@ class PostLikeSwagger:
     def delete():
         doc = swagger_auto_schema(
             tags=["Post Like"],
-            operation_summary="Delete Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="Delete Like",
+            operation_description="Delete Like using the details provided by the user",
         )
         return doc
 
@@ -28,8 +28,8 @@ class PostLikeSwagger:
     def update():
         doc = swagger_auto_schema(
             tags=["Post Like"],
-            operation_summary="Update Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="Update Like",
+            operation_description="Update Like using the details provided by the user",
             request_body=PostLikeCreateSerializer,
             responses={'200': PostLikeSerializer}
         )
@@ -39,8 +39,8 @@ class PostLikeSwagger:
     def list():
         doc = swagger_auto_schema(
             tags=["Post Like"],
-            operation_summary="List Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="List Like",
+            operation_description="List Like using the details provided by the user",
             responses={200: PostLikeSerializer(many=True)}
         )
         return doc
@@ -49,8 +49,8 @@ class PostLikeSwagger:
     def retrieve():
         doc = swagger_auto_schema(
             tags=["Post Like"],
-            operation_summary="Get Post",
-            operation_description="Creates post using the details provided by the user",
+            operation_summary="Get Like",
+            operation_description="Get Like using the details provided by the user",
             responses={200: PostLikeSerializer}
         )
         return doc

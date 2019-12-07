@@ -30,7 +30,7 @@ class PostShareOptionsAdmin(BaseAdmin):
 
 admin.site.register(Post, PostOptionsAdmin)
 admin.site.register(PostMedia, PostMediaOptionsAdmin)
-admin.site.register(PostLikes, PostLikesOptionsAdmin)
+admin.site.register(PostLikes)
 admin.site.register(PostComments, PostCommentsOptionsAdmin)
 admin.site.register(PostShare, PostShareOptionsAdmin)
 admin.site.register(PostTag)

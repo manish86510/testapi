@@ -112,8 +112,10 @@ class UserViewSet(viewsets.ModelViewSet):
             user = serializer_class.save()
             user.verify_mail_code = code
             user.save()
+            # import pdb
+            # pdb.set_trace()
             subject = 'Thank you for registering to our site'
-            message = "Click here " + request.build_absolute_uri() + "verify_mail/" + code + " to verify your email id."
+            message = "Click here http://energeapi.do.viewyoursite.net/user/verify_mail/" + code + " to verify your email id."
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):

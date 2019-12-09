@@ -137,7 +137,7 @@ def verifyMail(self, code):
         user_obj = User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
     except:
         return Response("Link has been expired", status=HTTP_400_BAD_REQUEST)
-    return redirect('http://energe.do.viewyoursite.net/verify_mail/{0}'.format(user_obj.pk))
+    return redirect('http://energe.do.viewyoursite.net/verify_mail/{}'.format(code))
 
 
 @method_decorator(name='create', decorator=CitySwagger.create())

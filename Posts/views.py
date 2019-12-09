@@ -16,7 +16,7 @@ from .serializers.post_tag import PostTagSerializer
 from .serializers.get_full_post_info import GetFullPostInfoSerializer
 from Auth.serializers.user import UserSerializer
 
-from .swagger.post import PostSwaggerDoc
+from .swagger.post import PostSwaggerDoc, HotTopicSwaggerDoc
 from .swagger.post_media import PostMediaSwagger
 from .swagger.post_comments import PostCommentSwagger
 from .swagger.post_likes import PostLikeSwagger
@@ -35,6 +35,20 @@ from django.utils import timezone
 
 
 # from rest_framework.permissions import IsAuthenticated
+@method_decorator(name='list', decorator=HotTopicSwaggerDoc.list())
+class HotTopicViewSet(viewsets.ModelViewSet):
+    serializer_class = PostAllDetailSerializer
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().order_by('-id').first()
+        serializer = self.get_serializer(queryset)
+        return Response(serializer.data, status=HTTP_200_OK)
+
 
 @method_decorator(name='create', decorator=PostSwaggerDoc.create())
 @method_decorator(name='list', decorator=PostSwaggerDoc.list())

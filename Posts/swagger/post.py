@@ -1,5 +1,5 @@
 from drf_yasg.utils import swagger_auto_schema
-from Posts.serializers.post import PostSerializer, PostCreateSerializer
+from Posts.serializers.post import *
 
 
 class PostSwaggerDoc:
@@ -52,5 +52,17 @@ class PostSwaggerDoc:
             operation_summary="Get Post",
             operation_description="Creates post using the details provided by the user",
             responses={200: PostSerializer}
+        )
+        return doc
+
+
+class HotTopicSwaggerDoc:
+    @staticmethod
+    def list():
+        doc = swagger_auto_schema(
+            tags=["Hot Topic"],
+            operation_summary="Get Hot Topic",
+            operation_description="Got Latest hot topic in post",
+            responses={200: PostAllDetailSerializer}
         )
         return doc

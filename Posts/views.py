@@ -68,6 +68,16 @@ class PostViewSet(viewsets.ModelViewSet):
             for obj in PostMedia.objects.filter(id__in=self.request.data.get('media_id')):
                 obj.post = post
                 obj.save()
+        if self.request.data.get('media'):
+            for media in self.request.data.get('media'):
+                post_media = PostMedia(
+                    media_url=media.get('media_url'),
+                    media_type=media.get('media_type'),
+                    post=post
+                )
+                post_media.save()
+        serializer_obj = PostAllDetailSerializer(post)
+        return Response(serializer_obj.data, status=HTTP_201_CREATED)
 
     def destroy(self, request, *args, **kwargs):
         query = Post.objects.get(id=self.kwargs['pk'])

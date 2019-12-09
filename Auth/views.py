@@ -481,5 +481,6 @@ class RecommendedViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         follower_obj = Followers.objects.filter(user=request.user.id).values_list('follower')
         queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=request.user.id)
-        serializer = UserSerializer(queryset, many=True)
+        serializer = self.get_serializer(queryset,many=True)
         return Response(serializer.data, status=HTTP_200_OK)
+        # return queryset

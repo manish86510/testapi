@@ -3,9 +3,10 @@ from Posts.models import PostMedia
 
 
 class PostMediaSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = PostMedia
-        fields = ['file', 'file_type']
+        fields = ['file', 'file_type', 'media_type', 'media_url']
 
 
 class PostMediaCreateSerializer(serializers.ModelSerializer):

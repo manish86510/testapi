@@ -18,6 +18,7 @@ router.register(r'language', views.LanguageViewSet, base_name='global_language')
 router.register(r'skill', views.SkillViewSet, base_name='global_skill')
 router.register(r'interest', views.InterestViewSet, base_name='global_interest')
 router.register(r'me', views.UserViewSet, base_name='user')
+router.register(r'register', views.UserViewSet, base_name='register')
 
 
 urlpatterns = [

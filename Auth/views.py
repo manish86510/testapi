@@ -109,8 +109,7 @@ class UserViewSet(viewsets.ModelViewSet):
         code = ''.join(random.choice(letters) for _ in range(25))
         serializer_class = UserCreateSerializer(data=request.data)
         if serializer_class.is_valid():
-            serializer_class.save()
-            user = User.objects.latest('id')
+            user = serializer_class.save()
             user.verify_mail_code = code
             user.save()
             subject = 'Thank you for registering to our site'

@@ -32,7 +32,7 @@ class UserCustomFieldSerializer(serializers.ModelSerializer):
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password', 'email')
+        fields = ('first_name','last_name','username', 'password', 'email')
         write_only_fields = ('password',)
 
     def create(self, validated_data):
@@ -40,7 +40,10 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
         user = User.objects.create(
             username=validated_data['username'],
-            email=validated_data['email']
+            email=validated_data['email'],
+            first_name=validated_data.get('first_name'),
+            last_name = validated_data.get('last_name')
+
         )
         user.set_password(validated_data['password'])
         user.save()

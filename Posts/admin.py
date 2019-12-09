@@ -19,8 +19,8 @@ class PostLikesOptionsAdmin(BaseAdmin):
 
 
 class PostCommentsOptionsAdmin(BaseAdmin):
-    list_display = ('post', 'user', 'comment', 'parent')
-    search_fields = ('post', 'user', 'comment', 'parent')
+    list_display = ('user', 'comment', 'parent')
+    search_fields = ('user', 'comment', 'parent')
 
 
 class PostShareOptionsAdmin(BaseAdmin):

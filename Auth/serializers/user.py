@@ -3,10 +3,23 @@ from Auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    followers_count = serializers.SerializerMethodField()
+    following_count = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = ('pk', 'first_name', 'last_name', 'username', 'address', 'avatar', 'cover_picture', 'email',
                   'enlarge_url', 'about', 'followers_count', 'following_count')
+
+    def get_followers_count(self, obj):
+        if not obj.followers_count:
+            obj.followers_count = 0
+        return obj.followers_count
+
+    def get_following_count(self, obj):
+        if not obj.following_count:
+            obj.following_count = 0
+        return obj.following_count
 
 
 class UserCustomFieldSerializer(serializers.ModelSerializer):
@@ -41,13 +54,13 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class UserFollowerDetailSerializer(serializers.ModelSerializer):
-    # followers_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = ('pk', 'first_name', 'last_name', 'username', 'avatar', 'followers_count')
 
-    # def get_followers_count(self, obj):
-    #     if not obj.followers_count:
-    #         obj.followers_count = 0
-    #     return obj
+    def get_followers_count(self, obj):
+        if not obj.followers_count:
+            obj.followers_count = 0
+        return obj.followers_count

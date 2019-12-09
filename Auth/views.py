@@ -48,6 +48,7 @@ from django.conf import settings
 import string, random
 from django.db.models import Q
 from django.utils import timezone
+from django.shortcuts import redirect
 
 
 class AllowCreateUser(BasePermission):
@@ -134,10 +135,10 @@ class UserViewSet(viewsets.ModelViewSet):
 @permission_classes((permissions.AllowAny,))
 def verifyMail(self, code):
     try:
-        User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
+        user_obj = User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
     except:
-        return Response("Link has been expired", status=HTTP_200_OK)
-    return Response("Mail verified successfully!", status=HTTP_200_OK)
+        return Response("Link has been expired", status=HTTP_400_BAD_REQUEST)
+    return redirect('http://energe.do.viewyoursite.net/verify_mail/{0}'.format(user_obj.pk))
 
 
 @method_decorator(name='create', decorator=CitySwagger.create())

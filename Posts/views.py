@@ -47,6 +47,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_action_classes = {
         'list': PostAllDetailSerializer,
         'get': PostAllDetailSerializer,
+        'retrieve': PostAllDetailSerializer,
         'update': PostCreateSerializer,
     }
 

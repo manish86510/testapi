@@ -475,12 +475,12 @@ class RecommendedViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
     def get_queryset(self):
-        queryset = User.objects.filter(is_active=True)
+        follower_obj = Followers.objects.filter(user=self.request.user.id).values_list('follower')
+        queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=self.request.user.id)
         return queryset
-    
-    def list(self, request, *args, **kwargs):
-        follower_obj = Followers.objects.filter(user=request.user.id).values_list('follower')
-        queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=request.user.id)
-        serializer = self.get_serializer(queryset,many=True)
-        return Response(serializer.data, status=HTTP_200_OK)
-        # return queryset
+
+    # def list(self, request, *args, **kwargs):
+    #     follower_obj = Followers.objects.filter(user=request.user.id).values_list('follower')
+    #     queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=request.user.id)
+    #     serializer = self.get_serializer(queryset, many=True)
+    #     return Response(serializer.data, status=HTTP_200_OK)

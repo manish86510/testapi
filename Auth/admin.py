@@ -1,9 +1,11 @@
 from django.contrib import admin
 from .models import *
 from Core.admin import BaseAdmin
+from .forms import UserChangeForm
 
 
 class UserOptionsAdmin(admin.ModelAdmin):
+    form = UserChangeForm
     list_display = ('id', 'username', 'email', 'salutation', 'skills', 'address')
     search_fields = ('id', 'username', 'email', 'salutation', 'skills', 'address')
 

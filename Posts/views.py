@@ -64,6 +64,7 @@ class PostViewSet(viewsets.ModelViewSet):
         post = serializer.save()
         post.user = self.request.user
         post.save()
+
         if self.request.data.get('media_id'):
             for obj in PostMedia.objects.filter(id__in=self.request.data.get('media_id')):
                 obj.post = post
@@ -71,13 +72,13 @@ class PostViewSet(viewsets.ModelViewSet):
         if self.request.data.get('media'):
             for media in self.request.data.get('media'):
                 post_media = PostMedia(
-                    media_url=media.get('media_url'),
-                    media_type=media.get('media_type'),
+                    media_url=media.get('url'),
+                    media_type=media.get('mediaType'),
                     post=post
                 )
                 post_media.save()
-        serializer_obj = PostAllDetailSerializer(post)
-        return Response(serializer_obj.data, status=HTTP_201_CREATED)
+        # serializer_obj = PostAllDetailSerializer(post)
+        # return Response(serializer_obj.data, status=HTTP_201_CREATED)
 
     def destroy(self, request, *args, **kwargs):
         query = Post.objects.get(id=self.kwargs['pk'])

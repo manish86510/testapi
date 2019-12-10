@@ -23,11 +23,23 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserCustomFieldSerializer(serializers.ModelSerializer):
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = ('pk', 'first_name', 'last_name', 'username', 'address', 'avatar', 'cover_picture', 'email',
                   'enlarge_url', 'about')
 
+    def get_first_name(self, obj):
+        if obj.first_name:
+            return obj.first_name
+        return ''
+
+    def get_last_name(self, obj):
+        if obj.last_name:
+            return obj.last_name
+        return ''
 
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:

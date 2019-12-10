@@ -32,6 +32,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_RE
 from django.db.models import Q
 from rest_framework.response import Response
 from django.utils import timezone
+import random
 
 
 # from rest_framework.permissions import IsAuthenticated
@@ -45,8 +46,10 @@ class HotTopicViewSet(viewsets.ModelViewSet):
         return queryset
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset().order_by('-id')[:5]
-        serializer = self.get_serializer(queryset, many=True)
+        queryset = self.get_queryset().order_by('-id').values_list('id', flat=True)
+        random_profiles_id_list = random.sample(list(queryset), 1)
+        queryset = self.get_queryset().filter(id__in=random_profiles_id_list).first()
+        serializer = self.get_serializer(queryset)
         return Response(serializer.data, status=HTTP_200_OK)
 
 

@@ -66,6 +66,7 @@ from rest_framework.parsers import FileUploadParser
 @method_decorator(name='put', decorator=UserSwaggerDoc.update())
 class UserUpdateViewSet(APIView):
     http_method_names = ['put']
+
     # parser_classes = (FileUploadParser,)
 
     def put(self, request):
@@ -233,8 +234,13 @@ class MyInterestViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = MyInterest.objects.filter(user=self.request.user.id)
+        queryset = MyInterest.objects.all()  # filter(user=self.request.user.id)
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = MyInterest.objects.filter(user=self.request.user.id)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     def perform_create(self, serializer):
         post = serializer.save()
@@ -259,8 +265,13 @@ class MyLanguageViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = MyLanguage.objects.filter(user=self.request.user.id)
+        queryset = MyLanguage.objects.all()  # filter(user=self.request.user.id)
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(user=self.request.user)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     def perform_create(self, serializer):
         post = serializer.save()
@@ -337,8 +348,13 @@ class MySkillViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = MySkills.objects.filter(user=self.request.user.id)
+        queryset = MySkills.objects.all()  # filter(user=self.request.user.id)
         return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(user=self.request.user.id)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     def perform_create(self, serializer):
         post = serializer.save()

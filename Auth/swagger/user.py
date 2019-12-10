@@ -56,14 +56,15 @@ class UserSwaggerDoc:
         return doc
 
 
-# class ProfileUpdateSwaggerDoc:
-#     @staticmethod
-#     def put():
-#         doc = swagger_auto_schema(
-#             tags=["User"],
-#             operation_summary="Updates User Info",
-#             operation_description="Updates user information of an existing user",
-#             request_body=UserUpdateSerializer,
-#             responses={'200': UserSerializer}
-#         )
-#         return doc
+class RecommendedUserListSwaggerDoc:
+    @staticmethod
+    def list():
+        doc = swagger_auto_schema(
+            tags=["Recommended User"],
+            operation_summary="Recommended User List",
+            operation_description="Recommended User List",
+            responses={'200': UserSerializer}
+        )
+        return doc
+
+

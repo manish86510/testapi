@@ -19,7 +19,7 @@ from .serializers.interest import InterestSerializer
 from .serializers.language import LanguageSerializer
 from .serializers.skill import SkillCreateSerializer
 
-from .swagger.user import UserSwaggerDoc
+from .swagger.user import UserSwaggerDoc, RecommendedUserListSwaggerDoc
 from .swagger.user_city import CitySwagger
 from .swagger.user_education import EducationSwagger
 from .swagger.user_my_followers import FollowerSwagger
@@ -60,9 +60,13 @@ class AllowCreateUser(BasePermission):
         return False
 
 
+from rest_framework.parsers import FileUploadParser
+
+
 @method_decorator(name='put', decorator=UserSwaggerDoc.update())
 class UserUpdateViewSet(APIView):
     http_method_names = ['put']
+    # parser_classes = (FileUploadParser,)
 
     def put(self, request):
         serializer = UserUpdateSerializer(request.user, data=request.data, partial=True)
@@ -112,10 +116,9 @@ class UserViewSet(viewsets.ModelViewSet):
             user = serializer_class.save()
             user.verify_mail_code = code
             user.save()
-            # import pdb
-            # pdb.set_trace()
             subject = 'Thank you for registering to our site'
-            message = "Click here http://energeapi.do.viewyoursite.net/user/verify_mail/" + code + " to verify your email id."
+            message = "Click here http://energeapi.do.viewyoursite.net/user/verify_mail/" + code + "to verify your " \
+                                                                                                   "email id. "
             email_from = settings.EMAIL_HOST_USER
             recipient_list = [user.email, ]
             if send_mail(subject, message, email_from, recipient_list):
@@ -469,7 +472,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return Response("Deleted Successfully", status=HTTP_200_OK)
 
 
-@method_decorator(name='list', decorator=UserSwaggerDoc.list())
+@method_decorator(name='list', decorator=RecommendedUserListSwaggerDoc.list())
 class RecommendedViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny, ]
     serializer_class = UserSerializer

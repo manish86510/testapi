@@ -45,8 +45,8 @@ class HotTopicViewSet(viewsets.ModelViewSet):
         return queryset
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset().order_by('-id').first()
-        serializer = self.get_serializer(queryset)
+        queryset = self.get_queryset().order_by('-id')[:5]
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
 
 

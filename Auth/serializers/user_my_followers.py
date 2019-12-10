@@ -5,6 +5,7 @@ from Auth.serializers.user import *
 
 class FollowerSerializer(serializers.ModelSerializer):
     follower = UserCustomFieldSerializer()
+
     class Meta:
         model = Followers
         fields = ['id', 'follower', 'user']
@@ -17,4 +18,3 @@ class FollowerCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Followers
         fields = ['id', 'follower']
-        # fields = "__all__"

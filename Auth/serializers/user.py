@@ -51,7 +51,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(required=False)
+    username = serializers.CharField(required=False, read_only=True)
     # avatar = serializers.CharField(help_text="Upload Image ImageField",required=False)
 
     class Meta:

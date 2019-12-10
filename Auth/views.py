@@ -72,7 +72,8 @@ class UserUpdateViewSet(APIView):
         serializer = UserUpdateSerializer(request.user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({"message": "User Update Successful."}, status=HTTP_200_OK)
+            user_obj = UserSerializer(request.user)
+            return Response(user_obj.data, status=HTTP_200_OK)
         else:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 

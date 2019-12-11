@@ -433,7 +433,7 @@ class InterestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.GET.get('querystring'):
-            queryset = Interests.objects.filter(interest__istartswith=self.request.GET.get('querystring'))
+            queryset = Interests.objects.filter(interest__istartswith=self.request.GET.get('search'))
         else:
             queryset = Interests.objects.all()
         return queryset
@@ -457,7 +457,7 @@ class SkillViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Skills.objects.all()
+        queryset = Skills.objects.filter(skill__istartswith=self.request.GET.get('search'))
         return queryset
 
     def destroy(self, request, *args, **kwargs):
@@ -479,7 +479,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Languages.objects.all()
+        queryset = Languages.objects.filter(language__istartswith=self.request.GET.get('search'))
         return queryset
 
     def destroy(self, request, *args, **kwargs):

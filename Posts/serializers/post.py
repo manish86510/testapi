@@ -30,11 +30,12 @@ class PostAllDetailSerializer(serializers.ModelSerializer):
     post_media = PostMediaSerializer(many=True)
     user = UserFollowerDetailSerializer()
     is_like = serializers.SerializerMethodField(default=False)
+
     class Meta:
         model = Post
         fields = ('id', 'post_media', 'about_post', 'tags',
                   'like_count', 'share_count', 'comment_count', 'points_earner', 'user', 'is_public', 'target_audience',
-                  'post_type','is_like')
+                  'post_type','is_like','created_on')
 
     def get_is_like(self, obj):
         like = PostLikes.objects.filter(post=obj, user=self.context.get('request').user).first()

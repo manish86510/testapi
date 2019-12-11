@@ -457,7 +457,10 @@ class SkillViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Skills.objects.filter(skill__istartswith=self.request.GET.get('search'))
+        if self.request.GET.get('search'):
+            queryset = Skills.objects.filter(skill__istartswith=self.request.GET.get('search'))
+        else:
+            queryset = Skills.objects.all()
         return queryset
 
     def destroy(self, request, *args, **kwargs):
@@ -479,7 +482,10 @@ class LanguageViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Languages.objects.filter(language__istartswith=self.request.GET.get('search'))
+        if self.request.GET.get('search'):
+            queryset = Languages.objects.filter(language__istartswith=self.request.GET.get('search'))
+        else:
+            queryset = Languages.objects.all()
         return queryset
 
     def destroy(self, request, *args, **kwargs):

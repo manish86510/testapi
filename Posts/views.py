@@ -68,6 +68,9 @@ class PostViewSet(viewsets.ModelViewSet):
         'update': PostCreateSerializer,
     }
 
+    def get_serializer_context(self):
+        return {'request': self.request}
+
     def get_serializer_class(self):
         try:
             return self.serializer_action_classes[self.action]

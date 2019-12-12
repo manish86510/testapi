@@ -72,9 +72,18 @@ class FriendListViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
     def get_queryset(self):
-        queryset = Followers.objects.filter(user=self.request.user.id, is_confirmed=True)
+        if self.request.GET.get('search'):
+            queryset = Followers.objects.filter(Q(follower__first_name__istartswith=self.request.GET.get('search')) |
+                                                Q(follower__last_name__istartswith=self.request.GET.get('search')) |
+                                                Q(follower__username__istartswith=self.request.GET.get('search')),
+                                                user=self.request.user.id, is_confirmed=True)
+        else:
+            queryset = Followers.objects.filter(user=self.request.user.id, is_confirmed=True)
         return queryset
 
+    # def list(self, request, *args, **kwargs):
+    #     queryset = Followers.objects.filter(user=self.request.user.id, is_confirmed=True)
+    #     return queryset
 
 @method_decorator(name='put', decorator=UserSwaggerDoc.update())
 class UserUpdateViewSet(APIView):

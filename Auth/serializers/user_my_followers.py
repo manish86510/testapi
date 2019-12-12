@@ -4,7 +4,7 @@ from Auth.serializers.user import *
 
 
 class FollowerSerializer(serializers.ModelSerializer):
-    follower = UserCustomFieldSerializer()
+    follower = UserSerializer()
 
     class Meta:
         model = Followers

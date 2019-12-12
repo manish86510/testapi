@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
+router.register(r'friends-list', views.FriendListViewSet, base_name='friends_list')
 router.register(r'city', views.CityViewSet, base_name='city')
 router.register(r'education', views.MyEducationViewSet, base_name='education')
 router.register(r'follower', views.MyFollowerViewSet, base_name='follower')

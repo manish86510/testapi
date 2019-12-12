@@ -41,7 +41,7 @@ class PostSwaggerDoc:
             tags=["Posts"],
             operation_summary="List Post",
             operation_description="Creates post using the details provided by the user",
-            responses={200: PostSerializer(many=True)}
+            responses={200: PostAllDetailSerializer(many=True)}
         )
         return doc
 
@@ -51,7 +51,7 @@ class PostSwaggerDoc:
             tags=["Posts"],
             operation_summary="Get Post",
             operation_description="Creates post using the details provided by the user",
-            responses={200: PostSerializer}
+            responses={200: PostAllDetailSerializer}
         )
         return doc
 

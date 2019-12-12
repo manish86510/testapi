@@ -22,7 +22,7 @@ from .serializers.skill import SkillCreateSerializer
 from .swagger.user import UserSwaggerDoc, RecommendedUserListSwaggerDoc
 from .swagger.user_city import CitySwagger
 from .swagger.user_education import EducationSwagger
-from .swagger.user_my_followers import FollowerSwagger
+from .swagger.user_my_followers import FollowerSwagger, FriendsListSwagger
 from .swagger.user_my_interest import MyInterestSwagger
 from .swagger.user_my_languages import MyLanguageSwagger
 from .swagger.user_my_places import PlaceSwagger
@@ -61,6 +61,19 @@ class AllowCreateUser(BasePermission):
 
 
 from rest_framework.parsers import FileUploadParser
+
+
+@method_decorator(name='retrieve', decorator=FriendsListSwagger.retrieve())
+@method_decorator(name='list', decorator=FriendsListSwagger.list())
+class FriendListViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get']
+    serializer_class = FollowerSerializer
+
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        queryset = Followers.objects.filter(user=self.request.user.id, is_confirmed=True)
+        return queryset
 
 
 @method_decorator(name='put', decorator=UserSwaggerDoc.update())

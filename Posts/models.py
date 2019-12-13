@@ -101,11 +101,12 @@ class PostShare(SoftDeleteModel):
 
 class PostTag(SoftDeleteModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_tag')
+    tag_user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='post_tag_user', null=True, default=None)
     tagged_users = models.TextField(null=False)
     is_read = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.post
+        return self.post.about_post
 
     class Meta:
         verbose_name_plural = 'Post Tag'

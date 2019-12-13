@@ -98,6 +98,13 @@ class PostViewSet(viewsets.ModelViewSet):
                     post=post
                 )
                 post_media.save()
+        if self.request.data.get('tags_friends'):
+            for tag in self.request.data.get('tags_friends'):
+                tag = PostTag(
+                    post=post,
+                    tag_user_id=tag,
+                )
+                tag.save()
         # serializer_obj = PostAllDetailSerializer(post)
         # return Response(serializer_obj.data, status=HTTP_201_CREATED)
 

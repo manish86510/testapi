@@ -23,7 +23,7 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
 
 class PostAllDetailSerializer(serializers.ModelSerializer):
-    # post_tag = PostTagSerializer(many=True)
+    tag = PostTagSerializer(many=True, source="post_tag")
     # post_comment = PostCommentSerializer(many=True)
     # post_like = PostLikeSerializer(many=True)
     # post_share = PostShareSerializer(many=True)
@@ -33,9 +33,9 @@ class PostAllDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'post_media', 'about_post', 'tags',
+        fields = ('id', 'tag', 'post_media', 'about_post', 'tags',
                   'like_count', 'share_count', 'comment_count', 'points_earner', 'user', 'is_public', 'target_audience',
-                  'post_type','is_like','created_on')
+                  'post_type', 'is_like', 'created_on')
 
     def get_is_like(self, obj):
         like = PostLikes.objects.filter(post=obj, user=self.context.get('request').user).first()

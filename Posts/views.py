@@ -174,7 +174,7 @@ class PostCommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # queryset = PostComments.objects.all()
-        queryset = PostComments.objects.filter(post=self.request.GET.get('post_id'))
+        queryset = PostComments.objects.filter(post=self.request.GET.get('post_id'), parent=-1)
         return queryset
 
     def create(self, request, *args, **kwargs):

@@ -111,3 +111,14 @@ class PostTag(SoftDeleteModel):
     class Meta:
         verbose_name_plural = 'Post Tag'
         db_table = 'post_tag'
+
+
+# class Notification(SoftDeleteModel):
+#     notification_id = models.BigAutoField(primary_key=True)
+#     notification_type = models.CharField(max_length=100, null=True)
+#     notification_url = models.URLField(max_length=1000, null=True)
+#     notification_status = models.CharField(max_length=100, null=True)
+#     notification_message = models.CharField(max_length=500, null=True)
+#     read_date = models.DateTimeField(null=True)
+#     sender_id = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="notification_sender", null=True)
+#     user_id = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="notification_user_id", null=True)

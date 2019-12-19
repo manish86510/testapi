@@ -56,8 +56,8 @@ class MySkillsOptionsAdmin(BaseAdmin):
 
 
 class MyFollowersOptionsAdmin(BaseAdmin):
-    list_display = ('id', 'user', 'follower')
-    search_fields = ('id', 'user', 'follower')
+    list_display = ('id', 'user', 'following')
+    search_fields = ('id', 'user', 'following')
 
 
 admin.site.register(User, UserOptionsAdmin)

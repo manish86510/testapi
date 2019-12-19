@@ -1,12 +1,15 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
+from .viewsets import follow
 
 router = DefaultRouter()
 router.register(r'friends-list', views.FriendListViewSet, base_name='friends_list')
 router.register(r'city', views.CityViewSet, base_name='city')
 router.register(r'education', views.MyEducationViewSet, base_name='education')
-router.register(r'follower', views.MyFollowerViewSet, base_name='follower')
+router.register(r'follow', follow.FollowViewSet, base_name='follow')
+router.register(r'follower', follow.FollowerViewSet, base_name='follower')
+router.register(r'following', follow.FollowingViewSet, base_name='following')
 router.register(r'my-interest', views.MyInterestViewSet, base_name='interest')
 router.register(r'my-language', views.MyLanguageViewSet, base_name='language')
 router.register(r'places', views.MyPlaceViewSet, base_name='places')

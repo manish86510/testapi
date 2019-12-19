@@ -1,5 +1,4 @@
 from rest_framework import viewsets, permissions
-from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import BasePermission
 from rest_framework.parsers import MultiPartParser, FormParser
 
@@ -44,6 +43,7 @@ from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_408_REQUEST_TIMEOUT,
 )
+from rest_framework import status
 from django.conf import settings
 import string, random
 from django.db.models import Q
@@ -84,6 +84,7 @@ class FriendListViewSet(viewsets.ModelViewSet):
     # def list(self, request, *args, **kwargs):
     #     queryset = Followers.objects.filter(user=self.request.user.id, is_confirmed=True)
     #     return queryset
+
 
 @method_decorator(name='put', decorator=UserSwaggerDoc.update())
 class UserUpdateViewSet(APIView):
@@ -210,36 +211,6 @@ class MyEducationViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         query = Education.objects.get(id=self.kwargs['pk'])
-        query.deleted_on = timezone.now()
-        query.delete()
-        return Response("Deleted Successfully", status=HTTP_200_OK)
-
-
-@method_decorator(name='create', decorator=FollowerSwagger.create())
-@method_decorator(name='list', decorator=FollowerSwagger.list())
-@method_decorator(name='destroy', decorator=FollowerSwagger.delete())
-@method_decorator(name='update', decorator=FollowerSwagger.update())
-@method_decorator(name='retrieve', decorator=FollowerSwagger.retrieve())
-class MyFollowerViewSet(viewsets.ModelViewSet):
-    serializer_class = FollowerSerializer
-
-    http_method_names = ['get', 'post', 'put', 'delete']
-
-    def get_queryset(self):
-        queryset = Followers.objects.filter(user=self.request.user.id)
-        return queryset
-
-    def create(self, request, *args, **kwargs):
-        serializer = FollowerCreateSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            follower = User.objects.get(pk=request.data.get('follower'))
-            serializer.save(follower=follower, user=self.request.user)
-            return Response({"message": "ok"}, status=HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=HTTP_200_OK)
-
-    def destroy(self, request, *args, **kwargs):
-        query = Followers.objects.get(id=self.kwargs['pk'])
         query.deleted_on = timezone.now()
         query.delete()
         return Response("Deleted Successfully", status=HTTP_200_OK)

@@ -7,9 +7,9 @@ class FollowerSwagger:
     @staticmethod
     def create():
         doc = swagger_auto_schema(
-            tags=['Followers'],
-            operation_summary="Add a Follower",
-            operation_description="Add a follower to the current user",
+            tags=['Follow'],
+            operation_summary="Follow a person",
+            operation_description="Follow a person",
             request_body=FollowerCreateSerializer,
             responses={200: FollowerSerializer}
         )
@@ -18,20 +18,9 @@ class FollowerSwagger:
     @staticmethod
     def delete():
         doc = swagger_auto_schema(
-            tags=['Followers'],
-            operation_summary="Delete Follower",
+            tags=['Follow'],
+            operation_summary="Delete Following",
             operation_description="Delete follower to the current user",
-        )
-        return doc
-
-    @staticmethod
-    def update():
-        doc = swagger_auto_schema(
-            tags=['Followers'],
-            operation_summary="Update Follower",
-            operation_description="Update follower to the current user",
-            request_body=FollowerCreateSerializer,
-            responses={200: FollowerSerializer}
         )
         return doc
 
@@ -39,8 +28,8 @@ class FollowerSwagger:
     def list():
         doc = swagger_auto_schema(
             tags=['Followers'],
-            operation_summary="List Follower",
-            operation_description="List followers",
+            operation_summary="List of follower",
+            operation_description="List of followers",
             responses={200: FollowerSerializer(many=True)}
         )
         return doc
@@ -49,9 +38,32 @@ class FollowerSwagger:
     def retrieve():
         doc = swagger_auto_schema(
             tags=['Followers'],
-            operation_summary="Get Follower",
-            operation_description="Get follower to the current user",
-            responses={200: FollowerSerializer}
+            operation_summary="Get details of follower",
+            operation_description="Get details of follower",
+            responses={200: FollowerSerializer(many=False)}
+        )
+        return doc
+
+
+
+class FollowingSwagger:
+    @staticmethod
+    def list():
+        doc = swagger_auto_schema(
+            tags=['Following'],
+            operation_summary="List of following",
+            operation_description="List of following",
+            responses={200: FollowerSerializer(many=True)}
+        )
+        return doc
+
+    @staticmethod
+    def retrieve():
+        doc = swagger_auto_schema(
+            tags=['Following'],
+            operation_summary="Get following user details",
+            operation_description="Get following user details",
+            responses={200: FollowerSerializer(many=True)}
         )
         return doc
 

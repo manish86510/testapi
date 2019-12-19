@@ -1,12 +1,12 @@
 from rest_framework import serializers
 # from .user_field import CurrentUserID
-from Posts.models import Post
+from ...Posts.models import Post
 from .post_tag import *
 from .post_likes import *
 from .post_comments import *
 from .post_media import *
 from .post_share import *
-from Auth.serializers.user import UserFollowerDetailSerializer
+from ...Auth.serializers.user import UserFollowerDetailSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -38,6 +38,7 @@ class PostAllDetailSerializer(serializers.ModelSerializer):
                   'post_type', 'is_like', 'created_on')
 
     def get_is_like(self, obj):
+        # self.post_like
         like = PostLikes.objects.filter(post=obj, user=self.context.get('request').user).first()
         if like:
             return True

@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from Auth.models import *
-from Auth.serializers.user import *
+from ..models import Followers
+from ..serializers.user import UserSerializer
 
 
 class FollowerSerializer(serializers.ModelSerializer):

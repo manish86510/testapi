@@ -1,12 +1,12 @@
 from rest_framework import serializers
 # from .user_field import CurrentUserID
-from ...Posts.models import Post
+from Posts.models import Post
 from .post_tag import *
 from .post_likes import *
 from .post_comments import *
 from .post_media import *
 from .post_share import *
-from ...Auth.serializers.user import UserFollowerDetailSerializer
+from Auth.serializers.user import UserFollowerDetailSerializer
 
 
 class PostSerializer(serializers.ModelSerializer):

@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from Posts.models import PostComments
-from Auth.serializers import *
+from Auth.serializers.user import UserCustomFieldSerializer
 
 
 class PostCommentSerializer(serializers.ModelSerializer):
-    user = user.UserCustomFieldSerializer()
+    user = UserCustomFieldSerializer()
     children = serializers.SerializerMethodField()
 
     class Meta:
@@ -12,11 +12,11 @@ class PostCommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'post', 'comment', 'parent', 'user', 'children']
 
     def get_children(self, obj):
-        # import pdb
-        # pdb.set_trace()
         if obj.parent:
             post_obj = PostComments.objects.filter(parent=obj.id)
-            return PostCommentSerializer(post_obj, many=True).data
+            abc = PostCommentSerializer(post_obj, many=True).data
+            abcc=0
+            return abc
 
 
 class PostCommentCreateSerializer(serializers.ModelSerializer):

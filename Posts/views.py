@@ -7,6 +7,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .helpers import modify_input_for_multiple_files, return_list
 from .models import *
 # from .serializers import *
+from .serializers.notification import *
 from .serializers.post import PostSerializer, PostCreateSerializer, PostAllDetailSerializer
 from .serializers.post_media import PostMediaSerializer, PostMediaCreateSerializer
 from .serializers.post_comments import *
@@ -15,7 +16,7 @@ from .serializers.post_share import PostShareSerializer
 from .serializers.post_tag import PostTagSerializer
 from .serializers.get_full_post_info import GetFullPostInfoSerializer
 from Auth.serializers.user import UserSerializer
-
+from .swagger.notification import *
 from .swagger.post import PostSwaggerDoc, HotTopicSwaggerDoc
 from .swagger.post_media import PostMediaSwagger
 from .swagger.post_comments import PostCommentSwagger
@@ -36,6 +37,18 @@ import random
 
 
 # from rest_framework.permissions import IsAuthenticated
+@method_decorator(name='list', decorator=NotificationSwaggerDoc.list())
+@method_decorator(name='retrieve', decorator=NotificationSwaggerDoc.retrieve())
+class NotificationsViewSet(viewsets.ModelViewSet):
+    model = Notification
+    serializer_class = NotificationSerializer
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        queryset = Notification.objects.filter(user_id=self.request.user)
+        return queryset
+
+
 @method_decorator(name='list', decorator=HotTopicSwaggerDoc.list())
 class HotTopicViewSet(viewsets.ModelViewSet):
     serializer_class = PostAllDetailSerializer

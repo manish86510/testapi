@@ -46,8 +46,8 @@ class MyProjectsOptionsAdmin(BaseAdmin):
 
 
 class SocialLinksOptionsAdmin(BaseAdmin):
-    list_display = ('id', 'name', 'unique_id', 'user')
-    search_fields = ('id', 'name', 'unique_id', 'user')
+    list_display = ('id', 'name', 'url', 'user')
+    search_fields = ('id', 'name', 'url', 'user')
 
 
 class MySkillsOptionsAdmin(BaseAdmin):

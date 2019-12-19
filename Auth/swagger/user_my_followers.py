@@ -45,7 +45,6 @@ class FollowerSwagger:
         return doc
 
 
-
 class FollowingSwagger:
     @staticmethod
     def list():
@@ -64,27 +63,5 @@ class FollowingSwagger:
             operation_summary="Get following user details",
             operation_description="Get following user details",
             responses={200: FollowerSerializer(many=True)}
-        )
-        return doc
-
-
-class FriendsListSwagger:
-    @staticmethod
-    def list():
-        doc = swagger_auto_schema(
-            tags=['Friends List'],
-            operation_summary="List Friends",
-            operation_description="List Friends to tha current user",
-            responses={200: FollowerSerializer(many=True)}
-        )
-        return doc
-
-    @staticmethod
-    def retrieve():
-        doc = swagger_auto_schema(
-            tags=['Friends List'],
-            operation_summary="Get Friends",
-            operation_description="Get Friends to the current user",
-            responses={200: FollowerSerializer}
         )
         return doc

@@ -4,7 +4,7 @@ from . import views
 from .viewsets import follow
 
 router = DefaultRouter()
-router.register(r'friends-list', views.FriendListViewSet, base_name='friends_list')
+# router.register(r'friends-list', views.FriendListViewSet, base_name='friends_list')
 router.register(r'city', views.CityViewSet, base_name='city')
 router.register(r'education', views.MyEducationViewSet, base_name='education')
 router.register(r'follow', follow.FollowViewSet, base_name='follow')

@@ -96,8 +96,9 @@ class MyPlaces(SoftDeleteModel):
 
 class SocialLinks(SoftDeleteModel):
     name = models.CharField(max_length=200)
-    unique_id = models.CharField(max_length=100, unique=True)
+    # unique_id = models.CharField(max_length=100, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    url = models.URLField()
 
     def __str__(self):
         return self.name

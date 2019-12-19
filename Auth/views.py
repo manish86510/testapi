@@ -21,7 +21,7 @@ from .serializers.skill import SkillCreateSerializer
 from .swagger.user import UserSwaggerDoc, RecommendedUserListSwaggerDoc
 from .swagger.user_city import CitySwagger
 from .swagger.user_education import EducationSwagger
-from .swagger.user_my_followers import FollowerSwagger, FriendsListSwagger
+from .swagger.user_my_followers import FollowerSwagger
 from .swagger.user_my_interest import MyInterestSwagger
 from .swagger.user_my_languages import MyLanguageSwagger
 from .swagger.user_my_places import PlaceSwagger
@@ -49,6 +49,7 @@ import string, random
 from django.db.models import Q
 from django.utils import timezone
 from django.shortcuts import redirect
+from rest_framework.parsers import FileUploadParser
 
 
 class AllowCreateUser(BasePermission):
@@ -58,32 +59,6 @@ class AllowCreateUser(BasePermission):
                 request.user.is_authenticated):
             return True
         return False
-
-
-from rest_framework.parsers import FileUploadParser
-
-
-@method_decorator(name='retrieve', decorator=FriendsListSwagger.retrieve())
-@method_decorator(name='list', decorator=FriendsListSwagger.list())
-class FriendListViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get']
-    serializer_class = FollowerSerializer
-
-    http_method_names = ['get']
-
-    def get_queryset(self):
-        if self.request.GET.get('search'):
-            queryset = Followers.objects.filter(Q(follower__first_name__istartswith=self.request.GET.get('search')) |
-                                                Q(follower__last_name__istartswith=self.request.GET.get('search')) |
-                                                Q(follower__username__istartswith=self.request.GET.get('search')),
-                                                user=self.request.user.id, is_confirmed=True)
-        else:
-            queryset = Followers.objects.filter(user=self.request.user.id, is_confirmed=True)
-        return queryset
-
-    # def list(self, request, *args, **kwargs):
-    #     queryset = Followers.objects.filter(user=self.request.user.id, is_confirmed=True)
-    #     return queryset
 
 
 @method_decorator(name='put', decorator=UserSwaggerDoc.update())
@@ -384,7 +359,7 @@ class SocialLinkViewSet(viewsets.ModelViewSet):
         query = SocialLinks.objects.get(id=self.kwargs['pk'])
         query.deleted_on = timezone.now()
         query.delete()
-        return Response("Deleted Successfully", status=HTTP_200_OK)
+        return Response("Deleted Successfully", status=status.HTTP_204_NO_CONTENT)
 
 
 @method_decorator(name='create', decorator=WorkplaceSwagger.create())
@@ -496,7 +471,7 @@ class RecommendedViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
     def get_queryset(self):
-        follower_obj = Followers.objects.filter(user=self.request.user.id).values_list('follower')
+        follower_obj = Followers.objects.filter(user=self.request.user.id).values_list('following')
         queryset = User.objects.filter(is_active=True).exclude(pk__in=follower_obj).exclude(pk=self.request.user.id)
         return queryset
 

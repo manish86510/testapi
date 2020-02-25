@@ -27,6 +27,5 @@ router.register(r'register', views.UserViewSet, base_name='register')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('verify_mail/<str:code>', views.verifyMail, name='verify_mail'),
     path('profile-update', views.UserUpdateViewSet.as_view(), name='update_update'),
 ]

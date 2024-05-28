@@ -6,7 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from .helpers import modify_input_for_multiple_files, return_list
 from .models import *
-# from .serializers import *
+from Auth.models import *
+from .serializer import GroupSerializer, GroupUserSerializer, GroupMessaageSerializer,TutorSerializer
 from .serializers.notification import *
 from .serializers.post import PostSerializer, PostCreateSerializer, PostAllDetailSerializer
 from .serializers.post_media import PostMediaSerializer, PostMediaCreateSerializer
@@ -48,6 +49,58 @@ class NotificationsViewSet(viewsets.ModelViewSet):
         queryset = Notification.objects.filter(user_id=self.request.user)
         return queryset
 
+class GroupViewSet(viewsets.ModelViewSet):
+    model = IncometBatch
+    serializer_class = GroupSerializer
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = IncometBatch.objects.all()
+        return queryset
+
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.created_by = self.request.user
+        post.save()
+
+class TutorViewSet(viewsets.ModelViewSet):
+    model = Tutor
+    serializer_class = TutorSerializer
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        queryset = Tutor.objects.all()
+        return queryset
+
+class GroupUserViewSet(viewsets.ModelViewSet):
+    model = GroupUser
+    serializer_class = GroupUserSerializer
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        queryset = GroupUser.objects.filter(user=self.request.user)
+        return queryset
+
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.created_by = self.request.user
+        post.save()
+
+class ChatMessageViewSet(viewsets.ModelViewSet):
+    model = ChatMessage
+    serializer_class = GroupMessaageSerializer
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        group_obj = IncometBatch.objects.get(pk=self.request.query_params.get('group'))
+        queryset = ChatMessage.objects.filter(group=group_obj).order_by('-id')
+        return queryset
+
+    def perform_create(self, serializer):
+        post = serializer.save()
+        post.user = self.request.user
+        post.group = IncometBatch.objects.get(pk=self.request.data.get('group'))
+        post.save()
 
 @method_decorator(name='list', decorator=HotTopicSwaggerDoc.list())
 class HotTopicViewSet(viewsets.ModelViewSet):
@@ -182,7 +235,6 @@ class PostMediaViewSet(viewsets.ModelViewSet):
 @method_decorator(name='retrieve', decorator=PostCommentSwagger.retrieve())
 class PostCommentViewSet(viewsets.ModelViewSet):
     serializer_class = PostCommentSerializer
-
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):

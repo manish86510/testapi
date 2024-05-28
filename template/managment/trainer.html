@@ -1,0 +1,75 @@
+{% extends 'managment/index.html' %}
+{% load static %}
+{% block contant %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Trainer</h1>
+                <ol class="breadcrumb mb-4">
+                   
+                    <li class="breadcrumb-item active">Trainer</li>
+                </ol>
+                <div class="card mb-4">
+                    {% comment %} <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        DataTable
+                    </div> {% endcomment %}
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                                
+                                    <tr>
+                                        <th>id</th>
+                                        <th>trainer_name</th>
+                                        <th>batch</th>
+                                        <th>trand_by</th>
+                                        <th>email</th>
+                                        <th>creation Date</th>
+                                        <th>Action</th>
+                                        
+                                        
+                                    </tr>
+                                
+                               
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>id</th>
+                                    <th>trainer_name</th>
+                                    <th>batch</th>
+                                    <th>trand_by</th>
+                                    <th>email</th>
+                                    <th>creation Date</th>
+                                    <th>Action</th>
+                                    
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for i in traner %}
+                                <tr>
+                                    <td>{{i.id}}</td>
+                                    <td>{{i.trainer_name}}</td>
+                                    <td><a href="{% url 'batchshow' i.batch.id %}">{{i.batch.name}}</a></td>
+                                    <td>{{i.trand_by.language}}</td>
+                                    <td>{{i.email}}</td>
+                                    <td>{{i.created_date}}</td>
+                                    
+
+
+                                    {% if i.is_active == 1 %}
+                                    <td><a href="{% url 'trainerdeactive' i.id %}"><button class="btn btn-primary">activate</button></a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="{% url 'editbatch' i.id %}"><button class="btn btn-danger">Edit</button></a></td>
+                                    {% elif i.is_active == 0 %}
+                                    <td><a href="{% url 'traneractive' i.id %}"><button class="btn btn-primary">Deactivate</button></a>&nbsp&nbsp&nbsp&nbsp&nbsp<a href="{% url 'editbatch' i.id %}"><button class="btn btn-danger">Edit</button></a></td>
+                                    {% endif %}
+                                    
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock contant %}

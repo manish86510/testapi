@@ -14,7 +14,7 @@ SECRET_KEY = '-%llzlat%(u#ylmsu@vo(xqx9**u5ofkk^l^hl$q$m&g0zc%iz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', '103.251.94.87']
 
 # Application definition
 
@@ -27,11 +27,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Core',
     'Auth',
+    'companyprofile',
     'Posts',
+    'management',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
     # 'rest_framework_swagger',
     'drf_yasg',
+    'IncometAPI',
+    
 ]
 
 REST_FRAMEWORK = {
@@ -41,13 +46,11 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 15
+    ]
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=5),
 }
 
 
@@ -103,12 +106,13 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'ishu.k@skysoft.net.in'
-EMAIL_HOST_PASSWORD = 'ishu@kumar'
+EMAIL_HOST_USER = 'manish86510@gmail.com'
+EMAIL_HOST_PASSWORD = '86510@Ind'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+EMAIL_USE_SSL = False
+
 
 WSGI_APPLICATION = 'Energe.wsgi.application'
-
-
 
 SWAGGER_SETTINGS = {
     'enabled_methods': [
@@ -220,19 +224,21 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
+    os.path.join(BASE_DIR, 'static'),
 )
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -11,7 +11,6 @@ class SoftDeleteModel(models.Model):
     is_active = models.BooleanField(default=True)
     deleted_by = models.IntegerField(null=True, blank=True, default=None)
     deleted_on = models.DateTimeField(null=True, default=None, blank=True)
-
     objects = SoftDeletionManager()
     all_objects = SoftDeletionManager(alive_only=False)
 

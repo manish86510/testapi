@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions
 from rest_framework.permissions import BasePermission
 from rest_framework.parsers import MultiPartParser, FormParser
-
+# from Posts.models import Post
 from .models import *
 from .serializers.user import UserSerializer, UserCreateSerializer, UserUpdateSerializer, UserCustomFieldSerializer
 from .serializers.user_city import CitySerializer
@@ -50,6 +50,19 @@ from django.db.models import Q
 from django.utils import timezone
 from django.shortcuts import redirect
 from rest_framework.parsers import FileUploadParser
+
+
+
+@api_view(['GET'])
+def generate_token(request):
+    appId="c99ab8213d81485d93d847e941d37e83"
+    appCertificate="e80191ab7c0e46c49211e6e1af63271c"
+    channelName="first"
+    uid=1
+    role=1
+    privilegeExpiredTs=10
+    token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs)
+    return Response(token)
 
 
 class AllowCreateUser(BasePermission):
@@ -115,16 +128,18 @@ class UserViewSet(viewsets.ModelViewSet):
         if serializer_class.is_valid():
             user = serializer_class.save()
             user.verify_mail_code = code
+            user.is_mail_verified=True
             user.save()
-            subject = 'Thank you for registering to our site'
-            message = "Click here http://energeapi.do.viewyoursite.net/user/verify_mail/" + code + "to verify your " \
-                                                                                                   "email id. "
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [user.email, ]
-            if send_mail(subject, message, email_from, recipient_list):
-                return Response("Please verify your mail", status=HTTP_200_OK)
-            else:
-                return Response("Verification Mail not sent!", status=HTTP_408_REQUEST_TIMEOUT)
+            # subject = 'Thank you for registering to our site'
+            # message = "Click here http://energeapi.do.viewyoursite.net/user/verify_mail/" + code + "to verify your " \
+            #                                                                                        "email id. "
+            # email_from = settings.EMAIL_HOST_USER
+            # recipient_list = [user.email, ]
+            # if send_mail(subject, message, email_from, recipient_list):
+            #     return Response("Please verify your mail", status=HTTP_200_OK)
+            # else:
+            #     return Response("Verification Mail not sent!", status=HTTP_408_REQUEST_TIMEOUT)
+            return Response("Signup completed", status=HTTP_200_OK)
         else:
             return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
 
@@ -142,7 +157,7 @@ def verifyMail(self, code):
         user_obj = User.objects.filter(verify_mail_code=code).update(is_mail_verified=True)
     except:
         return Response("Link has been expired", status=HTTP_400_BAD_REQUEST)
-    return redirect('http://energe.do.viewyoursite.net/verify_mail/{}'.format(code))
+    return redirect('http://103.251.94.87:8083/verify_mail/{}'.format(code))
 
 
 @method_decorator(name='create', decorator=CitySwagger.create())
@@ -150,11 +165,9 @@ def verifyMail(self, code):
 @method_decorator(name='destroy', decorator=CitySwagger.delete())
 @method_decorator(name='update', decorator=CitySwagger.update())
 @method_decorator(name='retrieve', decorator=CitySwagger.retrieve())
-class CityViewSet(viewsets.ModelViewSet):
+class  CityViewSet(viewsets.ModelViewSet):
     serializer_class = CitySerializer
-
     http_method_names = ['get', 'post', 'put', 'delete']
-
     def get_queryset(self):
         queryset = City.objects.all()
         return queryset
@@ -163,7 +176,6 @@ class CityViewSet(viewsets.ModelViewSet):
         post = serializer.save()
         post.user = self.request.user
         post.save()
-
 
 @method_decorator(name='create', decorator=EducationSwagger.create())
 @method_decorator(name='list', decorator=EducationSwagger.list())

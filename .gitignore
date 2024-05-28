@@ -94,5 +94,8 @@ db.sqlite3
 
 /Energe/settings/__init__.py
 /Energe/settings/ishu.py
+.manage.py
+.Energe/wsgi.py
+/Energe/settings/
 media/
 /static/

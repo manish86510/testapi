@@ -1,0 +1,78 @@
+{% extends 'managment/index.html' %}
+{% load static %}
+{% block contant %}
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4" style="padding: 3% 23%;">
+            <h1 class="mt-4">Create Trainer</h1>
+            <ol class="breadcrumb mb-4">
+
+                <li class="breadcrumb-item active">Trainer</li>
+            </ol>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form action="{% url 'createtraner' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Trainer Name</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='trainer_name'>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='email'>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Batch</label>
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                            name="batch">
+                                            {% for i in batch %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Language</label>
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                            name="language">
+                                            {% for i in languages %}
+                                            <option value="{{i.language}}">{{i.language}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+{% endblock contant %}

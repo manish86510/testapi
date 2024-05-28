@@ -56,7 +56,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data.get('first_name'),
             last_name=validated_data.get('last_name')
-
         )
         user.set_password(validated_data['password'])
         user.save()
@@ -70,7 +69,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'avatar', 'first_name', 'last_name', 'about', 'enlarge_url',)
+        fields = ('username', 'avatar', 'first_name', 'last_name', 'about', 'enlarge_url','address','cover_picture')
 
 
 class UserFollowerDetailSerializer(serializers.ModelSerializer):

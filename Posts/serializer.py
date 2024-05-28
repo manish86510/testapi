@@ -1,6 +1,26 @@
 from rest_framework import serializers
 from .models import *
+from Auth.models import *
 
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IncometBatch
+        fields = '__all__'
+
+class GroupUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupUser
+        fields = '__all__'
+
+class GroupMessaageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatMessage
+        fields = '__all__'
+
+class TutorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tutor
+        fields = '__all__'
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:

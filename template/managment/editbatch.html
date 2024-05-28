@@ -1,0 +1,32 @@
+{% extends 'managment/index.html' %}
+{% load static %}
+{% block contant %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Edit Batch</h1>
+                <ol class="breadcrumb mb-4">
+                </ol>
+                <div class="card mb-4" style="margin:10%;">   
+                    <div class="card-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                              <label for="exampleInputEmail1" class="form-label">Batch Name</label>
+                              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="batch" value="{{batch}}">
+                              
+                            </div>
+                            
+                            <div class="mb-3 form-check">
+                              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock contant %}
+

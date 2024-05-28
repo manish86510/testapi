@@ -123,3 +123,5 @@ class Notification(SoftDeleteModel):
     sender_id = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="notification_sender", null=True)
     user_id = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="notification_user_id", null=True)
     is_read = models.BooleanField(default=False)
+
+

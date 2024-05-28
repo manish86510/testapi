@@ -1,8 +1,18 @@
+from statistics import mode
+from xmlrpc.client import Boolean
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from Core.models import SoftDeleteModel
+# from companyprofile.models import Company, Service
+
 
 BaseModel = None
+
+
+
+
+# Create your models here.
+
 
 
 class User(AbstractUser):
@@ -34,6 +44,61 @@ class User(AbstractUser):
         verbose_name_plural = 'Users'
         db_table = 'User'
 
+class Admin_user(models.Model):
+    email=models.EmailField(max_length=254, null=True)
+    password=models.CharField(max_length=200, null=True)
+    is_active=models.BooleanField()
+
+    def __str__(self):
+        return self.email
+
+class Batch(SoftDeleteModel):
+    name = models.CharField(max_length=230, unique=True)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+class IncometBatch(SoftDeleteModel):
+    name = models.CharField(max_length=200, unique=True)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+class Tutor(models.Model):
+    name=models.CharField(max_length=200)
+    about=models.TextField(null=True)
+    created_date = models.DateTimeField(auto_now_add=True, null=True)   
+    education = models.CharField(max_length=200,null=True)
+    profile_pic = models.ImageField(upload_to='tutor_profile/', null=True, blank=True)
+    rating = models.IntegerField(null=True)
+    is_active = models.BooleanField(default=True)
+    is_verify = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+class GroupUser(SoftDeleteModel):
+    group = models.ForeignKey(IncometBatch, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    is_active = models.BooleanField(default=True)
+    def __str__(self):
+        return self.group
+
+class ChatMessage(SoftDeleteModel):
+    group = models.ForeignKey(IncometBatch, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    message = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.user
 
 class City(SoftDeleteModel):
     city_name = models.CharField(max_length=200)
@@ -173,4 +238,36 @@ class Skills(models.Model):
 
 class Languages(models.Model):
     language = models.CharField(max_length=30)
+
+
+class Event(models.Model):
+    name=models.CharField(max_length=100, null=True, unique=True)
+    date= models.DateTimeField(max_length=100, null=True)
+    time =models.CharField(max_length=100, null=True)
+    is_active =models.BooleanField()
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    def __str__(self):
+        return self.name
+
+class Trainer(models.Model):
+    trainer_name=models.CharField(max_length=100, null=True)
+    batch = models.ForeignKey(IncometBatch, on_delete=models.CASCADE, null=True)
+    trand_by=models.ForeignKey(Languages, on_delete=models.CASCADE, null=True)
+    email=models.EmailField(max_length=100, null=True)
+    is_active=models.BooleanField(default=True)
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    def __str__(self):
+        return self.name
+
+class Meteril(models.Model):
+    trainer_name=models.CharField(max_length=100, null=True)
+    batch = models.ForeignKey(IncometBatch, on_delete=models.CASCADE, null=True)
+    trand_by=models.ForeignKey(Languages, on_delete=models.CASCADE, null=True)
+    email=models.EmailField(max_length=100, null=True)
+    is_active=models.BooleanField(default=True)
+    created_date = models.DateTimeField(auto_now_add=True, null=True)
+    def __str__(self):
+        return self.name
+
+
 

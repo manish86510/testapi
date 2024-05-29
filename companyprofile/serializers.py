@@ -7,7 +7,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Service
-        fields = ['company_name', 'name', 'short_description', 'long_description', 'created_at']
+        fields = ['id','company_name', 'name', 'short_description', 'long_description', 'created_at']
 
     
 
@@ -17,7 +17,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['created_by_name', 'industry_name', 'name', 'email', 'number', 'gst_number', 'reg_number', 'reg_date', 'sector', 'description', 'address', 'created_at']
+        fields = ['id','created_by_name', 'industry_name', 'name', 'email', 'number', 'gst_number', 'reg_number', 'reg_date', 'sector', 'description', 'address', 'created_at']
 
 
 

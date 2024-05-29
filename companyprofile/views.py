@@ -12,6 +12,7 @@ from .models import *
 from Auth.models import User
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
+
 # from rest_framework import viewsets
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -167,33 +168,82 @@ def add_events(request):
     
     
 #EVENTS UPDATE API
+@api_view(['PUT'])
+def update_events(request, pk):
+    try:
+        events = Events.objects.get(pk=pk)
+    except Events.DoesNotExist:
+        return Response({"error": "Events not found"}, status=HTTP_404_NOT_FOUND)
 
+    if request.method == 'PUT':
+        serializer = EventsSerializer(events, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data": serializer.data}, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 #EVENTS DELETE API
+@api_view(['DELETE'])
+def delete_events(request, pk):
+    try:
+        events = Events.objects.get(pk=pk)
+    except Events.DoesNotExist:
+        return Response({"error": "Events not found"}, status=HTTP_404_NOT_FOUND)
 
+    if request.method == 'DELETE':
+        events.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
 
 #NEWS GET API
 @api_view(['GET'])
 def get_all_news(request):
     news=News.objects.all()
-    serializers=NewsSerializer(news, many=True)
-    return Response({"data":serializers.data}) 
+    serializer=NewsSerializer(news, many=True)
+    return Response({"data":serializer.data}) 
+
 
 #NEWS ADD API
+@api_view(['POST'])
 def add_news(request):
-    if request.method=='POST':
-        serializer=NewsSerializer(data=request.data)
+    if request.method == 'POST':
+        serializer = NewsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  # This should save the data to the database
+            return Response({"data": serializer.data}, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)  # Return serializer errors for debugging
+           
+    
+    
+    
+        
+#NEWS  UPDATE API
+@api_view(['PUT'])
+def update_news(request, pk):
+    try:
+        news = News.objects.get(pk=pk)
+    except News.DoesNotExist:
+        return Response({"error": "News not found"}, status=HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = NewsSerializer(news, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"data":serializer.data},status=HTTP_201_CREATED)
-        return Response(serializer.data,status=HTTP_400_BAD_REQUEST)
-           
-           
-#NEWS  UPDATE API
+            return Response({"data": serializer.data}, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 #NEWS DELETE API
+@api_view(['DELETE'])
+def delete_news(request, pk):
+    try:
+        news = News.objects.get(pk=pk)
+    except News.DoesNotExist:
+        return Response({"error": "News not found"}, status=HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        news.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
 
 
 #SCHEME GET API
@@ -205,6 +255,7 @@ def get_all_scheme(request):
     
     
 #SCHEME ADD API
+@api_view(['POST'])
 def add_scheme(request):
     if(request.method=='POST'):
         serializer=SchemeSerializer(data=request.data)
@@ -214,9 +265,31 @@ def add_scheme(request):
         return Response(serializer.data,status=HTTP_400_BAD_REQUEST)
 
 #SCHEME UPDATE API
+@api_view(['PUT'])
+def update_scheme(request, pk):
+    try:
+        scheme = Scheme.objects.get(pk=pk)
+    except Scheme.DoesNotExist:
+        return Response({"error": "Scheme not found"}, status=HTTP_404_NOT_FOUND)
 
+    if request.method == 'PUT':
+        serializer = SchemeSerializer(scheme, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data": serializer.data}, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 #SCHEME DELETE API
+@api_view(['DELETE'])
+def delete_scheme(request, pk):
+    try:
+        scheme = Scheme.objects.get(pk=pk)
+    except Scheme.DoesNotExist:
+        return Response({"error": "Scheme not found"}, status=HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        scheme.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
 
 
 
@@ -228,6 +301,7 @@ def get_all_leads(request):
     return Response({"data":serializers.data}) 
 
 #LEADS ADD API
+@api_view(['POST'])
 def add_leads(request):
     if request.method=='POST':
         serializer=LeadsSerializer(data=request.data)
@@ -235,3 +309,32 @@ def add_leads(request):
             serializer.save()
             return Response({"data":serializer.data},status=HTTP_201_CREATED)
         return Response(serializer.data,status=HTTP_400_BAD_REQUEST)
+    
+    
+#LEADS UPDATE API
+@api_view(['PUT'])
+def update_leads(request, pk):
+    try:
+        leads = Leads.objects.get(pk=pk)
+    except Leads.DoesNotExist:
+        return Response({"error": "Leads not found"}, status=HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = LeadsSerializer(leads, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"data": serializer.data}, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+#LEADS DELETE API
+@api_view(['DELETE'])
+def delete_leads(request, pk):
+    try:
+        leads = Leads.objects.get(pk=pk)
+    except Leads.DoesNotExist:
+        return Response({"error": "Leads not found"}, status=HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        leads.delete()
+        return Response(status=HTTP_204_NO_CONTENT)

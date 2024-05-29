@@ -56,12 +56,23 @@ urlpatterns = [
     path('api/delete_industry/<int:pk>/', delete_industry, name='delete_industry'),
     path('api/events/', get_all_events, name='get_all_events'),
     re_path(r'^events/add/', add_events, name='add_events'),
+    path('update_events/<int:pk>/', update_events),
+    path('api/delete_events/<int:pk>/', delete_events, name='delete_events'),
+    
     path('api/news/', get_all_news, name='get_all_news'),
     re_path(r'^news/add/', add_news, name='add_news'),
+    path('update_news/<int:pk>/', update_news),
+    path('api/delete_news/<int:pk>/', delete_news, name='delete_news'),
+    
     path('api/scheme/', get_all_scheme, name='get_all_scheme'),
     re_path(r'^scheme/add/', add_scheme, name='add_scheme'),
+    path('update_scheme/<int:pk>/', update_scheme),
+    path('api/delete_scheme/<int:pk>/', delete_scheme, name='delete_scheme'),
+    
     path('api/leads/', get_all_leads, name='get_all_leads'),
     re_path(r'^leads/add/', add_leads, name='add_leads'),
+    path('update_leads/<int:pk>/', update_leads),
+    path('api/delete_leads/<int:pk>/', delete_leads, name='delete_leads'),
     
     # url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

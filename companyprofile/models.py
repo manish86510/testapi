@@ -42,7 +42,7 @@ class Service(models.Model):
     
 class Events(models.Model):
     date=models.DateField()
-    banner=models.ImageField()
+    banner = models.ImageField(upload_to='banners/', default='path/to/default/image.jpg')
     short_desc=models.CharField(max_length=250)
     long_desc=models.TextField()
     amount=models.DecimalField(max_digits=10, decimal_places=2)
@@ -60,7 +60,7 @@ class News(models.Model):
     title=models.CharField(max_length=250, unique=True)
     short_desc=models.CharField(max_length=250)
     long_desc=models.TextField()
-    banner=models.ImageField()
+    banner = models.ImageField(upload_to='news_banners/', default='path/to/default/image.jpg')
     valid=models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updted_at = models.DateTimeField(auto_now=True)
@@ -75,7 +75,7 @@ class Scheme(models.Model):
     launched_date=models.DateField()
     valid= models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updted_at = models.DateTimeField(auto_now_add=True)
+    updted_at = models.DateTimeField(auto_now=True)
     
 class Leads(models.Model):
     company_id=models.ForeignKey('Company', on_delete=models.CASCADE)
@@ -86,7 +86,7 @@ class Leads(models.Model):
     status=models.TextField()
     valid=models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updted_at = models.DateTimeField(auto_now_add=True)
+    updted_at = models.DateTimeField(auto_now=True)
     
     
     

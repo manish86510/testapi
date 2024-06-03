@@ -17,8 +17,9 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['id','created_by_name', 'industry_name', 'name', 'email', 'number', 'gst_number', 'reg_number', 'reg_date', 'sector', 'description', 'address', 'created_at']
+        fields = ['id','created_by_name', 'industry_name', 'name', 'email', 'number', 'gst_number', 'reg_number', 'reg_date', 'sector', 'description', 'address', 'created_at','is_verify' ]
 
+        
 
 
 class IndustrySerializer(serializers.ModelSerializer):
@@ -45,3 +46,8 @@ class LeadsSerializer(serializers.ModelSerializer):
     class Meta:
         model=Leads
         fields='__all__'
+
+
+class VerifyCompanySerializer(serializers.Serializer):
+    company_id = serializers.IntegerField()
+    is_verify = serializers.BooleanField()

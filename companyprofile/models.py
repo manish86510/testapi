@@ -10,9 +10,12 @@ class Employee():
     token = models.CharField(max_length=255, blank=True, null=True)
     
 class Industry(models.Model):
-    name=models.CharField(max_length=100, unique=True)
-    desc=models.CharField(max_length=300)
-    created_at = models.DateTimeField( auto_now_add=True)
+    name = models.CharField(max_length=100, unique=True)
+    desc = models.CharField(max_length=300)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at'] 
     
 
 class Company(models.Model):
@@ -29,11 +32,12 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_companies')
     industry = models.ForeignKey(Industry, on_delete=models.CASCADE, default=1)
+    is_verify = models.BooleanField(default=False)
 
 
 
 class Service(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, default=1)
+    company_id = models.ForeignKey(Company, on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=255,unique=True)
     short_description = models.TextField()
     long_description = models.TextField()
@@ -42,7 +46,7 @@ class Service(models.Model):
     
 class Events(models.Model):
     date=models.DateField()
-    banner = models.ImageField(upload_to='banners/', default='path/to/default/image.jpg')
+    banner = models.ImageField(upload_to='events_banners/', default='path/to/default/image.jpg')
     short_desc=models.CharField(max_length=250)
     long_desc=models.TextField()
     amount=models.DecimalField(max_digits=10, decimal_places=2)
@@ -71,26 +75,25 @@ class Scheme(models.Model):
     url = models.CharField(max_length=300)
     short_desc=models.CharField(max_length=250)
     long_desc=models.TextField()
-    image=models.ImageField()
+    banner=models.ImageField(upload_to='scheme_banners/', default='path/to/default/image.jpg')
     launched_date=models.DateField()
     valid= models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updted_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
 class Leads(models.Model):
     company_id=models.ForeignKey('Company', on_delete=models.CASCADE)
     title=models.CharField(max_length=250, unique=True)
     description=models.TextField()
-    attachment=models.FileField()
+    attachment = models.FileField(upload_to='files_uploads/', default='files_uploads/default.pdf')
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    status=models.TextField()
+    status=models.BooleanField(default=True)
     valid=models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updted_at = models.DateTimeField(auto_now=True)
     
     
-    
-    
+
     def __str__(self):
         return self.name
     

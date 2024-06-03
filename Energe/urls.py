@@ -40,39 +40,30 @@ schema_view = get_schema_view(
 
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('verify-company/', verify_company, name='verify_company'),
+    # path('api/', include('companyprofile.urls')), 
     # path('signup/', SignUpView.as_view(), name='signup'),
-    path('gettoken/',TokenObtainPairView.as_view(), name= 'token_obtain_pair'),
-    path('refreshtoken/',TokenRefreshView.as_view(), name= 'token_refresh'),
-    # path('verifytoken/',TokenVerifyView.as_view(), name='token_verify'),
-    path('update_service/<int:pk>/', update_service),
-    path('update_company/<int:pk>/', update_company),
-    re_path(r'^company/add/', add_company, name='add_company'), 
-    path('api/company/', get_all_company, name='get_all_company'),    
-    re_path(r'^services/add/', add_service, name='add_service'), 
-    path('api/services/', get_all_services, name='get_all_services'),
-    path('api/industry/', get_all_industry, name='get_all_industry'),
-    re_path(r'^industry/add/', add_industry, name='add_industry'), 
-    path('update_industry/<int:pk>/', update_industry),
-    path('api/delete_industry/<int:pk>/', delete_industry, name='delete_industry'),
-    path('api/events/', get_all_events, name='get_all_events'),
-    re_path(r'^events/add/', add_events, name='add_events'),
-    path('update_events/<int:pk>/', update_events),
-    path('api/delete_events/<int:pk>/', delete_events, name='delete_events'),
+    path('api/token/',TokenObtainPairView.as_view(), name= 'token_obtain_pair'),
+    path('api/token/refresh/',TokenRefreshView.as_view(), name= 'token_refresh'),
+    # path('verifytoken/',TokenVerifyView.as_view(), name='token_verifsy'),
+    path('service/', service_view, name='service_view'),  # For GET all and POST new
+    path('service/<int:pk>/', service_view, name='service_detail'),  # For GET by ID and PUT
+    path('company/', company_view, name='company_view'),  # For GET all and POST new
+    path('company/<int:id>/', company_view, name='company_detail'),  # For GET by ID    
     
-    path('api/news/', get_all_news, name='get_all_news'),
-    re_path(r'^news/add/', add_news, name='add_news'),
-    path('update_news/<int:pk>/', update_news),
-    path('api/delete_news/<int:pk>/', delete_news, name='delete_news'),
+    path('industry/', industry_view, name='industry_view'),  # For GET all and POST new
+    path('industry/<int:pk>/', industry_view, name='industry_detail'),  # For GET, PUT, DELETE by ID
+    path('events/', events_view, name='events_view'), 
+    path('events/<int:pk>/', events_view, name='events_detail'), 
+    path('news/', news_view, name='news_view'),
+    path('news/<int:pk>/', news_view, name='news_detail'), 
     
-    path('api/scheme/', get_all_scheme, name='get_all_scheme'),
-    re_path(r'^scheme/add/', add_scheme, name='add_scheme'),
-    path('update_scheme/<int:pk>/', update_scheme),
-    path('api/delete_scheme/<int:pk>/', delete_scheme, name='delete_scheme'),
+    path('schemes/', scheme_view, name='scheme_view'),  # For GET all and POST new
+    path('schemes/<int:pk>/', scheme_view, name='scheme_detail'),
     
-    path('api/leads/', get_all_leads, name='get_all_leads'),
-    re_path(r'^leads/add/', add_leads, name='add_leads'),
-    path('update_leads/<int:pk>/', update_leads),
-    path('api/delete_leads/<int:pk>/', delete_leads, name='delete_leads'),
+    path('leads/', leads_view, name='leads_view'),  # For GET all and POST new
+    path('leads/<int:pk>/', leads_view, name='leads_detail'), 
     
     # url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

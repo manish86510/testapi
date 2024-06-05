@@ -42,29 +42,27 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('verify-company/', verify_company, name='verify_company'),
-    # path('api/', include('companyprofile.urls')), 
-    # path('signup/', SignUpView.as_view(), name='signup'),
     path('api/token/',TokenObtainPairView.as_view(), name= 'token_obtain_pair'),
     path('api/token/refresh/',TokenRefreshView.as_view(), name= 'token_refresh'),
-    # path('verifytoken/',TokenVerifyView.as_view(), name='token_verifsy'),
-    path('service/', service_view, name='service_view'),  # For GET all and POST new
-    path('service/<int:pk>/', service_view, name='service_detail'),  # For GET by ID and PUT
+    path('services/', service_list_view, name='service-list'),  # All services and add service
+    path('services/<int:pk>/', service_detail_view, name='service-detail'),  # Detail of a specific service and delete
+    path('services/<int:service_pk>/companies/', company_detail_view, name='company-detail'),  # Detail of companies based on service
     path('company/', company_view, name='company_view'),  # For GET all and POST new
     path('company/<int:id>/', company_view, name='company_detail'),  # For GET by ID    
-    
     path('industry/', industry_view, name='industry_view'),  # For GET all and POST new
     path('industry/<int:pk>/', industry_view, name='industry_detail'),  # For GET, PUT, DELETE by ID
     path('events/', events_view, name='events_view'), 
     path('events/<int:pk>/', events_view, name='events_detail'), 
     path('news/', news_view, name='news_view'),
-    path('news/<int:pk>/', news_view, name='news_detail'), 
-    
+    path('news/<int:pk>/', news_view, name='news_detail'),  
     path('schemes/', scheme_view, name='scheme_view'),  # For GET all and POST new
-    path('schemes/<int:pk>/', scheme_view, name='scheme_detail'),
-    
+    path('schemes/<int:pk>/', scheme_view, name='scheme_detail'), 
     path('leads/', leads_view, name='leads_view'),  # For GET all and POST new
     path('leads/<int:pk>/', leads_view, name='leads_detail'), 
-    
+    path('plan/', plan_view, name='plan_view'),  # For GET all and POST new
+    path('plan/<int:pk>/', plan_view, name='plan_detail'), 
+    path('subscriptions/', subscription_view, name='subscription-list-create'),
+    path('subscriptions/<int:pk>/', subscription_view, name='subscription-detail-update-delete'),
     # url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

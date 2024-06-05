@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from companyprofile.models import Service, Company, Industry, Events, News, Leads, Scheme
+from companyprofile.models import Service, Company, Industry, Events, News, Leads, Scheme, Plan, Subscription
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -7,7 +7,8 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Service
-        fields = ['id','company_name', 'name', 'short_description', 'long_description', 'created_at']
+        # fields = ['id','company_name', 'name', 'short_description', 'long_description', 'created_at']
+        fields = ['company', 'company_name','name', 'short_description', 'long_description', 'created_at']
 
     
 
@@ -51,3 +52,14 @@ class LeadsSerializer(serializers.ModelSerializer):
 class VerifyCompanySerializer(serializers.Serializer):
     company_id = serializers.IntegerField()
     is_verify = serializers.BooleanField()
+    
+
+class PlanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Plan
+        fields='__all__'
+        
+class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Subscription
+        fields='__all__'

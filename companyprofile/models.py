@@ -20,6 +20,9 @@ class Industry(models.Model):
 
 class Company(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='companies')
+    banner = models.ImageField(upload_to='company_banners/', default='path/to/default/image.jpg')
+    logo = models.ImageField(upload_to='company_logos/', default='path/to/default/logo.jpg')
+    url = models.CharField(max_length=300, blank=True, null=True)
     name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     number = models.CharField(max_length=15)
@@ -33,6 +36,7 @@ class Company(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_companies')
     industry = models.ForeignKey(Industry, on_delete=models.CASCADE, default=1)
     is_verify = models.BooleanField(default=False)
+    
 
 
 
@@ -42,6 +46,8 @@ class Service(models.Model):
     short_description = models.TextField()
     long_description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    banner = models.ImageField(upload_to='service_banners/', default='path/to/default/image.jpg')
+    
     
     
 class Events(models.Model):
@@ -112,7 +118,21 @@ class Subscription(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
+# class Apply(models.Model):
+#     subject=models.CharField(max_length=250, unique=True)
+#     description=models.TextField()
+#     attachment = models.FileField(upload_to='form_uploads/', default='form_uploads/default.pdf')
+#     company = models.ForeignKey('Company', on_delete=models.CASCADE, null=True, blank=True)
+    
+class Apply(models.Model):
+    subject = models.CharField(max_length=250, unique=True)
+    description = models.TextField()
+    attachment = models.FileField(upload_to='form_uploads/', default='form_uploads/default.pdf')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='applies')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name

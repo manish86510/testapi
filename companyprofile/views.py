@@ -1,8 +1,8 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from companyprofile.models import Company,Service
-from .serializers import ServiceSerializer,CompanySerializer,IndustrySerializer,EventsSerializer, NewsSerializer, SchemeSerializer ,LeadsSerializer, VerifyCompanySerializer, PlanSerializer, SubscriptionSerializer
+from companyprofile.models import Company,Service, Apply
+from .serializers import ServiceSerializer,CompanySerializer,IndustrySerializer,EventsSerializer, NewsSerializer, SchemeSerializer ,LeadsSerializer, VerifyCompanySerializer, PlanSerializer, SubscriptionSerializer, ApplySerializer
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST,HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -12,13 +12,13 @@ from .models import *
 from Auth.models import User
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
-
 from rest_framework.permissions import IsAdminUser
 from rest_framework.decorators import permission_classes
 
 
 
-# from rest_framework import viewsets
+
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -110,7 +110,7 @@ def company_detail_view(request, service_pk):
 
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST','PUT'])
 def company_view(request, id=None):
     if request.method == 'GET':
         if id:
@@ -459,3 +459,58 @@ def subscription_view(request, pk=None):
             return Response({"error": "Subscription not found"}, status=HTTP_404_NOT_FOUND)
         subscription.delete()
         return Response({"message": "Subscription Deleted Successfully"}, status=HTTP_204_NO_CONTENT)
+    
+    
+    
+#Apply API
+# @api_view(['GET', 'POST'])
+# def apply_view(request, pk=None):
+#     if request.method == 'GET':
+#         if pk:
+#             try:
+#                 apply = Apply.objects.get(pk=pk)
+#             except Apply.DoesNotExist:
+#                 return Response({"error": "Apply not found"}, status=HTTP_404_NOT_FOUND)
+#             serializer = ApplySerializer(apply)
+#             return Response(serializer.data)
+#         else:
+#             applys = Apply.objects.all().order_by('-created_at')
+#             serializer = ApplySerializer(applys, many=True)
+#             return Response(serializer.data)
+
+#     elif request.method == 'POST':
+#         serializer = ApplySerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({"data": serializer.data}, status=HTTP_201_CREATED)
+#         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+#Apply api
+@api_view(['POST'])
+def apply_create_view(request, company_id):
+    try:
+        company = Company.objects.get(pk=company_id)
+    except Company.DoesNotExist:
+        return Response({"error": "Company not found"}, status=HTTP_404_NOT_FOUND)
+
+    data = request.data
+    data['company'] = company.id
+    serializer = ApplySerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"data": serializer.data}, status=HTTP_201_CREATED)
+    return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def apply_list_view(request, company_id):
+    try:
+        company = Company.objects.get(pk=company_id)
+    except Company.DoesNotExist:
+        return Response({"error": "Company not found"}, status=HTTP_404_NOT_FOUND)
+
+    applys = Apply.objects.filter(company=company).order_by('-created_at')
+    if not applys.exists():
+        return Response({"error": "No applies found for this company"}, status=HTTP_404_NOT_FOUND)
+    
+    serializer = ApplySerializer(applys, many=True)
+    return Response(serializer.data)

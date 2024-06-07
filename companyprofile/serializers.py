@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from companyprofile.models import Service, Company, Industry, Events, News, Leads, Scheme, Plan, Subscription
+from companyprofile.models import Service, Company, Industry, Events, News, Leads, Scheme, Plan, Subscription, Apply
+
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -8,7 +9,7 @@ class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         # fields = ['id','company_name', 'name', 'short_description', 'long_description', 'created_at']
-        fields = ['company', 'company_name','name', 'short_description', 'long_description', 'created_at']
+        fields = ['company', 'company_name','name', 'short_description', 'long_description', 'created_at','banner']
 
     
 
@@ -18,10 +19,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['id','created_by_name', 'industry_name', 'name', 'email', 'number', 'gst_number', 'reg_number', 'reg_date', 'sector', 'description', 'address', 'created_at','is_verify' ]
-
-        
-
+        fields = ['id','created_by_name', 'industry_name', 'name', 'email', 'banner','url','logo','number', 'gst_number', 'reg_number', 'reg_date', 'sector', 'description', 'address', 'created_at','is_verify' ]
 
 class IndustrySerializer(serializers.ModelSerializer):
     class Meta:
@@ -63,3 +61,10 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Subscription
         fields='__all__'
+        
+
+class ApplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Apply
+        fields = ['id', 'subject', 'description', 'attachment', 'company', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']

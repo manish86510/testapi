@@ -41,12 +41,20 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
+    
     path('verify-company/', verify_company, name='verify_company'),
     path('api/token/',TokenObtainPairView.as_view(), name= 'token_obtain_pair'),
     path('api/token/refresh/',TokenRefreshView.as_view(), name= 'token_refresh'),
+    
+    path('my-company/', user_company_view, name='user_company_view'),
+    
+    path('my-service/', user_service_view, name='user-service-view'),
+    
+    
     path('services/', service_list_view, name='service-list'),  # All services and add service
-    path('services/<int:pk>/', service_detail_view, name='service-detail'),  # Detail of a specific service and delete
+    path('services/<int:pk>/', service_detail_view, name='service-detail'),  #delete
     path('services/<int:service_pk>/companies/', company_detail_view, name='company-detail'),  # Detail of companies based on service
+    # path('my-service/', user_service_view, name='user_service_view'),   
     path('company/', company_view, name='company_view'),  # For GET all and POST new
     path('company/<int:id>/', company_view, name='company_detail'),  # For GET by ID    
     path('industry/', industry_view, name='industry_view'),  # For GET all and POST new
@@ -62,7 +70,7 @@ urlpatterns = [
     path('plan/', plan_view, name='plan_view'),  # For GET all and POST new
     path('plan/<int:pk>/', plan_view, name='plan_detail'), 
     path('apply/create/<int:company_id>/', apply_create_view, name='apply_create'),
-    path('apply/list/<int:company_id>/', apply_list_view, name='apply_list'),
+    path(' ', apply_list_view, name='apply_list'),
     path('subscriptions/', subscription_view, name='subscription-list-create'),
     path('subscriptions/<int:pk>/', subscription_view, name='subscription-detail-update-delete'),
     # url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

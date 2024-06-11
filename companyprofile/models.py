@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from  Auth.models  import User
-# from django.utils import timezone
+
+
 
 class Employee():
     name = models.CharField(max_length=20)
@@ -46,6 +47,7 @@ class Service(models.Model):
     short_description = models.TextField()
     long_description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_services')
     banner = models.ImageField(upload_to='service_banners/', default='path/to/default/image.jpg')
     
     
@@ -61,7 +63,9 @@ class Events(models.Model):
     valid=models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updted_at = models.DateTimeField(auto_now=True)
-    
+    venue = models.CharField(max_length=250, default='')  # Added field with default value
+    time = models.TimeField(default='00:00')  # Added field with default value
+    url = models.URLField(default='http://example.com')
     
 class News(models.Model):
     date=models.DateField()
@@ -136,7 +140,6 @@ class Apply(models.Model):
 
     def __str__(self):
         return self.name
-    
     
     
     

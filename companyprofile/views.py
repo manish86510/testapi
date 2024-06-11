@@ -17,13 +17,8 @@ from rest_framework.decorators import permission_classes
 
 
 
-
-
-
 class MyTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
-
-
 
 
 @api_view(['POST'])
@@ -52,18 +47,18 @@ def verify_company(request):
 
 
 # Create your views here.
-class CustomUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = ['id', 'username', 'name', 'date_of_birth', 'email', 'is_active', 'date_joined']
+# class CustomUserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Employee
+#         fields = ['id', 'username', 'name', 'date_of_birth', 'email', 'is_active', 'date_joined']
 
-class GetUserFromToken(APIView):
-    permission_classes = [IsAuthenticated]
+# class GetUserFromToken(APIView):
+#     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        user_data = request.user
-        serializer = CustomUserSerializer(user_data)
-        return Response({'data': serializer.data})
+#     def get(self, request):
+#         user_data = request.user
+#         serializer = CustomUserSerializer(user_data)
+#         return Response({'data': serializer.data})
 
 @api_view(['GET', 'POST'])
 def service_list_view(request):
@@ -96,6 +91,30 @@ def service_detail_view(request, pk):
             return Response(status=HTTP_204_NO_CONTENT)
         except Service.DoesNotExist:
             return Response({"error": "Service not found"}, status=HTTP_404_NOT_FOUND)
+        
+        
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_service_view(request):
+    try:
+        service = Service.objects.get(created_by=request.user)
+        serializer = ServiceSerializer(service)
+        return Response({"data": serializer.data}, status=HTTP_200_OK)
+    except Service.DoesNotExist:
+        return Response({"error": "Service not found"}, status=HTTP_404_NOT_FOUND)
+
+
+
+
+
+
+
+
+       
+
 
 @api_view(['GET'])
 def company_detail_view(request, service_pk):
@@ -110,7 +129,7 @@ def company_detail_view(request, service_pk):
 
 
 
-@api_view(['GET', 'POST','PUT'])
+@api_view(['GET', 'POST'])
 def company_view(request, id=None):
     if request.method == 'GET':
         if id:
@@ -124,10 +143,15 @@ def company_view(request, id=None):
             companies = Company.objects.all().order_by('-created_at')
             serializer = CompanySerializer(companies, many=True)
             return Response(serializer.data)
-
+    
     elif request.method == 'POST':
         email = request.user.email
         user = User.objects.get(email=email)
+        
+        # Check if the user has already created a company
+        if Company.objects.filter(created_by=user).exists():
+            return Response({"error": "You have already created a company."}, status=HTTP_400_BAD_REQUEST)
+        
         company_data = request.data
         company_data['created_by'] = user.pk  # Store user's ID as created_by
         serializer = CompanySerializer(data=company_data)
@@ -137,19 +161,28 @@ def company_view(request, id=None):
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
     
     
-    elif request.method == 'PUT':
-        try:
-            company = Company.objects.get(pk=id)
-        except Company.DoesNotExist:
-            return Response({"error": "Company not found"}, status=HTTP_404_NOT_FOUND)
-        serializer = CompanySerializer(company, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"data": serializer.data}, status=HTTP_200_OK)
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    # elif request.method == 'PUT':
+    #     try:
+    #         company = Company.objects.get(pk=id)
+    #     except Company.DoesNotExist:
+    #         return Response({"error": "Company not found"}, status=HTTP_404_NOT_FOUND)
+    #     serializer = CompanySerializer(company, data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response({"data": serializer.data}, status=HTTP_200_OK)
+    #     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_company_view(request):
+    try:
+        company = Company.objects.get(created_by=request.user)
+    except Company.DoesNotExist:
+        return Response({"error": "Company not found"}, status=HTTP_404_NOT_FOUND)
 
+    serializer = CompanySerializer(company)
+    return Response(serializer.data, status=HTTP_200_OK)
 
 
 
@@ -461,30 +494,7 @@ def subscription_view(request, pk=None):
         return Response({"message": "Subscription Deleted Successfully"}, status=HTTP_204_NO_CONTENT)
     
     
-    
-#Apply API
-# @api_view(['GET', 'POST'])
-# def apply_view(request, pk=None):
-#     if request.method == 'GET':
-#         if pk:
-#             try:
-#                 apply = Apply.objects.get(pk=pk)
-#             except Apply.DoesNotExist:
-#                 return Response({"error": "Apply not found"}, status=HTTP_404_NOT_FOUND)
-#             serializer = ApplySerializer(apply)
-#             return Response(serializer.data)
-#         else:
-#             applys = Apply.objects.all().order_by('-created_at')
-#             serializer = ApplySerializer(applys, many=True)
-#             return Response(serializer.data)
-
-#     elif request.method == 'POST':
-#         serializer = ApplySerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response({"data": serializer.data}, status=HTTP_201_CREATED)
-#         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
+ 
 #Apply api
 @api_view(['POST'])
 def apply_create_view(request, company_id):
@@ -493,7 +503,7 @@ def apply_create_view(request, company_id):
     except Company.DoesNotExist:
         return Response({"error": "Company not found"}, status=HTTP_404_NOT_FOUND)
 
-    data = request.data
+    data = request.data.copy()  # Make a mutable copy of request.data
     data['company'] = company.id
     serializer = ApplySerializer(data=data)
     if serializer.is_valid():

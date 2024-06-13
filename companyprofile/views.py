@@ -1,9 +1,9 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from companyprofile.models import Company,Service, Apply
-from .serializers import ServiceSerializer,CompanySerializer,IndustrySerializer,EventsSerializer, NewsSerializer, SchemeSerializer ,LeadsSerializer, VerifyCompanySerializer, PlanSerializer, SubscriptionSerializer, ApplySerializer
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST,HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT
+from companyprofile.models import Company,Service, Apply, Ticket
+from .serializers import ServiceSerializer,CompanySerializer,IndustrySerializer,EventsSerializer, NewsSerializer, SchemeSerializer ,LeadsSerializer, VerifyCompanySerializer, PlanSerializer, SubscriptionSerializer, ApplySerializer, TicketSerializer
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST,HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT,HTTP_401_UNAUTHORIZED
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -14,7 +14,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAdminUser
 from rest_framework.decorators import permission_classes
-
+from django.db.models import Count
+from datetime import date
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -129,7 +130,11 @@ def company_detail_view(request, service_pk):
 
 
 
+
+
+
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def company_view(request, id=None):
     if request.method == 'GET':
         if id:
@@ -145,20 +150,20 @@ def company_view(request, id=None):
             return Response(serializer.data)
     
     elif request.method == 'POST':
-        email = request.user.email
-        user = User.objects.get(email=email)
-        
-        # Check if the user has already created a company
-        if Company.objects.filter(created_by=user).exists():
-            return Response({"error": "You have already created a company."}, status=HTTP_400_BAD_REQUEST)
-        
-        company_data = request.data
-        company_data['created_by'] = user.pk  # Store user's ID as created_by
+        user = request.user  # Get the authenticated user from the token
+
+        company_data = request.data.copy()
+        company_data['created_by'] = user.id  # Store user's ID as created_by
+        company_data['user'] = user.id  # Also store user's ID as user
         serializer = CompanySerializer(data=company_data)
         if serializer.is_valid():
-            serializer.save(created_by=user)  # Set the created_by field in the serializer
+            serializer.save(created_by=user, user=user)  # Set the created_by and user fields in the serializer
             return Response({"data": serializer.data}, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    
+    
+    
+    
     
     
     # elif request.method == 'PUT':
@@ -407,38 +412,107 @@ def leads_view(request, pk=None):
     
 # Plan API 
 
+# @api_view(['GET', 'POST', 'PUT', 'DELETE'])
+# def plan_view(request, pk=None):
+#     if request.method == 'GET':
+#         if pk:
+#             try:
+#                 plan = Plan.objects.get(pk=pk)
+#                 serializer = PlanSerializer(plan)
+#                 return Response({"data": serializer.data})
+#             except Plan.DoesNotExist:
+#                 return Response({"error": "Plan not found"}, status=HTTP_404_NOT_FOUND)
+#         else:
+#             plans = Plan.objects.all()
+#             serializer = PlanSerializer(plans, many=True)
+#             return Response( serializer.data)
+
+#     elif request.method == 'POST':
+#         serializer = PlanSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response( serializer.data, status=HTTP_201_CREATED)
+#         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    # elif request.method == 'PUT':
+    #     plan = Plan.objects.get(pk=pk)
+    #     serializer = PlanSerializer(plan, data=request.data, partial=True)
+    #     if serializer.is_valid():
+    #         # Check if only the is_active field is being updated
+    #         if len(serializer.validated_data) == 1 and 'is_active' in serializer.validated_data:
+    #             plan.is_active = serializer.validated_data['is_active']
+    #             plan.save()
+    #             return Response(serializer.data, status=HTTP_200_OK)
+    #         else:
+    #             serializer.save()
+    #             return Response(serializer.data, status=HTTP_200_OK)
+    #     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    
+    
+    
+   
+    
+    
+    # elif request.method == 'DELETE':
+    #     try:
+    #         plan = Plan.objects.get(pk=pk)
+    #         plan.delete()
+    #         return Response({"message": "Plan Deleted Successfully"}, status=HTTP_204_NO_CONTENT)
+    #     except Plan.DoesNotExist:
+    #         return Response({"error": "Plan not found"}, status=HTTP_404_NOT_FOUND)
+
+
+def extract_tenure_months(tenure_str):
+    """
+    Extract the number of months from a tenure string.
+    Assumes tenure_str is in the format '<number> Months' or '<number> months'.
+    """
+    return int(tenure_str.split()[0])
+
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def plan_view(request, pk=None):
     if request.method == 'GET':
         if pk:
             try:
                 plan = Plan.objects.get(pk=pk)
                 serializer = PlanSerializer(plan)
-                return Response({"data": serializer.data})
+                return Response(serializer.data)
             except Plan.DoesNotExist:
                 return Response({"error": "Plan not found"}, status=HTTP_404_NOT_FOUND)
         else:
             plans = Plan.objects.all()
+            # Convert the QuerySet to a list and sort it using the custom key function
+            plans = sorted(plans, key=lambda plan: extract_tenure_months(plan.tenure))
             serializer = PlanSerializer(plans, many=True)
-            return Response( serializer.data)
+            return Response(serializer.data)
 
     elif request.method == 'POST':
         serializer = PlanSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response( serializer.data, status=HTTP_201_CREATED)
+            return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     elif request.method == 'PUT':
         try:
             plan = Plan.objects.get(pk=pk)
-            serializer = PlanSerializer(plan, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=HTTP_200_OK)
-            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
         except Plan.DoesNotExist:
             return Response({"error": "Plan not found"}, status=HTTP_404_NOT_FOUND)
+
+        serializer = PlanSerializer(plan, data=request.data, partial=True)
+        if serializer.is_valid():
+            # If only is_active field is provided, update just that field
+            if len(serializer.validated_data) == 1 and 'is_active' in serializer.validated_data:
+                plan.is_active = serializer.validated_data['is_active']
+                plan.save()
+                return Response(serializer.data, status=HTTP_200_OK)
+            else:
+                serializer.save()
+                return Response(serializer.data, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    
+    
 
     elif request.method == 'DELETE':
         try:
@@ -447,6 +521,8 @@ def plan_view(request, pk=None):
             return Response({"message": "Plan Deleted Successfully"}, status=HTTP_204_NO_CONTENT)
         except Plan.DoesNotExist:
             return Response({"error": "Plan not found"}, status=HTTP_404_NOT_FOUND)
+
+
 
 
 
@@ -524,3 +600,142 @@ def apply_list_view(request, company_id):
     
     serializer = ApplySerializer(applys, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def user_applied_forms(request):
+    user = request.user
+
+
+    user_applies = Apply.objects.filter(user=user)
+
+    
+    if not user_applies.exists():
+        return Response({"error": "No applications found for this user"}, status=HTTP_404_NOT_FOUND)
+
+    
+    serializer = ApplySerializer(user_applies, many=True)
+    return Response(serializer.data)
+
+
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_assigned_applications(request):
+    # user request
+    # import ipdb;
+    # ipdb.set_trace()
+    user = request.user
+
+    # Get  company associated with user
+    try:
+        company = Company.objects.get(user=user)
+    except Company.DoesNotExist:
+        return Response({"message": "User is not associated with any company."}, status=400)
+
+    # Get applications 
+    applications = Apply.objects.filter(company=company)
+    serialized_data = ApplySerializer(applications, many=True).data
+    return Response(serialized_data)
+
+
+
+
+
+
+# BUY PLAN
+
+@api_view(['POST'])
+def buy_plan(request, plan_id):
+    # Token authentication logic here to get the user
+    user = request.user
+
+    # Check if the user already has a subscription
+    if Subscription.objects.filter(user=user).exists():
+        return Response({'message': 'User already buy cannot buy another plan'}, status=HTTP_400_BAD_REQUEST)
+
+    try:
+        # Get the plan
+        plan = Plan.objects.get(id=plan_id)
+    except Plan.DoesNotExist:
+        return Response({'error': 'Plan not found'}, status=HTTP_404_NOT_FOUND)
+    
+    # Create a subscription
+    subscription = Subscription.objects.create(user=user, plan=plan)
+    
+    # Serialize the subscription data
+    subscription_serializer = SubscriptionSerializer(subscription)
+    
+    return Response({'message': 'Plan bought successfully'}, status=HTTP_201_CREATED)
+
+# Get Buy Plan
+@api_view(['GET'])
+def user_plan(request):
+    user = request.user
+    if not user.is_authenticated:
+        return Response({"error": "User is not authenticated"}, status=HTTP_401_UNAUTHORIZED)
+    
+    try:
+        subscription = Subscription.objects.get(user=user, is_active=True)
+        plan = subscription.plan
+        plan_details = {
+            "name": plan.name,
+            "description": plan.description,
+            "price": plan.price
+            
+        }
+        return Response({"plan": plan_details}, status=HTTP_200_OK)
+    except Subscription.DoesNotExist:
+        return Response({"error": "No active plan found for this user"}, status=HTTP_404_NOT_FOUND)
+    
+    
+#ticket raise
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def ticket_view(request, pk=None):
+    if request.method == 'GET':
+        if pk:
+            try:
+                ticket = Ticket.objects.get(pk=pk)
+                serializer = TicketSerializer(ticket)
+                return Response({"data": serializer.data}, status=HTTP_200_OK)
+            except Ticket.DoesNotExist:
+                return Response({"error": "Ticket not found"}, status=HTTP_404_NOT_FOUND)
+        else:
+            tickets = Ticket.objects.all().order_by('-created_at')
+            serializer = TicketSerializer(tickets, many=True)
+            return Response({"data": serializer.data}, status=HTTP_200_OK)
+
+    elif request.method == 'POST':
+        serializer = TicketSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response({"data": serializer.data}, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'PUT':
+        if pk:
+            try:
+                ticket = Ticket.objects.get(pk=pk)
+                serializer = TicketSerializer(ticket, data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"data": serializer.data}, status=HTTP_200_OK)
+                return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+            except Ticket.DoesNotExist:
+                return Response({"error": "Ticket not found"}, status=HTTP_404_NOT_FOUND)
+        else:
+            return Response({"error": "Method PUT requires a pk"}, status=HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        if pk:
+            try:
+                ticket = Ticket.objects.get(pk=pk)
+                ticket.delete()
+                return Response({"message": "Ticket Deleted Successfully"}, status=HTTP_204_NO_CONTENT)
+            except Ticket.DoesNotExist:
+                return Response({"error": "Ticket not found"}, status=HTTP_404_NOT_FOUND)
+        else:
+            return Response({"error": "Method DELETE requires a pk"}, status=HTTP_400_BAD_REQUEST)

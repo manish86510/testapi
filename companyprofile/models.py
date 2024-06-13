@@ -3,6 +3,9 @@ from django.core.validators import MinLengthValidator, MaxLengthValidator
 from  Auth.models  import User
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='profiles', null=True)
 
 class Employee():
     name = models.CharField(max_length=20)
@@ -20,7 +23,7 @@ class Industry(models.Model):
     
 
 class Company(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='companies')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='companies')
     banner = models.ImageField(upload_to='company_banners/', default='path/to/default/image.jpg')
     logo = models.ImageField(upload_to='company_logos/', default='path/to/default/logo.jpg')
     url = models.CharField(max_length=300, blank=True, null=True)
@@ -111,6 +114,7 @@ class Plan(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,  default=1)
 
 
 class Subscription(models.Model):
@@ -137,6 +141,18 @@ class Apply(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='applies')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applies', default=1)  # Assuming User is the Django default user model
+    
+    
+    
+    
+class Ticket(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    attachment = models.FileField(upload_to='ticket_attachments/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ticket')
 
     def __str__(self):
         return self.name
